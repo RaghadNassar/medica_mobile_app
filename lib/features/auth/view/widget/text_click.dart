@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+
+class CustomTextClickable extends StatelessWidget {
+  final String? text;      // النص العادي (رمادي مثلاً)
+  final String linkText;   // النص الملون والقابل للضغط
+  final VoidCallback onTap;
+  final AlignmentGeometry alignment;
+  final bool isUnderline;
+
+  const CustomTextClickable({
+    super.key,
+    this.text,
+    required this.linkText,
+    required this.onTap,
+    this.alignment = Alignment.center, // القيمة الافتراضية في المنتصف
+    this.isUnderline = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: alignment,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          mainAxisSize: MainAxisSize.min, // ليأخذ مساحة النص فقط
+          children: [
+            if (text != null) ...[
+              Text(text!, style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              linkText,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                decoration: isUnderline ? TextDecoration.underline : TextDecoration.none,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,25 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "doctor-app-syria-2026",
+                    "appId": "1:944253436216:android:bcb45c567069b75c1b01cd",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "doctor-app-syria-2026",
+                    "configurations": {
+                        "android": "1:944253436216:android:bcb45c567069b75c1b01cd",
+                        "ios": "1:944253436216:ios:ca4b0bd3b44943711b01cd",
+                        "macos": "1:944253436216:ios:ca4b0bd3b44943711b01cd",
+                        "web": "1:944253436216:web:31919054746d814b1b01cd",
+                        "windows": "1:944253436216:web:31919054746d814b1b01cd"
+                    }
+                }
+            }
+        }
+    }
+}
