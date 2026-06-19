@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
+import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
 import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
@@ -25,12 +26,14 @@ class VerificationCodeScreen extends GetView<AuthLogic> {
         padding: EdgeInsets.symmetric(horizontal: context.widthPct(0.06)),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+           // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: context.heightPct(0.05)),
+              const Icon(Icons.lock,color: AppColors.primaryTeal,size: 120,),
               SizedBox(height: context.heightPct(0.05)),
               OnboardingBody(
                 model: OnboardingModel(
-                  title: StringManager.enterconfirm_password,
+                  title: StringManager.enterotp,
                   description: "Enter code that we have sent to your email:\n${controller.currentPatientEmail}",
                 ),
               ),

@@ -6,12 +6,12 @@ import 'package:raghad_pro/core/cache/cashe_helper_getStorage.dart';
 class ThemeManage {
   static const _themeKey = "isDarkMode";
 
-  // الحصول على الحالة الحالية
+  
   static bool isDarkModeActive() {
-    // نستخدم ?? لتبسيط الكود (Null Safety)
+   
  return CacheHelperGetStorage.getData(key: _themeKey) ?? false;  }
 
-  // الحصول على النمط المناسب للـ GetMaterialApp
+ 
   static ThemeMode getThemeMode() {
     return isDarkModeActive() ? ThemeMode.dark : ThemeMode.light;
   }

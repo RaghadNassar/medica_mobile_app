@@ -59,14 +59,17 @@ class AuthLogic extends GetxController {
   String currentPatientEmail = "";
   // Reset Password Logic
   final TextEditingController resetPasswordController = TextEditingController();
-  final TextEditingController resetConfirmPasswordController = TextEditingController();
+  final TextEditingController resetConfirmPasswordController =
+      TextEditingController();
   final GlobalKey<FormState> formKeyResetPassword = GlobalKey<FormState>();
   var isResetPasswordLoading = false.obs;
   var isResetPasswordHidden = true.obs;
   var isResetConfirmPasswordHidden = true.obs;
 
-  void toggleResetPasswordVisibility() => isResetPasswordHidden.value = !isResetPasswordHidden.value;
-  void toggleResetConfirmPasswordVisibility() => isResetConfirmPasswordHidden.value = !isResetConfirmPasswordHidden.value;
+  void toggleResetPasswordVisibility() =>
+      isResetPasswordHidden.value = !isResetPasswordHidden.value;
+  void toggleResetConfirmPasswordVisibility() =>
+      isResetConfirmPasswordHidden.value = !isResetConfirmPasswordHidden.value;
 
   void changeGender(String gender) {
     selectedGender.value = gender;
@@ -113,8 +116,10 @@ class AuthLogic extends GetxController {
       user = LoginModel;
       CacheHelperGetStorage.saveData(
           key: ApiKey.token, value: LoginModel.token);
+      CacheHelperGetStorage.saveData(
+          key: ApiKey.uuid, value: LoginModel.user.uuid);
       if (Get.isRegistered<NotificationLogic>()) {
-        Get.find<NotificationLogic>().init();
+        Get.find<NotificationLogic>().requestPermissionAndSync();
       }
       Get.offAllNamed(AppRoutes.home);
     });
@@ -150,8 +155,12 @@ class AuthLogic extends GetxController {
         user = loginModel;
         CacheHelperGetStorage.saveData(
             key: ApiKey.token, value: loginModel.token);
+
+        CacheHelperGetStorage.saveData(
+            key: ApiKey.uuid, value: loginModel.user.uuid);
+
         if (Get.isRegistered<NotificationLogic>()) {
-          Get.find<NotificationLogic>().init();
+          Get.find<NotificationLogic>().requestPermissionAndSync();
         }
         Get.offAllNamed(AppRoutes.home);
       },
@@ -189,7 +198,8 @@ class AuthLogic extends GetxController {
       },
     );
   }
- verifyOtp() async {
+
+  verifyOtp() async {
     if (otpController.text.length < 6) {
       AlertHelper.showSnackbar(
         title: "تنبيه",
@@ -225,10 +235,9 @@ class AuthLogic extends GetxController {
         Get.toNamed(AppRoutes.resetPassword, arguments: currentPatientEmail);
       },
     );
-  } 
+  }
 
   resetPassword() async {
-   
     if (!formKeyResetPassword.currentState!.validate()) return;
 
     isResetPasswordLoading.value = true;
@@ -255,14 +264,14 @@ class AuthLogic extends GetxController {
           message: successData[ApiKey.message] ?? "تم تحديث كلمة المرور بنجاح.",
           type: AlertType.success,
         );
-        
+
         resetPasswordController.clear();
         resetConfirmPasswordController.clear();
         Get.offAllNamed(AppRoutes.login);
       },
     );
   }
- 
+
   @override
   void onClose() {
     forgetEmailController.dispose();

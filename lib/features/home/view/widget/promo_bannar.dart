@@ -1,14 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:raghad_pro/core/constanse/app_assets.dart';
-import 'package:raghad_pro/core/constanse/string_manager.dart';
-import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:raghad_pro/features/home/view/widget/bannar_indicator.dart';
 import 'package:raghad_pro/features/home/view/widget/bannar_slid_item.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+class HomeBannerCard extends GetView<HomeDashboardController> {
+  const HomeBannerCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Obx(() {
+      final bool isLoading = controller.isSpecLoading.value;
+
+      return Skeletonizer(
+        enabled: isLoading,
+        effect: const ShimmerEffect(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          duration: Duration(milliseconds: 3000),
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: context.heightPct(0.212),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Stack(
+                children: [
+                  PageView(
+                    physics: isLoading
+                        ? const NeverScrollableScrollPhysics()
+                        : const BouncingScrollPhysics(),
+                    controller: controller.bannerPageController,
+                    onPageChanged: controller.updateBannerPage,
+                    children:controller. medicalBanners.map((banner) {
+                      return ImageBannerSlideItem(
+                        imagePath: banner.image,
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: context.heightPct(0.023)),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+               controller. medicalBanners.length,
+                (index) => BannerDotIndicator(
+                  index: index,
+                  currentPage: controller.currentBannerPage.value,
+                  theme: theme,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}
+//  الكود القديم للبانر 
+
+/*
 class HomeBannerCard extends GetView<HomeController> {
   const HomeBannerCard({super.key});
 
@@ -133,4 +194,4 @@ class HomeBannerCard extends GetView<HomeController> {
       );
     });
   }
-}
+}*/

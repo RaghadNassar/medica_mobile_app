@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
 import 'package:raghad_pro/features/auth/view/widget/auth_scaffold.dart';
@@ -19,7 +20,7 @@ class RegesterScreen extends GetView<AuthLogic> {
           // SizedBox(height: context.heightPct(0.05)),
           // const AuthLogoColorWidget(),
           SizedBox(height: context.heightPct(0.02)),
-          const CustomTextHeadLineWidget(title: 'Sign Up!'),
+          const CustomTextHeadLineWidget(title: StringManager.signup),
           SizedBox(height: context.heightPct(0.04)),
            const InputRegester(),
           SizedBox(height: context.heightPct(0.05)),

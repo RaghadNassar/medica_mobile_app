@@ -68,6 +68,7 @@ class EndPoint {
   static String topDoctors = 'patient/top-doctors';
   static String doctorSlots = 'patient/doctor-slots';
   static String patientAppointments = 'patient/appointments';
+  static String booksomeowen= 'patient/book-for-someone';
   static String deleteAppointment(String uuid) => 'patient/appointments/$uuid';
 
   //static String getProfile = 'patient/auth/me';

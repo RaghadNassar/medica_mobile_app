@@ -3,6 +3,7 @@ import 'package:raghad_pro/core/constanse/app_assets.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_text.dart';
+import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
 import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:raghad_pro/features/home/view/widget/custom_states_row_deatil.dart';
 import 'package:raghad_pro/features/home/view/widget/doctor_header_image_detail.dart';
@@ -59,7 +60,7 @@ class DoctorDetailsHeaderSection extends StatelessWidget {
     );
   }
 }*/
-class DoctorDetailsHeaderSection extends GetView<HomeController> {
+class DoctorDetailsHeaderSection extends GetView<DoctorBookingController> {
   const DoctorDetailsHeaderSection({super.key});
 
   @override

@@ -225,4 +225,38 @@ Future<Either<String, BookingModel>> updateAppointment({
     return left("حدث خطأ غير متوقع أثناء تعديل الموعد");
   }
 }
+//  book to some one 
+Future<Either<String, AppointmentResponse>> bookForSomeone({
+  required String name,
+  required String nickName,
+  required String phone,
+  required String gender,
+  required String birthday,
+  required String doctorUuid,
+  required String dateTime,
+  required String type,
+}) async {
+  try {
+    final response = await api.post(
+      EndPoint.booksomeowen, 
+      data: {
+        ApiKey.name: name,
+        ApiKey.nickName: nickName,
+        ApiKey.phone: phone,
+        ApiKey.gender: gender,
+        ApiKey.birthday: birthday,
+        ApiKey.doctor_uuid: doctorUuid,
+        ApiKey.date_time: dateTime,
+        ApiKey.type: type,
+      },
+    );
+    
+    final Map<String, dynamic> rawData = response is Map<String, dynamic> ? response : {};
+    return right(AppointmentResponse.fromJson(rawData));
+  } on ServerException catch (e) {
+    return left(e.errorModel.message);
+  } catch (e) {
+    return left("حدث خطأ أثناء محاولة الحجز لشخص آخر");
+  }
+}
 }

@@ -24,13 +24,13 @@ class ForgetPaswordScreen extends GetView<AuthLogic> {
             const AuthLogoColorWidget(),
             
             SizedBox(height: context.heightPct(0.1)),
-            const CustomTextHeadLineWidget(title: 'Forgot Password?'),
+            const CustomTextHeadLineWidget(title: StringManager.forgetPassword),
             
             SizedBox(height: context.heightPct(0.055)),
             
             
             CustomTextFiled(
-              hinttext: "Enter your Email",
+              hinttext: StringManager.enterEmail,
               prefixIcon: Icons.email_outlined,
               textInputType: TextInputType.emailAddress,
               textcontroler: controller.forgetEmailController,

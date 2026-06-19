@@ -20,7 +20,11 @@ class NotificationRepository {
         EndPoint.updateFcmToken, 
         data: {"fcm_token": fcmToken, "user_id": userId},
       );
-      return right(response != null);
+      final Map<String, dynamic> raw = response is Map<String, dynamic> ? response : {};
+      print('🔔 [NotificationRepository] updateFcmToken response: $raw');
+      if (raw.isEmpty) return right(true);
+      if (raw.containsKey(ApiKey.success) && raw[ApiKey.success] == true) return right(true);
+      return right(false);
     } on ServerException catch (e) {
       return left(e.errorModel.message);
     } catch (e) {
