@@ -43,86 +43,186 @@ class NotificationLogic extends GetxService {
     importance: Importance.max,
     playSound: true,
   );
+  // Future<NotificationLogic> init() async {
+  //   await _messaging.requestPermission(alert: true, badge: true, sound: true);
+
+  //   await _localNotifications
+  //       .resolvePlatformSpecificImplementation<
+  //           AndroidFlutterLocalNotificationsPlugin>()
+  //       ?.requestNotificationsPermission();
+
+  //   const AndroidInitializationSettings androidInit =
+  //       AndroidInitializationSettings('@mipmap/ic_launcher');
+  //   const InitializationSettings initSettings =
+  //       InitializationSettings(android: androidInit);
+
+  //   await _localNotifications.initialize(
+  //     initSettings,
+  //     onDidReceiveNotificationResponse: (NotificationResponse details) {
+  //       _navigateToScreen();
+  //     },
+  //   );
+
+  //   await _localNotifications
+  //       .resolvePlatformSpecificImplementation<
+  //           AndroidFlutterLocalNotificationsPlugin>()
+  //       ?.createNotificationChannel(_channel);
+
+  //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  //     _navigateToScreen();
+  //   });
+
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     RemoteNotification? notification = message.notification;
+  //     if (notification != null) {
+  //       unreadCount.value++;
+
+  //       final newNotif = AppNotification(
+  //         uuid: message.data['uuid']?.toString() ??
+  //             DateTime.now().millisecondsSinceEpoch.toString(),
+  //         title: notification.title ?? 'إشعار جديد',
+  //         body: notification.body ?? '',
+  //         type: message.data['type']?.toString() ?? 'GeneralNotification',
+  //         extraData: message.data['extra_data']?.toString(),
+  //         isRead: false,
+  //         createdAt:
+  //             '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
+  //       );
+
+  //       serverNotifications.insert(0, newNotif);
+
+  //       activeNotifications.insert(0, {
+  //         'title': notification.title ?? 'إشعار جديد',
+  //         'body': notification.body ?? '',
+  //         'time':
+  //             '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
+  //       });
+
+  //       _localNotifications.show(
+  //         notification.hashCode,
+  //         notification.title,
+  //         notification.body,
+  //         NotificationDetails(
+  //           android: AndroidNotificationDetails(
+  //             _channel.id,
+  //             _channel.name,
+  //             channelDescription: _channel.description,
+  //             importance: Importance.max,
+  //             priority: Priority.high,
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   });
+  //   String? token = await _messaging.getToken();
+  //   if (token != null) {
+  //     await sendTokenToServer(token);
+  //   }
+
+  //   await loadNotificationsFromServer();
+
+  //   return this;
+  // }
   Future<NotificationLogic> init() async {
-    await _messaging.requestPermission(alert: true, badge: true, sound: true);
+  const AndroidInitializationSettings androidInit =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const InitializationSettings initSettings =
+      InitializationSettings(android: androidInit);
 
-    await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestNotificationsPermission();
-
-    const AndroidInitializationSettings androidInit =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    const InitializationSettings initSettings =
-        InitializationSettings(android: androidInit);
-
-    await _localNotifications.initialize(
-      initSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse details) {
-        _navigateToScreen();
-      },
-    );
-
-    await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(_channel);
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  await _localNotifications.initialize(
+    initSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse details) {
       _navigateToScreen();
-    });
+    },
+  );
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      if (notification != null) {
-        unreadCount.value++;
+  await _localNotifications
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(_channel);
 
-        final newNotif = AppNotification(
-          uuid: message.data['uuid']?.toString() ??
-              DateTime.now().millisecondsSinceEpoch.toString(),
-          title: notification.title ?? 'إشعار جديد',
-          body: notification.body ?? '',
-          type: message.data['type']?.toString() ?? 'GeneralNotification',
-          extraData: message.data['extra_data']?.toString(),
-          isRead: false,
-          createdAt:
-              '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
-        );
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    _navigateToScreen();
+  });
 
-        serverNotifications.insert(0, newNotif);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    if (notification != null) {
+      unreadCount.value++;
 
-        activeNotifications.insert(0, {
-          'title': notification.title ?? 'إشعار جديد',
-          'body': notification.body ?? '',
-          'time':
-              '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
-        });
+      final newNotif = AppNotification(
+        uuid: message.data['uuid']?.toString() ??
+            DateTime.now().millisecondsSinceEpoch.toString(),
+        title: notification.title ?? 'إشعار جديد',
+        body: notification.body ?? '',
+        type: message.data['type']?.toString() ?? 'GeneralNotification',
+        extraData: message.data['extra_data']?.toString(),
+        isRead: false,
+        createdAt:
+            '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
+      );
 
-        _localNotifications.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              _channel.id,
-              _channel.name,
-              channelDescription: _channel.description,
-              importance: Importance.max,
-              priority: Priority.high,
-            ),
+      serverNotifications.insert(0, newNotif);
+
+      activeNotifications.insert(0, {
+        'title': notification.title ?? 'إشعار جديد',
+        'body': notification.body ?? '',
+        'time':
+            '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
+      });
+
+      _localNotifications.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            _channel.id,
+            _channel.name,
+            channelDescription: _channel.description,
+            importance: Importance.max,
+            priority: Priority.high,
           ),
-        );
-      }
-    });
-    String? token = await _messaging.getToken();
-    if (token != null) {
-      await sendTokenToServer(token);
+        ),
+      );
     }
+  });
 
-    await loadNotificationsFromServer();
+  // ✅ هون فقط نسجّل الـ listeners — بدون getToken أو sendToken أو load
+  return this;
+}
+Future<void> requestPermissionAndSync() async {
+  print('📋 [Notif] requestPermissionAndSync called');
 
-    return this;
+  final settings = await _messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  print('🔔 Permission: ${settings.authorizationStatus}');
+
+  await _localNotifications
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
+
+  String? token = await _messaging.getToken();
+  print('🔑 Token: $token');
+  if (token != null) {
+    await sendTokenToServer(token);
   }
+
+  _messaging.onTokenRefresh.listen((newToken) async {
+    await sendTokenToServer(newToken);
+  });
+
+  RemoteMessage? initialMessage = await _messaging.getInitialMessage();
+  if (initialMessage != null) {
+    _navigateToScreen();
+  }
+
+  await loadNotificationsFromServer();
+}
 
   Future<void> checkInitialMessage() async {
     RemoteMessage? initialMessage = await _messaging.getInitialMessage();

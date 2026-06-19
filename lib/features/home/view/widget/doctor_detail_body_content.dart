@@ -4,7 +4,7 @@ import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_tap.dart';
-import 'package:raghad_pro/features/home/controller/home_controller.dart';
+import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
 import 'package:raghad_pro/features/home/view/widget/tab_about_content_detail.dart';
 import 'package:raghad_pro/features/home/view/widget/tab_appoinment_content.dart';
 import 'package:raghad_pro/features/home/view/widget/tab_rating_containt_detail.dart';
@@ -69,7 +69,7 @@ import 'package:raghad_pro/features/home/view/widget/tab_rating_containt_detail.
 //     });
 //   }
 // }
-class DoctorDetailsBodyContent extends GetView<HomeController> {
+class DoctorDetailsBodyContent extends GetView<DoctorBookingController> {
   const DoctorDetailsBodyContent({super.key});
 
   @override

@@ -4,9 +4,160 @@ import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
+import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
 import 'package:raghad_pro/features/home/controller/home_controller.dart';
+import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
 import 'package:raghad_pro/features/home/view/widget/doctor_detail_body_content.dart';
 import 'package:raghad_pro/features/home/view/widget/doctor_detail_header.dart';
+
+// class DoctorDetailsScreen extends GetView<HomeController> {
+//   const DoctorDetailsScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+//       bottomNavigationBar: SafeArea(
+//         child: Padding(
+//             padding: AppSpacing.edgeInsets18,
+//             child: Obx(() {
+//               final bool isLoading = controller.isBookingLoading.value ||
+//                   controller.isUpdateBookingLoading.value;
+
+//               final bool isTimeSelected = controller.selectedTime.value != null;
+
+//               return CustomBottomWidget(
+//                 text: isLoading
+//                     ? "loading"
+//                     : (controller.isRescheduling.value
+//                         ? StringManager.save
+//                         : StringManager.bookNow),
+//                 colortext: AppColors.lightSurface,
+//                 fontWeight: FontWeight.bold,
+//                 onTap: (!isTimeSelected || isLoading)
+//                     ? null
+//                     : () {
+//                         final selectedSlot = controller.doctorSlots.firstWhere(
+//                           (slot) => slot.time == controller.selectedTime.value,
+//                         );
+
+//                         if (controller.isRescheduling.value) {
+//                           controller.rescheduleAppointment(
+//                             appointmentUuid:
+//                                 controller.appointmentUuidToModify.value,
+//                             doctorUuid: controller.currentDoctor.value!.uuid,
+//                             newDateTime: selectedSlot.fullDate,
+//                             type: controller.selectedBookingType.value,
+//                           );
+//                         } else {
+//                           if (controller.bookForSomeoneElse.value) {
+//                             if (controller.someoneFormKey.currentState!
+//                                 .validate()) {
+//                               controller.bookForSomeoneFinal();
+//                             }
+//                           } else {
+//                             controller.bookAppointmentFinal();
+//                           }
+//                         }
+//                       },
+//               );
+//             })
+//           //  Obx(() => CustomBottomWidget(
+//           //       text: StringManager.bookNow,
+//           //       colortext: AppColors.lightSurface,
+//           //       fontWeight: FontWeight.bold,
+//           //       //
+//           //       onTap: controller.selectedTime.value == null
+//           //           ? null
+//           //           : () => controller.bookAppointmentFinal(),
+//           //     )),
+//         ),
+//       ),
+//       body: const CustomScrollView(
+//         physics: BouncingScrollPhysics(),
+//         slivers: [
+//           DoctorDetailsHeaderSection(),
+//           DoctorDetailsBodyContent(),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+class DoctorDetailsScreen extends StatelessWidget {
+  const DoctorDetailsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.isRegistered<DoctorBookingController>()
+        ? Get.find<DoctorBookingController>()
+        : Get.put(DoctorBookingController(Get.find<RepostryHome>()));
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: AppSpacing.edgeInsets18,
+          child: Obx(() {
+            // حالة التحميل أثناء الحجز الفعلي أو التحديث
+            final bool isLoading = controller.isBookingLoading.value ||
+                controller.isUpdateBookingLoading.value;
+
+            // التحقق من اختيار الوقت لتفعيل أو تعطيل الزر
+            final bool isTimeSelected = controller.selectedTime.value != null;
+
+            return CustomBottomWidget(
+              text: isLoading
+                  ? "loading"
+                  : (controller.isRescheduling.value
+                      ? StringManager.save
+                      : StringManager.bookNow),
+              colortext: AppColors.lightSurface,
+              fontWeight: FontWeight.bold,
+              // تعطيل الزر في حال عدم اختيار الوقت أو أثناء التحميل لحماية السيرفر من الحجوزات المتكررة
+              onTap: (!isTimeSelected || isLoading)
+                  ? null
+                  : () {
+                      final selectedSlot = controller.doctorSlots.firstWhere(
+                        (slot) => slot.time == controller.selectedTime.value,
+                      );
+
+                      if (controller.isRescheduling.value) {
+                        // كود إعادة الجدولة (تعديل موعد قديم)
+                        controller.rescheduleAppointment(
+                          appointmentUuid: controller.appointmentUuidToModify.value,
+                          doctorUuid: controller.currentDoctor.value!.uuid,
+                          newDateTime: selectedSlot.fullDate,
+                          type: controller.selectedBookingType.value,
+                        );
+                      } else {
+                        // كود الحجز (للمريض نفسه أو لشخص آخر)
+                        if (controller.bookForSomeoneElse.value) {
+                          if (controller.someoneFormKey.currentState!.validate()) {
+                            controller.bookForSomeoneFinal();
+                          }
+                        } else {
+                          controller.bookAppointmentFinal();
+                        }
+                      }
+                    },
+            );
+          }),
+        ),
+      ),
+      body: const CustomScrollView(
+        physics: BouncingScrollPhysics(),
+        slivers: [
+          // القسم العلوي (الصورة، الاسم، التقييم)
+          DoctorDetailsHeaderSection(),
+          // القسم السفلي الديناميكي (التابات ومحتواها)
+          DoctorDetailsBodyContent(),
+        ],
+      ),
+    );
+  }
+}
+
 
 /*
 class DoctorDetailsScreen extends GetView<HomeController> {
@@ -43,74 +194,25 @@ class DoctorDetailsScreen extends GetView<HomeController> {
     );
   }
 }*/
-class DoctorDetailsScreen extends GetView<HomeController> {
-  const DoctorDetailsScreen({super.key});
+// التفعيل الذكي: إذا لم يتم اختيار وقت أو كان هناك تحميل، يكون الزر معطلاً (null)
+    // onTap: (!isTimeSelected || isLoading)
+    //     ? null
+    //     : () {
+    //         // جلب الـ fullDate الخاص بالـ Slot الذي تم اختياره حالياً
+    //         final selectedSlot = controller.doctorSlots.firstWhere(
+    //           (slot) => slot.time == controller.selectedTime.value,
+    //         );
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: AppSpacing.edgeInsets18,
-          child:
-          Obx(() {
-  // 1️⃣ التحقق المشترك: هل الـ Loading يعمل لأي من العمليتين؟
-  final bool isLoading = controller.isBookingLoading.value || controller.isUpdateBookingLoading.value;
-  
-  // 2️⃣ التحقق هل تم اختيار وقت؟
-  final bool isTimeSelected = controller.selectedTime.value != null;
-
-  return CustomBottomWidget(
-    // تغيير النص ديناميكياً بناءً على حالة الحجز أو التعديل
-    text: isLoading 
-        ? "جاري التحميل..." 
-        : (controller.isRescheduling.value ? "تأكيد تعديل الموعد" : StringManager.bookNow),
-    colortext: AppColors.lightSurface,
-    fontWeight: FontWeight.bold,
-    
-    // التفعيل الذكي: إذا لم يتم اختيار وقت أو كان هناك تحميل، يكون الزر معطلاً (null)
-    onTap: (!isTimeSelected || isLoading)
-        ? null
-        : () {
-            // جلب الـ fullDate الخاص بالـ Slot الذي تم اختياره حالياً
-            final selectedSlot = controller.doctorSlots.firstWhere(
-              (slot) => slot.time == controller.selectedTime.value,
-            );
-
-            if (controller.isRescheduling.value) {
-              // 🚀 تنفيذ دالة التعديل وإرسال البيانات للباكيند
-              controller.rescheduleAppointment(
-                appointmentUuid: controller.appointmentUuidToModify.value,
-                doctorUuid: controller.currentDoctor.value!.uuid,
-                newDateTime: selectedSlot.fullDate, // التاريخ والوقت المحدث
-                type: controller.selectedBookingType.value,
-              );
-            } else {
-              // 🗓️ تنفيذ دالة الحجز العادي لأول مرة
-              controller.bookAppointmentFinal();
-            }
-          },
-  );
-})
-          //  Obx(() => CustomBottomWidget(
-          //       text: StringManager.bookNow,
-          //       colortext: AppColors.lightSurface,
-          //       fontWeight: FontWeight.bold,
-          //       //
-          //       onTap: controller.selectedTime.value == null
-          //           ? null
-          //           : () => controller.bookAppointmentFinal(),
-          //     )),
-        ),
-      ),
-      body: const CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          DoctorDetailsHeaderSection(),
-          DoctorDetailsBodyContent(),
-        ],
-      ),
-    );
-  }
-}
+    //         if (controller.isRescheduling.value) {
+    //          
+    //           controller.rescheduleAppointment(
+    //             appointmentUuid: controller.appointmentUuidToModify.value,
+    //             doctorUuid: controller.currentDoctor.value!.uuid,
+    //             newDateTime: selectedSlot.fullDate, // التاريخ والوقت المحدث
+    //             type: controller.selectedBookingType.value,
+    //           );
+    //         } else {
+    //          
+    //           controller.bookAppointmentFinal();
+    //         }
+    //       },

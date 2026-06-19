@@ -15,6 +15,7 @@ import 'package:raghad_pro/features/chat/view/screen/chat_view.dart';
 import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:raghad_pro/features/home/controller/search_controller.dart';
 import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
+import 'package:raghad_pro/features/home/view/screen/all_doctor_spicialize_screen.dart';
 import 'package:raghad_pro/features/home/view/screen/appoinment_screen.dart';
 import 'package:raghad_pro/features/home/view/screen/detail_screen.dart';
 import 'package:raghad_pro/features/home/view/screen/search_screen.dart';
@@ -31,6 +32,113 @@ import 'package:raghad_pro/features/splash/view/screen/go_auth_screen.dart';
 import 'package:raghad_pro/features/splash/view/screen/on_bording_splash.dart';
 import 'package:raghad_pro/features/splash/view/screen/splash_screen.dart';
 
+// class AppPages {
+//   // المسار الابتدائي
+//   static const INITIAL = AppRoutes.splash;
+
+//   static final routes = [
+//     GetPage(
+//       name: AppRoutes.splash,
+//       page: () => const SplashView(),
+//       binding: SplashBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.onboarding,
+//       page: () => const OnboardingView(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.goAuth,
+//       page: () => const GoAuthScreen(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.login,
+//       page: () => const SignInScreen(),
+//       binding: AuthBinding(), // حقن الـ AuthController
+//     ),
+//     GetPage(
+//       name: AppRoutes.signUp,
+//       page: () => const RegesterScreen(),
+//       binding: AuthBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.forgotPassword,
+//       page: () => const ForgetPaswordScreen(),
+//       binding: AuthBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.verficationCode,
+//       page: () => const VerificationCodeScreen(),
+//       binding: AuthBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.resetPassword,
+//       page: () => const ResetPasswordScreen(),
+//       binding: AuthBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.home,
+//       page: () => const MainNavigationScreen(),
+//       binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+//     ),
+//     GetPage(
+//       name: AppRoutes.profile,
+//       page: () => const ProfileScreen(),
+//       binding: ProfileBinding(), // مستقبلاً عند عمل شاشة الهوم
+//     ),
+//      GetPage(
+//       name: AppRoutes.editProfile,
+//       page: () => const UpdateProfile(),
+//       binding: ProfileBinding(), // مستقبلاً عند عمل شاشة الهوم
+//     ),
+//     GetPage(
+//       name: AppRoutes.appoinment,
+//       page: () => const AppoinmentScreen(),
+//       // binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+//     ),
+//     GetPage(
+//       name: AppRoutes.settings,
+//       page: () => const SettingsScreen(),
+//       // binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+//     ),
+//     GetPage(
+//       name: AppRoutes.medicalHistory,
+//       page: () => const MedicalHistoryScreen(),
+//       binding: MedicalHistoryBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.detail,
+//       page: () => const DoctorDetailsScreen(),
+//       // binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+//     ),
+//     GetPage(
+//       name: AppRoutes
+//           .search, // تأكدي من تعريف هذا الاسم داخل كلاس AppRoutes الخاص بكِ (مثلاً: static const search = '/search';)
+//       page: () => PatientSearchScreen(),
+//       binding: BindingsBuilder(() {
+//         Get.lazyPut<PatientSearchController>(
+//           () => PatientSearchController(Get.find<RepostryHome>()),
+//         );
+//       }),
+//     ),
+//     GetPage(
+//       name: AppRoutes.chatList,
+//       page: () => const ClinicalChatWidget(
+//         isDark: false,
+//       ), // واجهة قائمة المحادثات
+//       // binding: ChatBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.chatView,
+//       page: () => const ChatView(), // واجهة غرفة المحادثة اللحظية
+//       // binding: ChatBinding(),
+//     ),
+//     GetPage(
+//       name: AppRoutes.notifications,
+//       page: () => const NotificationsScreen(), // واجهة إشعارات المستخدم
+//       // binding: NotificationsBinding(),
+//     ),
+//   ];
+// }
 class AppPages {
   // المسار الابتدائي
   static const INITIAL = AppRoutes.splash;
@@ -77,27 +185,32 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => const MainNavigationScreen(),
-      binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+      binding: MainNavigationBinding(), // يحقن كافة كونترولرات النظام الأساسية بالتوازي
     ),
+    GetPage(
+  name: AppRoutes.alldoctor, // أو الاسم المعرف في AppRoutes
+  page: () => const AllDoctorSpecializeScreen(),
+  binding: MainNavigationBinding(), // 💡 لضمان إعادة تهيئة الكونترولر عند كل دخول
+),
     GetPage(
       name: AppRoutes.profile,
       page: () => const ProfileScreen(),
-      binding: ProfileBinding(), // مستقبلاً عند عمل شاشة الهوم
+      binding: ProfileBinding(), 
     ),
      GetPage(
       name: AppRoutes.editProfile,
       page: () => const UpdateProfile(),
-      binding: ProfileBinding(), // مستقبلاً عند عمل شاشة الهوم
+      binding: ProfileBinding(), 
     ),
     GetPage(
       name: AppRoutes.appoinment,
       page: () => const AppoinmentScreen(),
-      // binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+      binding: MainNavigationBinding(), // 💡 تفعيل الحاقن لضمان وجود PatientAppointmentController
     ),
     GetPage(
       name: AppRoutes.settings,
       page: () => const SettingsScreen(),
-      // binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+      binding: MainNavigationBinding(), // 💡 تفعيل الحاقن لضمان استقرارية النظام الملاحي
     ),
     GetPage(
       name: AppRoutes.medicalHistory,
@@ -107,23 +220,16 @@ class AppPages {
     GetPage(
       name: AppRoutes.detail,
       page: () => const DoctorDetailsScreen(),
-      // binding: MainNavigationBinding(), // مستقبلاً عند عمل شاشة الهوم
+      binding: MainNavigationBinding(), // 💡 تفعيل الحاقن لضمان وجود DoctorBookingController عند الدخول للتفاصيل
     ),
     GetPage(
-      name: AppRoutes
-          .search, // تأكدي من تعريف هذا الاسم داخل كلاس AppRoutes الخاص بكِ (مثلاً: static const search = '/search';)
-      page: () => PatientSearchScreen(),
-      binding: BindingsBuilder(() {
-        Get.lazyPut<PatientSearchController>(
-          () => PatientSearchController(Get.find<RepostryHome>()),
-        );
-      }),
+      name: AppRoutes.search, 
+      page: () => const PatientSearchScreen(), // 💡 إضافة const إذا كانت الواجهة تستقبلها وتحويلها لـ عادية
+      binding: MainNavigationBinding(), // 💡 تنظيف وتغيير مصفوفة البيلدر اليدوية السابقة والاعتماد على البايندنج المركزي الأنظف
     ),
     GetPage(
       name: AppRoutes.chatList,
-      page: () => const ClinicalChatWidget(
-        isDark: false,
-      ), // واجهة قائمة المحادثات
+      page: () => const ClinicalChatWidget(isDark: false), // واجهة قائمة المحادثات
       // binding: ChatBinding(),
     ),
     GetPage(

@@ -9,18 +9,21 @@ import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_tap.dart';
 import 'package:raghad_pro/core/widget/dialoge_action.dart';
 import 'package:raghad_pro/core/widget/null_data_widget.dart';
+import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
 import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
+import 'package:raghad_pro/features/home/controller/patient_book_controller.dart';
 import 'package:raghad_pro/features/home/data/model/get_booking.dart';
 import 'package:raghad_pro/features/home/data/model/top_doctor_model.dart';
 import 'package:raghad_pro/features/home/view/screen/detail_screen.dart';
 import 'package:raghad_pro/features/profile/presentation/widget/base_settings.dart'; // تأكدي من مسار ملف الـ CustomBottomWidget
-
 // class AppoinmentScreen extends GetView<HomeController> {
 //   const AppoinmentScreen({Key? key}) : super(key: key);
 
 //   @override
 //   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+
 //     return BaseSubSettingsScreen(
 //       title: StringManager.appointmentScreen,
 //       content: Column(
@@ -63,23 +66,44 @@ import 'package:raghad_pro/features/profile/presentation/widget/base_settings.da
 //                           controller.appointmentTabControllerIndex.value != 3,
 //                       onCancel: () {
 //                         CustomActionDialog.show(
-//           context: context,
-//           icon: Icons.warning_amber_rounded,
-//           iconColor: AppColors.warning,
-//           iconBackgroundColor: AppColors.warning.withOpacity(0.1),
-//           title: "تأكيد الإلغاء",
-//           subtitle: "هل أنت متأكد من رغبتك في إلغاء هذا الموعد نهائياً؟",
-//           hintText: "لا يمكن التراجع عن هذه العملية لاحقاً.",
-//           confirmButtonText: "نعم، إلغاء",
-//           onConfirm: () {
-//             Get.back(); // إغلاق ديالوج التأكيد أولاً
-//             // استدعاء دالة الحذف وتمرير الـ uuid الخاص بالموعد الحالي
-//             controller.cancelAppointment(appointment.appointmentUuid);
-//           },
-//         );
+//                           context: context,
+//                           icon: Icons.warning_amber_rounded,
+//                           iconColor: AppColors.warning,
+//                           iconBackgroundColor:
+//                               AppColors.warning.withOpacity(0.1),
+//                           title: "تأكيد الإلغاء",
+//                           subtitle:
+//                               "هل أنت متأكد من رغبتك في إلغاء هذا الموعد نهائياً؟",
+//                           hintText: "لا يمكن التراجع عن هذه العملية لاحقاً.",
+//                           confirmButtonText: "نعم، إلغاء",
+//                           onConfirm: () {
+//                             Get.back();
+//                             controller
+//                                 .cancelAppointment(appointment.appointmentUuid);
+//                           },
+//                         );
 //                       },
 //                       onReschedule: () {
+//                         final topDoctor = TopDoctorModel(
+//                           uuid: appointment.doctor.uuid,
+//                           name: appointment.doctor.name,
+//                           specialization: appointment.doctor.specialization,
+//                           clinic: appointment.doctor.clinic,
+//                           image: appointment.doctor.image ?? '',
+//                           visitTime: appointment.doctor.visitTime,
+//                           patientsCount: appointment.doctor.patientsCount,
+//                           averageRating: appointment.doctor.rating,
+//                           reviewersCount: appointment.doctor.reviewersCount,
+//                         );
 
+//                         // 💡 التعديل هنا: مررنا تاريخ الموعد الحالي (appointment.dateTime) ليعرف التطبيق أي يوم يفتح
+//                         controller.initDoctorDetailsForReschedule(
+//                           doctor: topDoctor,
+//                           appointmentUuid: appointment.appointmentUuid,
+//                           oldAppointmentDateTime: appointment.dateTime,
+//                         );
+
+//                         Get.to(() => const DoctorDetailsScreen());
 //                       },
 //                     );
 //                   },
@@ -92,7 +116,6 @@ import 'package:raghad_pro/features/profile/presentation/widget/base_settings.da
 //     );
 //   }
 
-//   // دالة مساعدة لفلترة القائمة بشكل منظم يمنع تراكم الأكواد داخل الـ build
 //   List<BookingModel> _getFilteredAppointments() {
 //     switch (controller.appointmentTabControllerIndex.value) {
 //       case 0:
@@ -108,7 +131,7 @@ import 'package:raghad_pro/features/profile/presentation/widget/base_settings.da
 //     }
 //   }
 // }
-class AppoinmentScreen extends GetView<HomeController> {
+class AppoinmentScreen extends GetView<PatientAppointmentController> {
   const AppoinmentScreen({Key? key}) : super(key: key);
 
   @override
@@ -124,9 +147,7 @@ class AppoinmentScreen extends GetView<HomeController> {
                 child: CustomGenericTabs(
                   tabLabels: const ["book", "waiting", "changed", "completed"],
                   selectedIndex: controller.appointmentTabControllerIndex.value,
-                  onTabSelected: (index) {
-                    controller.changeAppointmentTab(index);
-                  },
+                  onTabSelected: (index) => controller.changeAppointmentTab(index),
                 ),
               )),
           Expanded(
@@ -153,48 +174,44 @@ class AppoinmentScreen extends GetView<HomeController> {
                     final appointment = currentList[index];
                     return AppointmentCard(
                       appointment: appointment,
-                      showActions:
-                          controller.appointmentTabControllerIndex.value != 3,
+                      showActions: controller.appointmentTabControllerIndex.value != 3,
                       onCancel: () {
                         CustomActionDialog.show(
                           context: context,
                           icon: Icons.warning_amber_rounded,
                           iconColor: AppColors.warning,
-                          iconBackgroundColor:
-                              AppColors.warning.withOpacity(0.1),
+                          iconBackgroundColor: AppColors.warning.withOpacity(0.1),
                           title: "تأكيد الإلغاء",
-                          subtitle:
-                              "هل أنت متأكد من رغبتك في إلغاء هذا الموعد نهائياً؟",
+                          subtitle: "هل أنت متأكد من رغبتك في إلغاء هذا الموعد نهائياً؟",
                           hintText: "لا يمكن التراجع عن هذه العملية لاحقاً.",
                           confirmButtonText: "نعم، إلغاء",
                           onConfirm: () {
                             Get.back();
-                            controller
-                                .cancelAppointment(appointment.appointmentUuid);
+                            controller.cancelAppointment(appointment.appointmentUuid);
                           },
                         );
                       },
                       onReschedule: () {
-                       final topDoctor = TopDoctorModel(
-    uuid: appointment.doctor.uuid, // الـ uuid الخاص بالطبيب من الموعد
-    name: appointment.doctor.name, // اسم الطبيب من الموعد
-    specialization: appointment.doctor.specialization ?? '', // التخصص
-    clinic: '', 
-    image: appointment.doctor.image ?? '', // الصورة
-    visitTime: '0', 
-    patientsCount: 0, 
-    averageRating: 0.0, 
-    reviewersCount: 0, 
-  );
+                        final topDoctor = TopDoctorModel(
+                          uuid: appointment.doctor.uuid,
+                          name: appointment.doctor.name,
+                          specialization: appointment.doctor.specialization,
+                          clinic: appointment.doctor.clinic,
+                          image: appointment.doctor.image ?? '',
+                          visitTime: appointment.doctor.visitTime,
+                          patientsCount: appointment.doctor.patientsCount,
+                          averageRating: appointment.doctor.rating,
+                          reviewersCount: appointment.doctor.reviewersCount,
+                        );
 
-  // 2️⃣ تهيئة الكنترولر وإخباره أن المستخدم قادم بغرض "تعديل موعد"
-  controller.initDoctorDetailsForReschedule(
-    doctor: topDoctor,
-    appointmentUuid: appointment.appointmentUuid, // الـ uuid الخاص بالموعد المراد تعديله
-  );
+                        // 💡 استدعاء المتحكم المفصول والجديد المسؤول عن حجز وإعادة جدولة الطبيب بنجاح
+                        Get.find<DoctorBookingController>().initDoctorDetailsForReschedule(
+                          doctor: topDoctor,
+                          appointmentUuid: appointment.appointmentUuid,
+                          oldAppointmentDateTime: appointment.dateTime,
+                        );
 
-  // 3️⃣ الانتقال بالكامل كصفحة مستقلة إلى صفحة الطبيب الأصلية (حيث توجد التابات والساعات الجاهزة)
-  Get.to(() => const DoctorDetailsScreen());
+                        Get.to(() => const DoctorDetailsScreen());
                       },
                     );
                   },
@@ -209,16 +226,11 @@ class AppoinmentScreen extends GetView<HomeController> {
 
   List<BookingModel> _getFilteredAppointments() {
     switch (controller.appointmentTabControllerIndex.value) {
-      case 0:
-        return controller.bookedAppointments;
-      case 1:
-        return controller.waitingAppointments;
-      case 2:
-        return controller.changedAppointments;
-      case 3:
-        return controller.visitedAppointments;
-      default:
-        return controller.bookedAppointments;
+      case 0: return controller.bookedAppointments;
+      case 1: return controller.waitingAppointments;
+      case 2: return controller.changedAppointments;
+      case 3: return controller.visitedAppointments;
+      default: return controller.bookedAppointments;
     }
   }
 }
@@ -244,7 +256,7 @@ class AppointmentCard extends StatelessWidget {
     final String formattedDate =
         "${appointment.dateTime.day}/${appointment.dateTime.month}/${appointment.dateTime.year}";
     final String formattedTime =
-        "${appointment.dateTime.hour}:${appointment.dateTime.minute.toString().padLeft(2, '0')}";
+        "${appointment.dateTime.hour.toString().padLeft(2, '0')}:${appointment.dateTime.minute.toString().padLeft(2, '0')}";
 
     Color statusColor;
     String statusText;
@@ -286,10 +298,12 @@ class AppointmentCard extends StatelessWidget {
                 CircleAvatar(
                   radius: context.widthPct(0.07),
                   backgroundColor: theme.primaryColor.withOpacity(0.1),
-                  backgroundImage: appointment.doctor.image.isNotEmpty
-                      ? NetworkImage(appointment.doctor.image)
+                  backgroundImage: appointment.doctor.image != null &&
+                          appointment.doctor.image!.isNotEmpty
+                      ? NetworkImage(appointment.doctor.image!)
                       : null,
-                  child: appointment.doctor.image.isEmpty
+                  child: appointment.doctor.image == null ||
+                          appointment.doctor.image!.isEmpty
                       ? Icon(
                           Icons.person,
                           color: theme.primaryColor,
@@ -309,8 +323,10 @@ class AppointmentCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: context.heightPct(0.005)),
-                      Text(appointment.doctor.specialization,
-                          style: theme.textTheme.bodyMedium),
+                      Text(
+                        appointment.doctor.specialization,
+                        style: theme.textTheme.bodyMedium,
+                      ),
                     ],
                   ),
                 ),
@@ -396,7 +412,6 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  // ميثود مساعدة لبناء عناصر صفوف البيانات والمؤشرات بشكل نظيف ومتكرر
   Widget _buildInfoRow(
       BuildContext context, IconData icon, String text, Color color) {
     return Row(

@@ -24,6 +24,7 @@ class StringManager {
   static const String signin = "Sign In";
   static const String logIn = 'Log In!';
   static const String forgetPassword = 'Forget Password? ';
+   static const String enterotp = "Enter Your OTP";
   static const String forgetPssword =
       '* We will send you a message  to set  or reset,\n  your new password';
   //home screen
@@ -123,6 +124,10 @@ class StringManager {
   static const String updateProfile = 'Update Profile';
   static const String save = 'Save';
   static const String currentPassword = "Current Password";
+  static const String whothisbook='Who is this booking for?';
+  static const String myself='For myself';
+  static const String anathoreperson='Else person';
+  static const String newpatintinfo='New Patient Details';
   //static const String lightMode = 'Light Mode';
 
   //static const String home = "Home";

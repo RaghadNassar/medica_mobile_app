@@ -5,6 +5,8 @@ class AppSpacing {
 
   static const vertical8 = EdgeInsets.symmetric(vertical: 8);
   static const horizontal8 = EdgeInsets.symmetric(horizontal: 8);
+  static const horizontal12 = EdgeInsets.symmetric(horizontal: 12);
+
   static const screenPadding1 = EdgeInsets.symmetric(horizontal: 24);
   static const screenPadding2 = EdgeInsets.symmetric(horizontal: 25);
   static const screenPadding3 = EdgeInsets.symmetric(horizontal: 20);

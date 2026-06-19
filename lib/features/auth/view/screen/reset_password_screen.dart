@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
+import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
 import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
@@ -19,7 +20,8 @@ class ResetPasswordScreen extends GetView<AuthLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: context.heightPct(0.05)),
-          const AuthLogoColorWidget(),
+          const Center(child:  Icon(Icons.lock_reset_outlined,color: AppColors.primaryTeal,size: 130,)),
+          //const AuthLogoColorWidget(),
           SizedBox(height: context.heightPct(0.04)),
           const CustomTextHeadLineWidget(title: StringManager.resetPassword),
           SizedBox(height: context.heightPct(0.04)),

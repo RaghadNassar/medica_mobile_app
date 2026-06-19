@@ -6,9 +6,19 @@ class Appassets {
   static String onboarding1 = 'assets/images/girlDr.png';
   static String onboarding2 = 'assets/images/Dr1.png';
   static String onboarding3 = 'assets/images/Dr2.png';
+  static String onboarding4 = 'assets/images/doctor1.jpg';
+  static String pannar1 = 'assets/images/clay-banks-e6pK_snssSY-unsplash.jpg';
+  static String pannar2 = 'assets/images/jamie-street-qpN5MLx1uwk-unsplash.jpg';
+  static String pannar3 = 'assets/images/olga-guryanova-tMFeatBSS4s-unsplash.jpg';
+  static String pannar4 = 'assets/images/pina-messina-kfJkpeI6Lgc-unsplash.jpg';
+  static String pannar5 = 'assets/images/usman-yousaf-qwBg-fHQJKQ-unsplash.jpg';
+  static String pannar6 = 'assets/images/olga-guryanova-Nanf8oLglmg-unsplash.jpg';
+  
+   
 
   static String heartSpicialize = "assets/svg/heart.svg";
-
+  static String nulldata = 'assets/images/tahlel.jpg';
+  static String nulldata2 = 'assets/images/book.jpg';
   static String homeIcon = 'assets/svg/Home.svg';
   static String appoIcon = 'assets/svg/Calendar.svg';
   static String profileIcon = 'assets/svg/Profile.svg';

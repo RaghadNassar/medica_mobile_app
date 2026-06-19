@@ -4,9 +4,11 @@ class AppColors {
   // ================= BRAND =================
 
   static const Color primaryTeal = Color(0xFF0AB3BA);
-   static const Color secondryTeal = Color(0xFF09B2B7);
-   static const Color accentTeal = Color(0xFF09B2B9);
+  static const Color secondryTeal = Color(0xFF09B2B7);
+  static const Color accentTeal = Color(0xFF09B2B9);
   static const Color accentOrange = Color(0xFFF28A4C);
+  static const Color black = Colors.black;
+  static const Color white = Colors.white;
 
   // ================= LIGHT =================
 
@@ -16,14 +18,13 @@ class AppColors {
 
   static const Color lightBorder = Color(0xFFE2E8F0);
 
-  static const Color lightFillTextFiled= Color.fromARGB(255, 163, 166, 168);
+  static const Color lightFillTextFiled = Color.fromARGB(255, 163, 166, 168);
 
-  static const Color lightIcon= Color(0xFFE5E7EB);
+  static const Color lightIcon = Color(0xFFE5E7EB);
 
   static const Color lightTextPrimary = Color(0xFF0F172A);
 
   static const Color lightTextSecondary = Color(0xFF475569);
-
 
   // ================= DARK =================
 

@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/app_assets.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
-import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:raghad_pro/features/chat/controller/chatList_controller.dart';
+import 'package:raghad_pro/features/home/controller/main_controller.dart';
 
-class MainNavigationScreen extends GetView<HomeController> {
+class MainNavigationScreen extends GetView<HomeNavigationController> {
   const MainNavigationScreen({super.key});
 
   @override

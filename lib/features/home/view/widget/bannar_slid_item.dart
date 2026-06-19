@@ -1,7 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
-import 'package:raghad_pro/core/utilis/size_config.dart';
+import 'package:raghad_pro/core/theme/app_colors.dart';
 
+class ImageBannerSlideItem extends StatelessWidget {
+  final String imagePath;
+
+  const ImageBannerSlideItem({
+    super.key,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppSpacing.horizontal12,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    AppColors.black.withOpacity(0.2),
+                    AppColors.black.withOpacity(0.07),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+//  كود البانر مع احصائيات 
+/*
 class BannerSlideItem extends StatelessWidget {
   final IconData icon;
   final Color color;
@@ -90,3 +138,30 @@ class BannerSlideItem extends StatelessWidget {
     );
   }
 }
+*/
+
+// class BannerImageData {
+//   final String image;
+
+//   BannerImageData({
+//     required this.image,
+//   });
+// }
+
+// List<BannerImageData> medicalBanners = [
+//   BannerImageData(
+//     image: Appassets.pannar5,
+//   ),
+//   BannerImageData(
+//     image: Appassets.pannar6,
+//   ),
+//   BannerImageData(
+//     image: Appassets.pannar2,
+//   ),
+//   BannerImageData(
+//     image: Appassets.pannar3,
+//   ),
+//   BannerImageData(
+//     image: Appassets.pannar4,
+//   ),
+// ];

@@ -1,27 +1,21 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/api/api_consumer.dart';
-import 'package:raghad_pro/core/constanse/string_manager.dart';
-import 'package:raghad_pro/core/helper/alert_helper.dart';
+import 'package:raghad_pro/core/constanse/app_assets.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
-import 'package:raghad_pro/core/widget/dialoge_action.dart';
-import 'package:raghad_pro/features/chat/view/screen/chatList_screen.dart';
+import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
+import 'package:raghad_pro/features/home/controller/main_controller.dart';
+import 'package:raghad_pro/features/home/controller/patient_book_controller.dart';
 import 'package:raghad_pro/features/home/controller/search_controller.dart';
-import 'package:raghad_pro/features/home/data/model/get_booking.dart';
-import 'package:raghad_pro/features/home/data/model/scedual_mode.dart';
-import 'package:raghad_pro/features/home/data/model/search_model.dart';
-import 'package:raghad_pro/features/home/data/model/slote_model.dart';
+import 'package:raghad_pro/features/home/data/model/banar_image_static.dart';
 import 'package:raghad_pro/features/home/data/model/spizialize_model.dart';
 import 'package:raghad_pro/features/home/data/model/top_doctor_model.dart';
 import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
-import 'package:raghad_pro/features/home/view/screen/appoinment_screen.dart';
-import 'package:raghad_pro/features/home/view/screen/home_screen.dart';
-import 'package:raghad_pro/features/profile/presentation/screen/profile_screen.dart';
+
 import 'package:raghad_pro/features/profile/controller/profile_controller.dart';
 import 'package:raghad_pro/features/profile/data/repostry/user_repostry.dart';
-
+/*
 // binding
 class MainNavigationBinding extends Bindings {
   @override
@@ -36,8 +30,176 @@ class MainNavigationBinding extends Bindings {
     Get.lazyPut<PatientSearchController>(
         () => PatientSearchController(Get.find<RepostryHome>()));
   }
+}*/
+// class MainNavigationBinding extends Bindings {
+//   @override
+//   void dependencies() {
+//     // الأجزاء المشتركة والـ API
+//     Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
+    
+//     // حقن المتحكمات الثلاثة الجديدة المفصولة لحماية الذاكرة
+//     Get.lazyPut<HomeNavigationController>(() => HomeNavigationController());
+//     Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()));
+//     Get.lazyPut<PatientAppointmentController>(() => PatientAppointmentController(Get.find<RepostryHome>()));
+    
+//     // كود البروفايل والبحث بدون أي تغيير
+//     Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
+//     Get.lazyPut<ProfileController>(() => ProfileController(Get.find<ProfileRepostry>()));
+//     Get.lazyPut<PatientSearchController>(() => PatientSearchController(Get.find<RepostryHome>()));
+//   }
+// }
+
+class MainNavigationBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
+    
+    // حقن المتحكمات المفصولة
+    Get.lazyPut<HomeNavigationController>(() => HomeNavigationController());
+    Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()));
+    Get.lazyPut<PatientAppointmentController>(() => PatientAppointmentController(Get.find<RepostryHome>()),fenix: true);
+    
+    // 💡 حقن كونترولر الحجز ليعمل بالتوازي مع الأنظمة الحالية
+    Get.lazyPut<DoctorBookingController>(
+    () => DoctorBookingController(Get.find<RepostryHome>()),
+    fenix: true,
+  );
+    
+    Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
+    Get.lazyPut<ProfileController>(() => ProfileController(Get.find<ProfileRepostry>()),fenix: true);
+    Get.lazyPut<PatientSearchController>(() => PatientSearchController(Get.find<RepostryHome>()),fenix: true);
+  }
 }
 
+
+class HomeDashboardController extends GetxController {
+  final RepostryHome repostryHome;
+  HomeDashboardController(this.repostryHome);
+
+  // البانر الإعلاني المتنقل
+  final PageController bannerPageController = PageController();
+  final RxInt currentBannerPage = 0.obs;
+  Timer? _bannerTimer;
+
+  // الاختصاصات والأطباء الأعلى تقييماً
+  var isTopDoctorsLoading = true.obs;
+  var topDoctors = <TopDoctorModel>[].obs;
+  var isSpecLoading = true.obs;
+  var specializations = <SpecializationModel>[].obs;
+  SpecializationStats? stats;
+
+  // بيانات البانر الثابتة
+  final List<BannerImageData> medicalBanners = [
+    BannerImageData(image: Appassets.pannar5),
+    BannerImageData(image: Appassets.pannar6),
+    BannerImageData(image: Appassets.pannar2),
+    BannerImageData(image: Appassets.pannar3),
+    BannerImageData(image: Appassets.pannar4),
+  ];
+
+  @override
+  void onInit() {
+    super.onInit();
+    getSpecializations();
+    _startBannerAutoSlider();
+    getTopDoctors();
+  }
+
+  void _startBannerAutoSlider() {
+    _bannerTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (stats != null) {
+        if (currentBannerPage.value < 3) {
+          currentBannerPage.value++;
+        } else {
+          currentBannerPage.value = 0;
+        }
+
+        if (bannerPageController.hasClients) {
+          bannerPageController.animateToPage(
+            currentBannerPage.value,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+          );
+        }
+      }
+    });
+  }
+
+  void updateBannerPage(int page) {
+    currentBannerPage.value = page;
+  }
+
+  getSpecializations() async {
+    isSpecLoading.value = true;
+    final response = await repostryHome.getSpecializations();
+
+    response.fold(
+      (errorMessage) {
+        isSpecLoading.value = false;
+        print("Specializations Error: $errorMessage");
+      },
+      (specializationData) {
+        isSpecLoading.value = false;
+        specializations.assignAll(specializationData.data);
+        stats = specializationData.stats;
+      },
+    );
+  }
+
+  getTopDoctors() async {
+    isTopDoctorsLoading.value = true;
+    final response = await repostryHome.getTopDoctors();
+
+    response.fold(
+      (errorMessage) {
+        isTopDoctorsLoading.value = false;
+        print("Top Doctors Error: $errorMessage");
+      },
+      (topDoctorsData) {
+        isTopDoctorsLoading.value = false;
+        topDoctors.assignAll(topDoctorsData.data);
+      },
+    );
+  }
+
+  IconData getIconForSpecialty(String name) {
+    if (name.contains("القلبية")) return Icons.favorite_rounded;
+    if (name.contains("الأطفال")) return Icons.child_care_rounded;
+    if (name.contains("العصبية")) return Icons.psychology_rounded;
+    if (name.contains("العظمية")) return Icons.accessibility_new_rounded;
+    if (name.contains("الأسنان")) return Icons.attribution_rounded;
+    if (name.contains("العينية")) return Icons.visibility_rounded;
+    return Icons.medical_services_rounded;
+  }
+
+  Color getColorForSpecialty(String name) {
+    if (name.contains("القلبية")) return AppColors.error.withOpacity(0.1);
+    if (name.contains("الأطفال")) return AppColors.warning.withOpacity(0.1);
+    if (name.contains("العصبية")) return Colors.purple.withOpacity(0.1);
+    if (name.contains("العظمية")) return AppColors.info.withOpacity(0.1);
+    if (name.contains("الأسنان")) return AppColors.primaryTeal.withOpacity(0.1);
+    if (name.contains("العينية")) return AppColors.success.withOpacity(0.1);
+    return Colors.blueGrey.withOpacity(0.1);
+  }
+
+  Color getIconColorForSpecialty(String name) {
+    if (name.contains("القلبية")) return AppColors.error;
+    if (name.contains("الأطفال")) return AppColors.warning;
+    if (name.contains("العصبية")) return Colors.purple;
+    if (name.contains("العظمية")) return AppColors.info;
+    if (name.contains("الأسنان")) return AppColors.primaryTeal;
+    if (name.contains("العينية")) return AppColors.success;
+    return Colors.blueGrey;
+  }
+
+  @override
+  void onClose() {
+    _bannerTimer?.cancel();
+    bannerPageController.dispose();
+    super.onClose();
+  }
+}
+/*
 // controller
 class HomeController extends GetxController {
   final RepostryHome repostryHome;
@@ -78,6 +240,24 @@ class HomeController extends GetxController {
   var isUpdateBookingLoading = false.obs;
   final RxBool isRescheduling = false.obs;        
   final RxString appointmentUuidToModify = ''.obs;
+
+  List<BannerImageData> medicalBanners = [
+  BannerImageData(
+    image: Appassets.pannar5,
+  ),
+  BannerImageData(
+    image: Appassets.pannar6,
+  ),
+  BannerImageData(
+    image: Appassets.pannar2,
+  ),
+  BannerImageData(
+    image: Appassets.pannar3,
+  ),
+  BannerImageData(
+    image: Appassets.pannar4,
+  ),
+];
 // get appoinment
   getPatientAppointments() async {
     isAppointmentsLoading.value = true;
@@ -236,13 +416,49 @@ class HomeController extends GetxController {
     },
   );
 }
-
-
-void initDoctorDetailsForReschedule({required TopDoctorModel doctor, required String appointmentUuid}) {
+void initDoctorDetailsForReschedule({
+  required TopDoctorModel doctor,
+  required String appointmentUuid,
+  required DateTime oldAppointmentDateTime,
+}) {
+  
   isRescheduling.value = true;
   appointmentUuidToModify.value = appointmentUuid;
-  initDoctorDetails(doctor);
+  
+  
+  currentDoctor.value = doctor;
+  selectedTime.value = null;
+
+  
+  getDoctorSchedules(doctor.uuid);
+  generateAvailableDates();
+
+  
+  String oldDateStr = oldAppointmentDateTime.toString().split(' ')[0]; // YYYY-MM-DD
+  
+  int targetIndex = availableDatesList.indexWhere(
+    (date) => date.toString().split(' ')[0] == oldDateStr
+  );
+
+  
+  if (targetIndex != -1) {
+    selectedDateIndex.value = targetIndex;
+    getDoctorSlotsDynamic(doctor.uuid, oldDateStr);
+    initFirebaseRealtime(doctor.uuid, oldDateStr);
+  } else {
+    selectedDateIndex.value = 0;
+    if (availableDatesList.isNotEmpty) {
+      String initialDate = availableDatesList[0].toString().split(' ')[0];
+      getDoctorSlotsDynamic(doctor.uuid, initialDate);
+      initFirebaseRealtime(doctor.uuid, initialDate);
+    }
+  }
 }
+// void initDoctorDetailsForReschedule({required TopDoctorModel doctor, required String appointmentUuid}) {
+//   isRescheduling.value = true;
+//   appointmentUuidToModify.value = appointmentUuid;
+//   initDoctorDetails(doctor);
+// }
   void changeAppointmentTab(int index) {
     appointmentTabControllerIndex.value = index;
   }
@@ -251,6 +467,9 @@ void initDoctorDetailsForReschedule({required TopDoctorModel doctor, required St
     if (appointmentUuidToModify.isEmpty) {
     isRescheduling.value = false;
   }
+  // هي لتعديل الموعد تذكري
+  isRescheduling.value = false;
+  appointmentUuidToModify.value = '';
     currentDoctor.value = doctor;
     selectedDateIndex.value = 0;
     selectedTime.value = null;
@@ -338,12 +557,12 @@ void initDoctorDetailsForReschedule({required TopDoctorModel doctor, required St
       .snapshots()
       .listen((querySnapshot) {
         
-    print("⚡ [RealTime] تم رصد حركة حجز/تعديل عند هذا الطبيب! جاري تحديث الـ Slots المتاحة فوراً...");
+    print(" [RealTime] تم رصد حركة حجز/تعديل عند هذا الطبيب! جاري تحديث الـ Slots المتاحة فوراً...");
     
    
     getDoctorSlotsDynamic(doctorUuid, dateStr);
     
-  }, onError: (e) => print("❌ [Firebase RealTime Error]: $e"));
+  }, onError: (e) => print(" [Firebase RealTime Error]: $e"));
 }
 
 //bannar
@@ -660,565 +879,123 @@ void initDoctorDetailsForReschedule({required TopDoctorModel doctor, required St
     );
   }
 
-  // دالة لتغيير الوقت المختار
+  
   void updateSelectedTime(String? time) {
     selectedTime.value = time;
   }
 
-  // دالة حجز الموعد النهائي
+  
   void bookAppointment() {
     if (selectedTime.value != null) {}
   }
-}
 
+  // حجز لشخص اخر
+ // الكي الخاص بالتحقق من حقول المريض الجديد
+final someoneFormKey = GlobalKey<FormState>();
 
+// متغير لمعرفة هل الحجز للحساب الشخصي أم لشخص آخر (تلقائياً false)
+var bookForSomeoneElse = false.obs;
 
+// الـ Controllers الخاصة بحقول إدخال المريض الجديد
+final someoneNameController = TextEditingController();
+final someoneNickNameController = TextEditingController();
+final someonePhoneController = TextEditingController();
+final someoneBirthdayController = TextEditingController(); // تم تحويله لـ Controller لتوافقه مع الـ CustomTextFiled
 
+// متغير حالة الجنس (تلقائياً Male أو يمكنكِ استخدام StringManager.male)
+var someoneGender = StringManager.male.obs;
 
-
-
-
-
-  // void initFirebaseRealtime(String doctorUuid, String dateStr) {
-  //   // نلغي أي اشتراك قديم مسجل لتفادي تكرار الاستماع وتوفير كاش الذاكرة والإنترنت
-  //   _firebaseSubscription?.cancel();
-
-  //   print(
-  //       "📡 [RealTime] المريض يستمع الآن لمواعيد الطبيب: $doctorUuid في تاريخ: $dateStr");
-
-  //   _firebaseSubscription = FirebaseFirestore.instance
-  //       .collection('appointments')
-  //       .where('doctor_uuid',
-  //           isEqualTo: doctorUuid) // الاستماع لمواعيد هذا الطبيب لمنع التضارب
-  //       .snapshots()
-  //       .listen((querySnapshot) {
-  //     // بمجرد حدوث أي حجز جديد عند هذا الطبيب على الفايربيس، يتم تحديث الأوقات تلقائياً في واجهة المريض
-  //     print(
-  //         "⚡ [RealTime] تم رصد حجز جديد! جاري تحديث الـ Slots المتاحة فوراً...");
-  //     getDoctorSlotsDynamic(doctorUuid, dateStr);
-  //   }, onError: (e) => print("❌ [Firebase RealTime Error]: $e"));
-  // }
-
-
-
-
-// void bookAppointmentFinal() async {
-//   if (selectedTime.value == null) {
-//     Get.snackbar("تنبيه", "الرجاء اختيار وقت محدد للحجز أولاً", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.amber.withOpacity(0.3));
-//     return;
-//   }
-
-//   final selectedSlot = doctorSlots.firstWhere((slot) => slot.time == selectedTime.value);
-
-//   isBookingLoading.value = true;
-
-//   final response = await repostryHome.bookAppointment(
-//     doctorUuid: currentDoctor.value!.uuid,
-//     dateTime: selectedSlot.fullDate,
-//     type: selectedBookingType.value,
-//   );
-
-//   response.fold(
-//     (errorMessage) {
-//       isBookingLoading.value = false;
-
-//     },
-//     (appointmentData) {
-//       isBookingLoading.value = false;
-
-//     },
-//   );
-// }
-
-/*
- هي البيانات التجريبية كانت 
-  // البيانات التجريبية - جاهزة للاستبدال بـ API call لاحقاً
-  final List<Map<String, String>> mockDates = [
-    {'day': 'TUE', 'date': '20'},
-    {'day': 'WED', 'date': '21'},
-    {'day': 'THU', 'date': '22'},
-    {'day': 'FRI', 'date': '23'},
-    {'day': 'SAT', 'date': '24'},
-    {'day': 'MON', 'date': '25'},
-  ];
-
-  final List<String> mockTimes = [
-    '09:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '01:00 PM',
-    '02:00 PM',
-    '03:00 PM',
-    '04:00 PM',
-    '05:00 PM',
-    '07:00 PM'
-  ];
-
-  final Map<String, String> workingHours = {
-    'Monday': '09:00 AM - 05:00 PM',
-    'Tuesday': '09:00 AM - 05:00 PM',
-    'Wednesday': '09:00 AM - 05:00 PM',
-    'Thursday': '09:00 AM - 05:00 PM',
-    'Friday': '09:00 AM - 01:00 PM',
-    'Saturday': 'Closed',
-  };
-
-*/
-
-// @override
-// void onInit() {
-//   getSpecializations(); // جلب البيانات فور تشغيل الـ Controller
-//   super.onInit();
-// }
-
-/*void initDoctorDetails(DoctorBySpecialtyModel doctor) {
-    currentDoctor.value = doctor;
-
-    getDoctorSchedules(doctor.uuid);
-  }*/
-//ohhhhh
-/*void initDoctorDetails(DoctorBySpecialtyModel doctor) {
-  currentDoctor.value = doctor;
-  selectedDateIndex.value = 0; // إعادة التعيين لأول يوم
-  selectedTime.value = null;   // تفريغ الوقت المختار مسبقاً
-  
-  getDoctorSchedules(doctor.uuid);
-  generateAvailableDates();
-  
-  // جلب فترات أول يوم متاح تلقائياً عند فتح الصفحة
-  if (availableDatesList.isNotEmpty) {
-    String initialDate = availableDatesList[0].toString().split(' ')[0]; // YYYY-MM-DD
-    getDoctorSlotsDynamic(doctor.uuid, initialDate);
-  }
-}*/
-
-/*import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:raghad_pro/core/api/api_consumer.dart';
-import 'package:raghad_pro/core/theme/app_colors.dart';
-import 'package:raghad_pro/features/home/data/model/doctor_spicializ_model.dart';
-import 'package:raghad_pro/features/home/data/model/scedual_mode.dart';
-import 'package:raghad_pro/features/home/data/model/spizialize_model.dart';
-import 'package:raghad_pro/features/home/data/model/top_doctor_model.dart';
-import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
-import 'package:raghad_pro/features/home/view/screen/appoinment_screen.dart';
-import 'package:raghad_pro/features/home/view/screen/home_screen.dart';
-import 'package:raghad_pro/features/profile/presentation/screen/profile_screen.dart';
-
-// binding
-class MainNavigationBinding extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
-    Get.lazyPut<HomeController>(() => HomeController(Get.find<RepostryHome>()));
-  }
-}
-
-// controller
-class HomeController extends GetxController {
-  final RepostryHome repostryHome;
-  HomeController(this.repostryHome);
-
-//====================asasy=================================
-// banar promo
-  final PageController bannerPageController = PageController();
-  final RxInt currentBannerPage = 0.obs;
-  Timer? _bannerTimer;
-//top doctor 
-  var isTopDoctorsLoading = true.obs;
-  var topDoctors = <TopDoctorModel>[].obs;
-//   homepage
-  final RxInt currentIndex = 0.obs;
-  final List screens = [
-    const HomeScreen(), 
-    const AppoinmentScreen(), 
-    const ProfileScreen(), 
-  ];
-// detail screen
-  final RxInt activeTabIndex = 0.obs;
-  var userRating = 0.0.obs;
-  final RxInt selectedDateIndex = 0.obs;
-  final RxnString selectedTime = RxnString();
-//spicialization
-  var isSpecLoading = true.obs;
-  var specializations = <SpecializationModel>[].obs;
-  SpecializationStats? stats; 
-//doctor spicialize
-  var isDoctorsBySpecLoading = false.obs;
-  var doctorsBySpecialty = <DoctorBySpecialtyModel>[].obs; 
-//schedual
-  var isSchedulesLoading = false.obs;
-  var doctorSchedules = <DoctorScheduleModel>[].obs;  
-
-  // 🌟 (مكان التغيير 1): إعلان القوائم التفاعلية الحية ومؤشر تحميل الحجز
-  var dynamicDates = <Map<String, String>>[].obs;
-  var dynamicTimes = <String>[].obs;
-  var isBookingLoading = false.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    getSpecializations();
-    _startBannerAutoSlider();
-    getTopDoctors();
-  }
-
-//bannar
-  void _startBannerAutoSlider() {
-    _bannerTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
-      if (stats != null) {
-        if (currentBannerPage.value < 3) {
-          currentBannerPage.value++;
-        } else {
-          currentBannerPage.value = 0;
-        }
-
-        if (bannerPageController.hasClients) {
-          bannerPageController.animateToPage(
-            currentBannerPage.value,
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInOut,
-          );
-        }
-      }
-    });
-  }
-
-  void updateBannerPage(int page) {
-    currentBannerPage.value = page;
-  }
-
-  @override
-  void onClose() {
-    _bannerTimer?.cancel();
-    bannerPageController.dispose();
-    super.onClose();
-  }
-
-//homepage
-  void changeIndex(int index) {
-    currentIndex.value = index;
-  }
-
-// detail screen   
-  void updateActiveTab(int index) {
-    activeTabIndex.value = index;
-  }
-
-  getSpecializations() async {
-    isSpecLoading.value = true;
-    final response = await repostryHome.getSpecializations();
-
-    response.fold(
-      (errorMessage) {
-        isSpecLoading.value = false;
-        print("Error: $errorMessage");
-      },
-      (specializationData) {
-        isSpecLoading.value = false;
-        specializations.assignAll(specializationData.data);
-        stats = specializationData.stats;
-      },
+// دالة لاختيار تاريخ ميلاد المريض الجديد
+// دالة اختيار تاريخ ميلاد المريض الجديد
+  Future<void> selectSomeoneBirthday(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().subtract(const Duration(days: 365 * 20)), 
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
-  }
 
-  getTopDoctors() async {
-    isTopDoctorsLoading.value = true;
-    final response = await repostryHome.getTopDoctors();
-
-    response.fold(
-      (errorMessage) {
-        isTopDoctorsLoading.value = false;
-        print("Top Doctors Error: $errorMessage");
-      },
-      (topDoctorsData) {
-        isTopDoctorsLoading.value = false;
-        topDoctors.assignAll(topDoctorsData.data);
-      },
-    );
-  }
-
-  getDoctorsBySpecialty(String specialtyId) async {
-    isDoctorsBySpecLoading.value = true;
-    doctorsBySpecialty.clear();
-    
-    final response = await repostryHome.getDoctorsBySpecialty(specialtyId);
-
-    response.fold(
-      (errorMessage) {
-        isDoctorsBySpecLoading.value = false;
-        print("Doctors by Specialty Error: $errorMessage");
-      },
-      (doctorsData) {
-        isDoctorsBySpecLoading.value = false;
-        doctorsBySpecialty.assignAll(doctorsData.data);
-      },
-    );
-  }
-
-  // 🌟 (مكان التغيير 2): تعديل جلب الجدول لتصفير المواعيد القديمة واستدعاء منشئ التواريخ الحية
-  getDoctorSchedules(String doctorUuid) async {
-    isSchedulesLoading.value = true;
-    doctorSchedules.clear();
-    dynamicDates.clear();
-    dynamicTimes.clear();
-    selectedTime.value = null;
-    selectedDateIndex.value = 0;
-    
-    final response = await repostryHome.getDoctorSchedules(doctorUuid);
-
-    response.fold(
-      (errorMessage) {
-        isSchedulesLoading.value = false;
-        print("Schedules Error: $errorMessage");
-      },
-      (schedulesData) {
-        isSchedulesLoading.value = false;
-        doctorSchedules.assignAll(schedulesData.data);
-        
-        // توليد التواريخ المتوافقة مع أيام عمل الطبيب الحقيقية فوراً
-        _generateDatesFromSchedule();
-      },
-    );
-  }
-
-  Map<String, String> get formattedWorkingHours {
-    Map<String, String> hoursMap = {};
-    for (var schedule in doctorSchedules) {
-      hoursMap[schedule.day] = "${schedule.startTime} - ${schedule.endTime}";
-    }
-    return hoursMap;
-  }
-
-  // 🌟 (مكان التغيير 3): دالة ذكية لتشكيل الـ 14 يوماً القادمة بناءً على أيام الطبيب المتاحة فقط
- // 🌟 الدالة المحدثة لتوليد التواريخ بدعم كامل للغة العربية القادمة من الـ API
-  void _generateDatesFromSchedule() {
-    if (doctorSchedules.isEmpty) return;
-
-    // 1. تنظيف واقتصاص النصوص القادمة من السيرفر لضمان المطابقة (مثال: "الاثنين ")
-    List<String> allowedDaysFromApi = doctorSchedules
-        .map((e) => e.day.trim())
-        .toList();
-
-    List<Map<String, String>> tempDates = [];
-    DateTime today = DateTime.now();
-
-    // 2. فحص الـ 14 يوماً القادمة في الرزنامة
-    for (int i = 0; i < 14; i++) {
-      DateTime futureDate = today.add(Duration(days: i));
-      
-      // جلب اسم اليوم بالعربي لهذا التاريخ المستقبلي
-      String currentArabicDayName = _getArabicDayName(futureDate.weekday);
-
-      // 3. المقارنة الفعالية: هل هذا اليوم موجود ضمن قائمة دوام الدكتور القادمة من الـ API؟
-      if (allowedDaysFromApi.contains(currentArabicDayName)) {
-        tempDates.add({
-          'day': _getShortArabicDayName(futureDate.weekday), // نصوص عربية مختصرة للـ UI (ث، خ، ج...) أو مسميات أخرى تفضلينها
-          'date': futureDate.day.toString(),          
-          'fullDate': "${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}" 
-        });
-      }
-    }
-
-    dynamicDates.assignAll(tempDates);
-
-    // تنشيط اليوم الأول المتاح تلقائياً وعرض ساعاته
-    if (dynamicDates.isNotEmpty) {
-      updateSelectedDate(0);
+    if (pickedDate != null) {
+      String formattedDate = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+      someoneBirthdayController.text = formattedDate;
     }
   }
 
-  // 🌟 دالة مساعدة لتحويل رقم اليوم البرمجي إلى نص عربي مطابق تماماً لبيانات الباك إند
-  String _getArabicDayName(int weekday) {
-    switch (weekday) {
-      case DateTime.monday: return 'الاثنين';
-      case DateTime.tuesday: return 'الثلاثاء';
-      case DateTime.wednesday: return 'الأربعاء';
-      case DateTime.thursday: return 'الخميس';
-      case DateTime.friday: return 'الجمعة';
-      case DateTime.saturday: return 'السبت';
-      case DateTime.sunday: return 'الأحد';
-      default: return '';
-    }
-  }
-
-  // 🌟 دالة مساعدة لعرض الاختصارات في واجهة التطبيق العلوية (BookingDateSelector) لتبدو أنيقة
-  String _getShortArabicDayName(int weekday) {
-    switch (weekday) {
-      case DateTime.monday: return 'اثنين';
-      case DateTime.tuesday: return 'ثلاثاء';
-      case DateTime.wednesday: return 'أربعاء';
-      case DateTime.thursday: return 'خميس';
-      case DateTime.friday: return 'جمعة';
-      case DateTime.saturday: return 'سبت';
-      case DateTime.sunday: return 'أحد';
-      default: return '';
-    }
-  }
-
-  // 🌟 تعديل دالة تحديث اليوم لتعمل مع النظام العربي الجديد
-  void updateSelectedDate(int index) {
-    selectedDateIndex.value = index;
-    selectedTime.value = null; 
-    
-    if (dynamicDates.isEmpty) return;
-
-    String fullDateStr = dynamicDates[index]['fullDate']!;
-    DateTime selectedDate = DateTime.parse(fullDateStr);
-    
-    // الحصول على اسم اليوم بالعربي للتاريخ المختار
-    String arabicDayName = _getArabicDayName(selectedDate.weekday);
-
-    // البحث في قائمة السيرفر عن جدول هذا اليوم
-    var daySchedule = doctorSchedules.firstWhereOrNull((e) => e.day.trim() == arabicDayName);
-
-    if (daySchedule != null) {
-      dynamicTimes.assignAll(_generateTimeSlots(daySchedule.startTime, daySchedule.endTime));
-    } else {
-      dynamicTimes.clear();
-    }
-  }
-
-  // دالة تقسيم فترة الدوام الكبيرة إلى كتل زمنية بالساعات
-  List<String> _generateTimeSlots(String start, String end) {
-    List<String> slots = [];
-    try {
-      int startHour = int.parse(start.split(':')[0]);
-      int endHour = int.parse(end.split(':')[0]);
-      
-      if (start.contains("PM") && startHour != 12) startHour += 12;
-      if (end.contains("PM") && endHour != 12) endHour += 12;
-      if (start.contains("AM") && startHour == 12) startHour = 0;
-      if (end.contains("AM") && endHour == 12) endHour = 0;
-
-      for (int h = startHour; h < endHour; h++) {
-        int displayHour = h % 12 == 0 ? 12 : h % 12;
-        String amPm = h >= 12 ? "PM" : "AM";
-        slots.add("${displayHour.toString().padLeft(2, '0')}:00 $amPm");
-      }
-    } catch (e) {
-      slots = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'];
-    }
-    return slots;
-  }
-
-  // 🌟 (مكان التغيير 5): دالة حجز الموعد الفعلي ورفعها للباك إند بالصيغة المطلوبة
-  void bookDoctorAppointment(String doctorUuid) async {
+  // دالة الحجز لشخص آخر المصلحة والمعدلة بالكامل بدون أخطاء قواعدية
+  Future<void> bookForSomeoneFinal() async {
+    // 1. تصحيح فحص الـ Null: نقارن بـ null مباشرة لأن المتغير عبارة عن RxnString
     if (selectedTime.value == null) {
-      Get.snackbar("تنبيه", "الرجاء اختيار الوقت المتاح أولاً", backgroundColor: Colors.amber);
+      AlertHelper.showSnackbar(
+        title: "تنبيه", 
+        message: "الرجاء اختيار وقت الحجز أولاً", 
+        type: AlertType.warning
+      );
       return;
     }
 
+    // 2. تصحيح واستخراج الـ selectedSlot الفعلي لتجنب اعتراض الـ Variable غير المعرف
+    final selectedSlot = doctorSlots.firstWhere((slot) => slot.time == selectedTime.value);
+
     isBookingLoading.value = true;
+    String genderToSend = (someoneGender.value == StringManager.female) ? 'female' : 'male';
 
-    // دمج التاريخ المختار + الوقت المختار بصيغة السيرفر: YYYY-MM-DD HH:mm:ss
-    String chosenDate = dynamicDates[selectedDateIndex.value]['fullDate']!;
-    String chosenTime = _convertTimeTo24H(selectedTime.value!);
-    String finalDateTimeStr = "$chosenDate $chosenTime"; 
-
-    final response = await repostryHome.bookAppointment(
-      doctorUuid: doctorUuid,
-      dateTime: finalDateTimeStr,
-      type: "check", // 💡 تمرير قيمة الفحص المطلوبة من الباك إند هنا برمجياً
+    final response = await repostryHome.bookForSomeone(
+      name: someoneNameController.text.trim(),
+      nickName: someoneNickNameController.text.trim(),
+      phone: someonePhoneController.text.trim(),
+      gender: genderToSend,
+      birthday: someoneBirthdayController.text.trim(),
+      doctorUuid: currentDoctor.value!.uuid, 
+      dateTime: selectedSlot.fullDate,       // الآن تعمل بكفاءة وبدون أخطاء
+      type: selectedBookingType.value,       
     );
 
     response.fold(
       (errorMessage) {
         isBookingLoading.value = false;
-        Get.snackbar("خطأ الحجز", errorMessage, backgroundColor: Colors.red, colorText: Colors.white);
+        AlertHelper.showSnackbar(
+          title: "فشل الحجز للغير", 
+          message: errorMessage, 
+          type: AlertType.error
+        );
       },
-      (appointmentData) {
+      (appointmentResponse) async {
         isBookingLoading.value = false;
-        Get.snackbar("نجاح العملية", appointmentData.message, backgroundColor: Colors.green, colorText: Colors.white);
-        
-        // هنا يمكنك تصفير الموعد المختار أو الرجوع للخلف:
-        selectedTime.value = null;
+        await syncAppointmentsSilently();
+
+        try {
+          await FirebaseFirestore.instance.collection('appointments').add({
+            'user_uuid': currentDoctor.value!.uuid,
+            'status': "has booked",
+            'appointment_uuid': appointmentResponse.patientData?.uuid ?? '', 
+            'date_time': selectedSlot.fullDate,
+          });
+        } catch (e) {
+          print(" [Firebase Sync Error]: $e");
+        }
+
+        someoneNameController.clear();
+        someoneNickNameController.clear();
+        someonePhoneController.clear();
+        someoneBirthdayController.clear();
+        someoneGender.value = StringManager.male;
+        bookForSomeoneElse.value = false; 
+
+        CustomActionDialog.show(
+          context: Get.context!,
+          icon: Icons.check,
+          iconColor: AppColors.primaryTeal,
+          iconBackgroundColor: AppColors.primaryTeal.withOpacity(0.1),
+          title: "تم الحجز بنجاح",
+          subtitle: "${appointmentResponse.message}\nللمريض: ${appointmentResponse.patientData?.name}",
+          confirmButtonText: StringManager.ok,
+          onConfirm: () => Get.back(),
+        );
       },
     );
   }
+}
 
-  String _convertTimeTo24H(String time12) {
-    try {
-      final parts = time12.split(' ');
-      final timeParts = parts[0].split(':');
-      int hour = int.parse(timeParts[0]);
-      String minute = timeParts[1];
-      String amPm = parts[1];
 
-      if (amPm == "PM" && hour != 12) hour += 12;
-      if (amPm == "AM" && hour == 12) hour = 0;
+*/
 
-      return "${hour.toString().padLeft(2, '0')}:$minute:00";
-    } catch (e) {
-      return "10:00:00";
-    }
-  }
-
-  String _getEnglishDayName(int weekday) {
-    switch (weekday) {
-      case DateTime.monday: return 'Monday';
-      case DateTime.tuesday: return 'Tuesday';
-      case DateTime.wednesday: return 'Wednesday';
-      case DateTime.thursday: return 'Thursday';
-      case DateTime.friday: return 'Friday';
-      case DateTime.saturday: return 'Saturday';
-      case DateTime.sunday: return 'Sunday';
-      default: return '';
-    }
-  }
-
-  String _getShortDayName(int weekday) {
-    switch (weekday) {
-      case DateTime.monday: return 'MON';
-      case DateTime.tuesday: return 'TUE';
-      case DateTime.wednesday: return 'WED';
-      case DateTime.thursday: return 'THU';
-      case DateTime.friday: return 'FRI';
-      case DateTime.saturday: return 'SAT';
-      case DateTime.sunday: return 'SUN';
-      default: return '';
-    }
-  }
-
-  void updateSelectedTime(String? time) {
-    selectedTime.value = time;
-  }
-
-  IconData getIconForSpecialty(String name) {
-    if (name.contains("القلبية")) return Icons.favorite_rounded;
-    if (name.contains("الأطفال")) return Icons.child_care_rounded;
-    if (name.contains("العصبية")) return Icons.psychology_rounded;
-    if (name.contains("العظمية")) return Icons.accessibility_new_rounded;
-    if (name.contains("الأسنان")) return Icons.attribution_rounded; 
-    if (name.contains("العينية")) return Icons.visibility_rounded;
-    return Icons.medical_services_rounded;
-  }
-
-  Color getColorForSpecialty(String name) {
-    if (name.contains("القلبية")) return AppColors.error.withOpacity(0.1);
-    if (name.contains("الأطفال")) return AppColors.warning.withOpacity(0.1);
-    if (name.contains("العصبية")) return Colors.purple.withOpacity(0.1);
-    if (name.contains("العظمية")) return AppColors.info.withOpacity(0.1);
-    if (name.contains("الأسنان")) return AppColors.primaryTeal.withOpacity(0.1);
-    if (name.contains("العينية")) return AppColors.success.withOpacity(0.1);
-    return Colors.blueGrey.withOpacity(0.1);
-  }
-
-  Color getIconColorForSpecialty(String name) {
-    if (name.contains("القلبية")) return AppColors.error;
-    if (name.contains("الأطفال")) return AppColors.warning;
-    if (name.contains("العصبية")) return Colors.purple;
-    if (name.contains("العظمية")) return AppColors.info;
-    if (name.contains("الأسنان")) return AppColors.primaryTeal;
-    if (name.contains("العينية")) return AppColors.success;
-    return Colors.blueGrey;
-  }
-
-  // 🌟 تم إيقاف الموكس القديمة واستبدالها بالقوائم الديناميكية في الأعلى لربط الـ UI الحقيقي
-  final List<Map<String, String>> mockDates = [];
-  final List<String> mockTimes = [];
-  final Map<String, String> workingHours = {};
-
-  void bookAppointment() {}
-}*/

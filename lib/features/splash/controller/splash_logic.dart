@@ -4,6 +4,7 @@ import 'package:raghad_pro/core/api/end_point.dart';
 import 'package:raghad_pro/core/cache/cashe_helper_getStorage.dart';
 import 'package:raghad_pro/core/constanse/app_assets.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
+import 'package:raghad_pro/features/chat/controller/notification_controller.dart';
 import 'package:raghad_pro/features/splash/model/splash_model.dart';
 
 class SplashController extends GetxController {
@@ -15,11 +16,13 @@ class SplashController extends GetxController {
 
   Future<void> checkAuthAndNavigate() async {
     await Future.delayed(const Duration(seconds: 3));
+   
 
     final bool isLoggedIn =
-        CacheHelperGetStorage.getData(key: ApiKey.accessToken) != null;
+        CacheHelperGetStorage.getData(key: ApiKey.token) != null;
 
     if (isLoggedIn) {
+       await Get.find<NotificationLogic>().requestPermissionAndSync();
       Get.offAllNamed(AppRoutes.home);
     } else {
       Get.offAllNamed(AppRoutes.onboarding);
@@ -33,7 +36,7 @@ class SplashController extends GetxController {
 
   final List<OnboardingModel> pages = [
     OnboardingModel(
-      image: Appassets.onboarding1,
+      image: Appassets.onboarding3,
       title: 'Book Doctors Easily',
       description: 'Find the best doctors and book appointments quickly.',
     ),
@@ -43,7 +46,7 @@ class SplashController extends GetxController {
       description: 'Manage prescriptions, appointments and medical history.',
     ),
     OnboardingModel(
-      image: Appassets.onboarding3,
+      image: Appassets.onboarding1,
       title: 'Connected Healthcare',
       description: 'Stay connected with clinics and specialists anytime.',
     ),
