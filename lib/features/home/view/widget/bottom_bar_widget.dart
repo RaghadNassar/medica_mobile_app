@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/app_assets.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
+import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/features/chat/controller/chatList_controller.dart';
 import 'package:raghad_pro/features/home/controller/main_controller.dart';
@@ -27,23 +28,23 @@ class MainNavigationScreen extends GetView<HomeNavigationController> {
             _buildNavItem(
               context,
               icon: Appassets.homeIcon,
-              label: StringManager.home,
+              label: StringManager.home.tr,
             ),
             _buildNavItem(
               context,
               icon: Appassets.messageIcon,
-              label: StringManager.message,
+              label: StringManager.message.tr,
               showBadge: true,
             ),
             _buildNavItem(
               context,
               icon: Appassets.appoIcon,
-              label: StringManager.appointment,
+              label: StringManager.appointment.tr,
             ),
             _buildNavItem(
               context,
               icon: Appassets.profileIcon,
-              label: StringManager.profile,
+              label: StringManager.profile.tr,
             ),
           ],
         ),
@@ -88,7 +89,7 @@ class MainNavigationScreen extends GetView<HomeNavigationController> {
               top: -6,
               child: Container(
                 padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle),
+                decoration:const BoxDecoration(color: AppColors.error, shape: BoxShape.circle),
                 constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
                 child: Center(
                   child: Text(

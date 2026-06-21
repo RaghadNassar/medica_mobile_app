@@ -11,15 +11,15 @@ import 'package:raghad_pro/features/home/data/model/scedual_mode.dart';
 import 'package:raghad_pro/features/home/data/model/slote_model.dart';
 import 'package:raghad_pro/features/home/data/model/top_doctor_model.dart';
 import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
-// تأكدي من مسار موديل البحث
 
+// detatil screen
 class DoctorBookingController extends GetxController {
   final RepostryHome repostryHome;
   DoctorBookingController(this.repostryHome);
 
   StreamSubscription? _firebaseSubscription;
 
-  // تفاصيل الطبيب والتقييم والسلوتس
+  
   final RxInt activeTabIndex = 0.obs;
   var userRating = 0.0.obs;
   final RxInt selectedDateIndex = 0.obs;
@@ -27,12 +27,10 @@ class DoctorBookingController extends GetxController {
   var isRatingLoading = false.obs;
   var currentDoctor = Rxn<TopDoctorModel>();
 
-  // ميزات تعديل المواعيد وإعادة الجدولة
   var isUpdateBookingLoading = false.obs;
   final RxBool isRescheduling = false.obs;        
   final RxString appointmentUuidToModify = ''.obs;
 
-  // ميزات جلب الأطباء والسلوتس والتاريخ
   var isDoctorsBySpecLoading = false.obs;
   var doctorsBySpecialty = <TopDoctorModel>[].obs;
   var isSchedulesLoading = false.obs;
@@ -43,7 +41,7 @@ class DoctorBookingController extends GetxController {
   var availableDatesList = <DateTime>[].obs;
   var isBookingLoading = false.obs;
 
-  // حقول الحجز لشخص آخر (تُنظف وتُدمر تلقائياً فور إغلاق الواجهة)
+  
   final someoneFormKey = GlobalKey<FormState>();
   var bookForSomeoneElse = false.obs;
   final someoneNameController = TextEditingController();
@@ -62,7 +60,7 @@ class DoctorBookingController extends GetxController {
   }
 
   void changeGender(String gender) {
-    // يمكنكِ ربطها بـ someoneGender أو استخدامها كدالة تغيير عامة للمريض الجديد
+   
     someoneGender.value = gender;
   }
 
@@ -82,7 +80,7 @@ class DoctorBookingController extends GetxController {
       initFirebaseRealtime(currentDoctor.value!.uuid, selectedDateStr);
     }
   }
-
+// هي لحتى اقدر مرر مودل  التفاصيل تبع الدكتور 
   void initDoctorDetails(TopDoctorModel doctor) {
     if (appointmentUuidToModify.isEmpty) {
       isRescheduling.value = false;
@@ -102,7 +100,7 @@ class DoctorBookingController extends GetxController {
       initFirebaseRealtime(doctor.uuid, initialDate);
     }
   }
-
+// هي لحتى اقدر مرر مودل  التفاصيل تبع الدكتور  بس للبحث 
   void initDoctorDetailsFromSearch(dynamic searchDoctor) {
     if (appointmentUuidToModify.isEmpty) {
       isRescheduling.value = false;
@@ -131,7 +129,7 @@ class DoctorBookingController extends GetxController {
       initFirebaseRealtime(searchDoctor.uuid, initialDate);
     }
   }
-
+//هي لحتى اقدر مرر مودل  التفاصيل تبع الدكتور  بس لتعديل حجز
   void initDoctorDetailsForReschedule({
     required TopDoctorModel doctor,
     required String appointmentUuid,
@@ -164,6 +162,7 @@ class DoctorBookingController extends GetxController {
     }
   }
 
+// هي لجلب الدكاترة ضمن اختصاص 
   Future<void> getDoctorsBySpecialty(String specialtyId) async {
     isDoctorsBySpecLoading.value = true;
     doctorsBySpecialty.clear();
@@ -180,7 +179,7 @@ class DoctorBookingController extends GetxController {
       },
     );
   }
-
+// هي لبرنامج دوام الدكتور 
   Future<void> getDoctorSchedules(String doctorUuid) async {
     isSchedulesLoading.value = true;
     doctorSchedules.clear();
@@ -197,7 +196,7 @@ class DoctorBookingController extends GetxController {
       },
     );
   }
-
+//هي لتنسيق البرنامج
   Map<String, String> get formattedWorkingHours {
     Map<String, String> hoursMap = {};
     for (var schedule in doctorSchedules) {
@@ -205,7 +204,7 @@ class DoctorBookingController extends GetxController {
     }
     return hoursMap;
   }
-
+//هي جلب المواعيد
   Future<void> getDoctorSlotsDynamic(String doctorUuid, String date) async {
     isSlotsLoading.value = true;
     doctorSlots.clear();
@@ -225,14 +224,14 @@ class DoctorBookingController extends GetxController {
       },
     );
   }
-
+// هي دالة الحجز 
   Future<void> bookAppointmentFinal() async {
     if (selectedTime.value == null) {
       Get.snackbar(
         "تنبيه",
         "الرجاء اختيار وقت محدد للحجز أولاً",
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.amber.withOpacity(0.3),
+        backgroundColor: AppColors.warning.withOpacity(0.3),
       );
       return;
     }
@@ -257,12 +256,10 @@ class DoctorBookingController extends GetxController {
       },
       (appointmentData) async {
         isBookingLoading.value = false;
-        
-        // مزامنة المواعيد في الخلفية
-        if(Get.isRegistered<PatientAppointmentController>()){
+          if(Get.isRegistered<PatientAppointmentController>()){
            await Get.find<PatientAppointmentController>().syncAppointmentsSilently();
         }
-
+// هون المزامنة مع الفيربيز
         try {
           await FirebaseFirestore.instance.collection('appointments').add({
             'user_uuid': currentDoctor.value!.uuid,

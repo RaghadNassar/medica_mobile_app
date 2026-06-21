@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:raghad_pro/core/helper/alert_helper.dart';
 import 'package:raghad_pro/features/home/data/model/get_booking.dart';
 import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
-
+// هاد خاص بالحجوزات وعرضا 
 class PatientAppointmentController extends GetxController {
   final RepostryHome repostryHome;
   PatientAppointmentController(this.repostryHome);
@@ -39,7 +39,7 @@ class PatientAppointmentController extends GetxController {
     );
   }
 
-  // دوال الفلترة الأربعة بدون أي تعديل أو نسيان
+  
   List<BookingModel> get bookedAppointments {
     return allAppointments.where((app) => app.status == 'has booked').toList();
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
@@ -22,7 +23,7 @@ class SubmitEditeprofile extends GetView<ProfileController> {
                   ),
                 )
               : CustomBottomWidget(
-                  text: StringManager.save, 
+                  text: StringManager.save.tr, 
                   backgroundColor: Theme.of(context).primaryColor,
                   colortext: Theme.of(context).colorScheme.surface,
                   onTap: () {

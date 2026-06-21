@@ -30,7 +30,7 @@ class UserModel {
   final String name;
   final String email;
   final String role;
-  final Map<String, dynamic>? info; // تم تعريفه كـ Map لأن السيرفر يرجعه ككائن فارغ حالياً {}
+  final Map<String, dynamic>? info; 
 
   UserModel({
     required this.uuid,

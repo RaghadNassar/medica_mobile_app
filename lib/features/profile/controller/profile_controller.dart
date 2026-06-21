@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,8 +7,6 @@ import 'package:raghad_pro/core/cache/cashe_helper_getStorage.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/core/helper/alert_helper.dart';
 import 'package:raghad_pro/core/helper/upload_image_api.dart';
-import 'package:raghad_pro/core/theme/theme_manage.dart';
-import 'package:raghad_pro/features/profile/controller/medical_hestory.dart';
 import 'package:raghad_pro/features/profile/data/model/profile_model.dart';
 import 'package:raghad_pro/features/profile/data/repostry/user_repostry.dart';
 
@@ -18,11 +14,14 @@ class ProfileBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProfileRepostry>(
-        () => ProfileRepostry(Get.find<ApiConsumer>()));
+      () => ProfileRepostry(Get.find<ApiConsumer>()),
+    );
     Get.lazyPut<ProfileController>(
-        () => ProfileController(Get.find<ProfileRepostry>()));
-    Get.lazyPut<MedicalHistoryController>(
-        () => MedicalHistoryController(Get.find<ProfileRepostry>()));
+      () => ProfileController(Get.find<ProfileRepostry>()),
+      fenix: true,
+    );
+    // Get.lazyPut<MedicalHistoryController>(
+    //     () => MedicalHistoryController(Get.find<ProfileRepostry>()));
     //Get.lazyPut<AuthLogic>(() => AuthLogic(Get.find<ProfileRepostry>()), fenix: true);
   }
 }
@@ -30,16 +29,12 @@ class ProfileBinding extends Bindings {
 class ProfileController extends GetxController {
   final ProfileRepostry repostry;
   ProfileController(this.repostry);
-  //primary
-  var isDarkMode = ThemeManage.isDarkModeActive().obs;
-  var currentLanguage = 'العربية'.obs;
 
   //update profile
   final formKeyprofile = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController nickNameController =
-      TextEditingController(); // مستخدم بويدجت الإدخال عندكِ
+  TextEditingController nickNameController = TextEditingController();
   TextEditingController emailUpController = TextEditingController();
   TextEditingController passwordUPController = TextEditingController();
   TextEditingController confirmpasswordUPController = TextEditingController();
@@ -57,32 +52,19 @@ class ProfileController extends GetxController {
 //logout
   var isLogoutLoading = false.obs;
 
+  @override
   void onInit() {
     super.onInit();
-    nameController = TextEditingController();
-    nickNameController = TextEditingController();
-    emailUpController = TextEditingController();
-    passwordUPController = TextEditingController();
-    confirmpasswordUPController = TextEditingController();
-    phone = TextEditingController();
-    dateOfBridth = TextEditingController();
-   getProfile().then((_) {
-    fillControllersWithCurrentData();
-  });
-  }
-
-// theme
-
-  void toggleTheme(bool value) {
-    ThemeManage.changeThemeMode();
-    isDarkMode.value = value;
+    getProfile().then((_) {
+      fillControllersWithCurrentData();
+    });
   }
 
   void fillControllersWithCurrentData() {
     if (patientProfile.value != null) {
       final info = patientProfile.value!.data.personalInfo;
       nameController.text = info.name;
-      nickNameController.text = info.name; // تعبئة الاسم مؤقتاً باللقب أيضاً
+      //nickNameController.text = info.nickname;
       emailUpController.text = info.email;
       phone.text = info.number;
       dateOfBridth.text = info.birthday;
@@ -95,7 +77,10 @@ class ProfileController extends GetxController {
 
   Future<void> pickProfileImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery,imageQuality: 50,);
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
 
     if (image != null) {
       pickedImage.value = image;
@@ -119,15 +104,6 @@ class ProfileController extends GetxController {
     );
     if (picked != null) {
       dateOfBridth.text = picked.toString().split(' ')[0]; // YYYY-MM-DD
-    }
-  }
-
-  void changeLanguage(String lang) {
-    currentLanguage.value = lang;
-    if (lang == 'English') {
-      Get.updateLocale(const Locale('en', 'US'));
-    } else {
-      Get.updateLocale(const Locale('ar', 'SY'));
     }
   }
 
@@ -237,3 +213,40 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 }
+
+
+
+/*
+//primary
+  var isDarkMode = ThemeManage.isDarkModeActive().obs;
+  var currentLanguage = 'العربية'.obs;
+   // void onInit() {
+  //   super.onInit();
+  //   nameController = TextEditingController();
+  //   nickNameController = TextEditingController();
+  //   emailUpController = TextEditingController();
+  //   passwordUPController = TextEditingController();
+  //   confirmpasswordUPController = TextEditingController();
+  //   phone = TextEditingController();
+  //   dateOfBridth = TextEditingController();
+  //  getProfile().then((_) {
+  //   fillControllersWithCurrentData();
+  // });
+  // }
+  // theme
+
+  void toggleTheme(bool value) {
+    ThemeManage.changeThemeMode();
+    isDarkMode.value = value;
+  }
+ void changeLanguage(String lang) {
+    currentLanguage.value = lang;
+    if (lang == 'English') {
+      Get.updateLocale(const Locale('en', 'US'));
+    } else {
+      Get.updateLocale(const Locale('ar', 'SY'));
+    }
+  }
+ 
+
+*/

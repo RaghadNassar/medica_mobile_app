@@ -51,7 +51,8 @@ class AuthRepostry {
           ApiKey.confirmPassword: confirmPassword,
           ApiKey.phone: phone,
           ApiKey.gender: gender,
-          ApiKey.dateOfBirth: dateOfBirth,
+          ApiKey.birthday: dateOfBirth
+         // ApiKey.dateOfBirth: dateOfBirth,
         },
       );
       final Map<String, dynamic> rawData =
@@ -95,7 +96,7 @@ class AuthRepostry {
   Future<Either<String, Map<String, dynamic>>> forgetPassword(
       {required String email}) async {
     try {
-      // تمرير الـ EndPoint والـ Body المطلوب "email"
+    
       final response = await api.post(
         EndPoint.forgetPassword,
         data: {ApiKey.email: email},
@@ -122,7 +123,7 @@ class AuthRepostry {
     required String code,
   }) async {
     try {
-      // ملاحظة: الـ API يتوقع حقل 'contact' عند التحقق من الكود، لذلك نرسل القيمة تحت هذا المفتاح
+    
       final response = await api.post(
         EndPoint.verifyOtp,
         data: {
@@ -158,7 +159,6 @@ class AuthRepostry {
         data: {
           ApiKey.contact: email,
           ApiKey.password: password,
-          // الخادم يتوقع المفتاح 'password_confirmation'
           ApiKey.passwordConfirmation: passwordConfirmation,
         },
       );

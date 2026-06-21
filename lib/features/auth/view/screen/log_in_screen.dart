@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/features/auth/view/widget/auth_logo_color.dart';
@@ -20,7 +21,7 @@ class SignInScreen extends StatelessWidget {
           SizedBox(height: context.heightPct(0.05)),
           const AuthLogoColorWidget(),
           SizedBox(height: context.heightPct(0.04)),
-         const  CustomTextHeadLineWidget(title:StringManager.logIn),
+           CustomTextHeadLineWidget(title:StringManager.logIn.tr),
           SizedBox(height: context.heightPct(0.04)),
          const InputLogin(),
          const SubmitWidget(),
@@ -31,6 +32,60 @@ class SignInScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     // حقل البريد الإلكتروني

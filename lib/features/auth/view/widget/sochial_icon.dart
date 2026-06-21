@@ -33,7 +33,7 @@ class SochialIconWidget extends StatelessWidget {
     
 
   }
-    // ويدجت أيقونات السوشيال ميديا (SVG)
+  
   Widget _socialIcon(String path) {
     return Container(
       padding: const EdgeInsets.all(12),

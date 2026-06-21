@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/app_assets.dart';
+import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
+import 'package:raghad_pro/features/splash/controller/splash_logic.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -12,6 +15,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView>
     with SingleTickerProviderStateMixin {
+  final SplashController controller = Get.find<SplashController>();
   late final AnimationController _animationController;
 
   late final Animation<Offset> _logoAnimation;
@@ -23,7 +27,6 @@ class _SplashViewState extends State<SplashView>
   @override
   void initState() {
     super.initState();
-
     _initializeAnimations();
   }
 
@@ -33,7 +36,6 @@ class _SplashViewState extends State<SplashView>
       duration: const Duration(milliseconds: 1800),
     );
 
-    // حركة الشعار من اليمين
     _logoAnimation = Tween<Offset>(
       begin: const Offset(1.2, 0),
       end: Offset.zero,
@@ -44,7 +46,6 @@ class _SplashViewState extends State<SplashView>
       ),
     );
 
-    // حركة النص من اليسار
     _textAnimation = Tween<Offset>(
       begin: const Offset(-1.2, 0),
       end: Offset.zero,
@@ -55,7 +56,6 @@ class _SplashViewState extends State<SplashView>
       ),
     );
 
-    // Fade animation
     _fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
@@ -66,7 +66,6 @@ class _SplashViewState extends State<SplashView>
       ),
     );
 
-    // Zoom animation
     _scaleAnimation = Tween<double>(
       begin: 0.85,
       end: 1,
@@ -117,7 +116,7 @@ class _SplashViewState extends State<SplashView>
                   SlideTransition(
                     position: _textAnimation,
                     child: Text(
-                      'Medica',
+                      StringManager.medica.tr,
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
                             color: AppColors.lightSurface,
                             fontWeight: FontWeight.w700,
@@ -129,7 +128,7 @@ class _SplashViewState extends State<SplashView>
                   SizedBox(height: context.heightPct(0.01)),
 
                   Text(
-                    'Your Health, Connected',
+                    StringManager.onboardingTitle3.tr,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.white70,
                           letterSpacing: 1.2,

@@ -32,6 +32,7 @@ class PatientInfo {
   final int id;
   final String uuid;
   final String name;
+  // final String nickname;
   final String email;
   final String number;
   final String gender;
@@ -45,6 +46,8 @@ class PatientInfo {
     required this.id,
     required this.uuid,
     required this.name,
+   // required this.nickname,
+
     required this.email,
     required this.number,
     required this.gender,
@@ -60,6 +63,7 @@ class PatientInfo {
       id: json[ApiKey.id] ?? 0,
       uuid: json[ApiKey.uuid] ?? '',
       name: json[ApiKey.name] ?? '',
+    //  nickname: json[ApiKey.nickName] ?? '',
       email: json[ApiKey.email] ?? '',
       number: json[ApiKey.number] ?? '',
       gender: json[ApiKey.gender] ?? '',

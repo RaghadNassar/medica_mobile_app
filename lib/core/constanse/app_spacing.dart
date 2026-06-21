@@ -39,6 +39,7 @@ class AppSpacing {
   static const screenPadding8 = EdgeInsets.only(bottom: 10);
   static const bottom16 = EdgeInsets.only(bottom: 16);
   static const only = EdgeInsets.only(left: 6.0, bottom: 6.0, right: 6.0);
+  static const only2= EdgeInsets.only(left: 4.0, bottom: 8.0, right: 4.0);
 
   // sized box
   static const SizedBox h8 = SizedBox(height: 8);

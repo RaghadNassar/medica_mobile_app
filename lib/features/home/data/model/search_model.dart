@@ -44,14 +44,14 @@ class SearchResponseModel {
   }
 }
 
-// كائن طبيب مصغر خاص بالبحث فقط
+
 class SearchDoctorItem {
   final String uuid;
   final String name;
   final String specialization;
   final String clinic;
-  final String? image; // 📸 الحقل الحاسم الذي سقط سهواً (nullable لأنها قد تأتي null من السيرفر)
-  final String visitTime; // ⏱️ ممررة كـ String لقراءة الـ "00:20:00" الحقيقية
+  final String? image; 
+  final String visitTime; 
   final int patientsCount;
   final double averageRating;
   final int reviewersCount;
@@ -61,8 +61,8 @@ class SearchDoctorItem {
     required this.name, 
     required this.specialization,
     required this.clinic,
-    this.image, // 📸
-    required this.visitTime, // ⏱️
+    this.image,
+    required this.visitTime, 
     required this.patientsCount,
     required this.averageRating,
     required this.reviewersCount,
@@ -74,8 +74,8 @@ class SearchDoctorItem {
       name: json['name'] ?? '',
       specialization: json['specialization'] ?? '',
       clinic: json['clinic'] ?? '',
-      image: json['image'], // 📸 قراءة الرابط القادم من السيرفر مباشرة
-      visitTime: json['visit_time'] ?? '00:30:00', // ⏱️ قراءة الوقت الحقيقي، مع قيمة افتراضية احتياطاً
+      image: json['image'], 
+      visitTime: json['visit_time'] ?? '00:30:00', 
       patientsCount: json['patients_count'] ?? 0,
       averageRating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       reviewersCount: json['reviewers_count'] ?? 0,
@@ -83,7 +83,7 @@ class SearchDoctorItem {
   }
 }
 
-// كائن اختصاص مصغر خاص بالبحث فقط
+
 class SearchSpecializationItem {
   final String uuid;
   final String name;
@@ -97,6 +97,37 @@ class SearchSpecializationItem {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 class SearchResponseModel {
   final bool success;

@@ -1,10 +1,12 @@
 // lib/features/profile/presentation/widgets/medical_visit_card.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/features/profile/data/model/hestory_medical.dart';
+import 'package:raghad_pro/main.dart';
 
 class MedicalVisitCard extends StatelessWidget {
   final MedicalRecordModel record;
@@ -20,7 +22,7 @@ class MedicalVisitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isCheck = record.visitType == 'check';
     final Color sideColor = isCheck ?AppColors.info : AppColors.warning;
-    final String typeLabel = isCheck ?  StringManager.check: StringManager.review;
+    final String typeLabel = isCheck ?  StringManager.check.tr: StringManager.review.tr;
 
     return Container(
       margin:AppSpacing.bottom16,
@@ -28,7 +30,7 @@ class MedicalVisitCard extends StatelessWidget {
         color: AppColors.lightSurface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 8, offset: const Offset(0, 4))
+          BoxShadow(color: AppColors.black.withOpacity(0.02), blurRadius: 8, offset: const Offset(0, 4))
         ],
       ),
       child: IntrinsicHeight(

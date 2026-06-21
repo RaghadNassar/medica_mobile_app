@@ -111,6 +111,7 @@ class ApiKey {
   static String phone = 'phone';
   static String gender = 'gender';
   static String dateOfBirth = 'date_of_birth';
+  
   static String username = 'username';
   static String contact = "contact";
   static String code = "code";

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomTextClickable extends StatelessWidget {
-  final String? text;      // النص العادي (رمادي مثلاً)
-  final String linkText;   // النص الملون والقابل للضغط
+  final String? text;     
+  final String linkText;  
   final VoidCallback onTap;
   final AlignmentGeometry alignment;
   final bool isUnderline;
@@ -12,7 +12,7 @@ class CustomTextClickable extends StatelessWidget {
     this.text,
     required this.linkText,
     required this.onTap,
-    this.alignment = Alignment.center, // القيمة الافتراضية في المنتصف
+    this.alignment = Alignment.center,
     this.isUnderline = false,
   });
 
@@ -23,7 +23,7 @@ class CustomTextClickable extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Row(
-          mainAxisSize: MainAxisSize.min, // ليأخذ مساحة النص فقط
+          mainAxisSize: MainAxisSize.min, 
           children: [
             if (text != null) ...[
               Text(text!, style: Theme.of(context).textTheme.bodyMedium),

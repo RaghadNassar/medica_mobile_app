@@ -4,13 +4,12 @@ import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
-import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
-import 'package:raghad_pro/features/auth/view/widget/auth_logo_color.dart';
+import 'package:raghad_pro/features/auth/controler/reset_password.dart';
 import 'package:raghad_pro/features/auth/view/widget/auth_scaffold.dart';
 import 'package:raghad_pro/features/auth/view/widget/input_reset_password.dart';
 import 'package:raghad_pro/features/auth/view/widget/text_head_line.dart';
 
-class ResetPasswordScreen extends GetView<AuthLogic> {
+class ResetPasswordScreen extends GetView<ResetPasswordController> {
   const ResetPasswordScreen({super.key});
 
   @override
@@ -28,7 +27,7 @@ class ResetPasswordScreen extends GetView<AuthLogic> {
           const InputResetPassword(),
           SizedBox(height: context.heightPct(0.04)),
           Obx(() {
-            return controller.isResetPasswordLoading.value
+            return controller.isLoading.value
                 ? const Center(
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.0),

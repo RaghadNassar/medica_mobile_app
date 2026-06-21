@@ -1,42 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:raghad_pro/core/utilis/size_config.dart';
-// // تأكدي من استيراد كلاس الألوان الخاص بكِ
 
-// class AppLogoWithText extends StatelessWidget {
-//   final double logoHeight;
-//   final TextStyle style;
-//   final String imageLogo;
-//   final Color colorImage;
-
-//   const AppLogoWithText({
-//     super.key,
-//     this.logoHeight = 75,
-//     required this.imageLogo,
-//     required this.colorImage,
-//     required this.style,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         // شعار السماعة
-//         Image.asset(
-//           imageLogo,
-//           height: logoHeight,
-//           // استخدام اللون الأساسي للتطبيق لضمان التطابق مع الاسم
-//           color: colorImage,
-//           colorBlendMode: BlendMode.srcIn,
-//         ),
-//         SizedBox(height: context.heightPct(0.001)),
-//         // اسم التطبيق Medica
-//         Text('Medica', style: style),
-//       ],
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
+import 'package:raghad_pro/core/constanse/string_manager.dart';
 
 class AppLogoWithText extends StatelessWidget {
   final double logoHeight;
@@ -82,7 +46,7 @@ class AppLogoWithText extends StatelessWidget {
 
         
         Text(
-          'Medica', 
+          StringManager.medica, 
           style: style,
         ),
       ],

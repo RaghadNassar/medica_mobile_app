@@ -3,56 +3,56 @@ import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/helper/validation.dart';
 import 'package:raghad_pro/core/widget/custom_text_filed.dart';
-import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
+import 'package:raghad_pro/features/auth/controler/reset_password.dart';
 
-class InputResetPassword extends GetView<AuthLogic> {
+class InputResetPassword extends GetView<ResetPasswordController> {
   const InputResetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: controller.formKeyResetPassword,
+      key: controller.formKey,
       child: Column(
         children: [
-          CustomTextFiled(
-            labl: StringManager.email,
-            hinttext: StringManager.enterEmail,
-            prefixIcon: Icons.email_outlined,
-            textInputType: TextInputType.emailAddress,
-            textcontroler: controller.forgetEmailController,
-            validate: (value) => Validator.validateEmail(value ?? ''),
-          ),
+          // CustomTextFiled(
+          //   labl: StringManager.email.tr,
+          //   hinttext: StringManager.enterEmail.tr,
+          //   prefixIcon: Icons.email_outlined,
+          //   textInputType: TextInputType.emailAddress,
+          //   textcontroler: controller.patientEmail,
+          //   validate: (value) => Validator.validateEmail(value ?? ''),
+          // ),
           const SizedBox(height: 16),
           Obx(() => CustomTextFiled(
-                labl: StringManager.password,
-                hinttext: StringManager.enterPassword,
+                labl: StringManager.password.tr,
+                hinttext: StringManager.enterPassword.tr,
                 prefixIcon: Icons.lock_outline,
-                suffixIcon: controller.isResetPasswordHidden.value
+                suffixIcon: controller.isPasswordHidden.value
                     ? Icons.visibility_off
                     : Icons.visibility,
-                textcontroler: controller.resetPasswordController,
-                obscureText: controller.isResetPasswordHidden.value,
+                textcontroler: controller.passwordController,
+                obscureText: controller.isPasswordHidden.value,
                 onTapSuffixIcon: () {
-                  controller.toggleResetPasswordVisibility();
+                  controller.togglePassword();
                 },
                 validate: (value) => Validator.validatePassword(value ?? ''),
               )),
           const SizedBox(height: 16),
           Obx(() => CustomTextFiled(
-                labl: StringManager.confirm_password,
-                hinttext: StringManager.enterconfirm_password,
+                labl: StringManager.confirm_password.tr,
+                hinttext: StringManager.enterconfirm_password.tr,
                 prefixIcon: Icons.lock_reset,
-                suffixIcon: controller.isResetConfirmPasswordHidden.value
+                suffixIcon: controller.isConfirmPasswordHidden.value
                     ? Icons.visibility_off
                     : Icons.visibility,
-                textcontroler: controller.resetConfirmPasswordController,
-                obscureText: controller.isResetConfirmPasswordHidden.value,
+                textcontroler: controller.confirmPasswordController,
+                obscureText: controller.isConfirmPasswordHidden.value,
                 onTapSuffixIcon: () {
-                  controller.toggleResetConfirmPasswordVisibility();
+                  controller.toggleConfirmPassword();
                 },
                 validate: (value) => Validator.validateConfirmPassword(
                   value,
-                  controller.resetPasswordController.text,
+                  controller.passwordController.text,
                 ),
               )),
         ],

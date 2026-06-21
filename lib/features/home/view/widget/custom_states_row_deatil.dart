@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_state_card.dart';
@@ -30,7 +31,7 @@ class DoctorStatsRow extends StatelessWidget {
           child: CustomStatCard(
             icon: Icons.people_outline,
             title: patients,
-            subtitle: StringManager.patients,
+            subtitle: StringManager.patients.tr,
           ),
         ),
         cardSpacing,
@@ -40,7 +41,7 @@ class DoctorStatsRow extends StatelessWidget {
           child: CustomStatCard(
             icon: Icons.star_border_rounded,
             title: rating,
-            subtitle: StringManager.ratings,
+            subtitle: StringManager.ratings.tr,
           ),
         ),
         cardSpacing,
@@ -50,7 +51,7 @@ class DoctorStatsRow extends StatelessWidget {
           child: CustomStatCard(
             icon: Icons.reviews_outlined,
             title: experience,
-            subtitle: StringManager.reviews,
+            subtitle: StringManager.reviews.tr,
           ),
         ),
       ],

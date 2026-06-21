@@ -1,24 +1,25 @@
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
+import 'package:raghad_pro/features/auth/controler/forget_password.dart';
+import 'package:raghad_pro/features/auth/controler/login_controller.dart';
+import 'package:raghad_pro/features/auth/controler/regester_controller.dart';
 import 'package:raghad_pro/features/auth/view/screen/forget_pasword_screen.dart';
+import 'package:raghad_pro/features/auth/view/screen/go_auth_screen.dart';
 import 'package:raghad_pro/features/auth/view/screen/log_in_screen.dart';
 import 'package:raghad_pro/features/auth/view/screen/regester_screen.dart';
 import 'package:raghad_pro/features/auth/view/screen/reset_password_screen.dart';
 import 'package:raghad_pro/features/auth/view/screen/verfiey_code_screen.dart';
-import 'package:raghad_pro/features/chat/controller/chatList_controller.dart';
 import 'package:raghad_pro/features/chat/view/screen/chatList_screen.dart';
 import 'package:raghad_pro/features/chat/view/screen/chat_view.dart';
 import 'package:raghad_pro/features/home/controller/home_controller.dart';
-import 'package:raghad_pro/features/home/controller/search_controller.dart';
-import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
 import 'package:raghad_pro/features/home/view/screen/all_doctor_spicialize_screen.dart';
 import 'package:raghad_pro/features/home/view/screen/appoinment_screen.dart';
 import 'package:raghad_pro/features/home/view/screen/detail_screen.dart';
 import 'package:raghad_pro/features/home/view/screen/search_screen.dart';
+import 'package:raghad_pro/features/onboarding/controller/onboarding_logic.dart';
+import 'package:raghad_pro/features/onboarding/view/screen/on_bording.dart';
 import 'package:raghad_pro/features/profile/controller/profile_controller.dart';
 import 'package:raghad_pro/features/profile/presentation/screen/edite_profile.dart';
 import 'package:raghad_pro/features/profile/presentation/screen/medecal_hestory.dart';
@@ -27,9 +28,9 @@ import 'package:raghad_pro/features/profile/presentation/screen/notification_scr
 import 'package:raghad_pro/features/profile/presentation/screen/profile_screen.dart';
 import 'package:raghad_pro/features/home/view/widget/bottom_bar_widget.dart';
 import 'package:raghad_pro/features/profile/presentation/screen/setting_screen.dart';
-import 'package:raghad_pro/features/splash/binding/splash_binding.dart';
-import 'package:raghad_pro/features/splash/view/screen/go_auth_screen.dart';
-import 'package:raghad_pro/features/splash/view/screen/on_bording_splash.dart';
+import 'package:raghad_pro/features/settings/controller/settings_logic.dart';
+import 'package:raghad_pro/features/settings/view/screen/setting_screen.dart';
+import 'package:raghad_pro/features/splash/controller/splash_logic.dart';
 import 'package:raghad_pro/features/splash/view/screen/splash_screen.dart';
 
 // class AppPages {
@@ -140,57 +141,62 @@ import 'package:raghad_pro/features/splash/view/screen/splash_screen.dart';
 //   ];
 // }
 class AppPages {
-  // المسار الابتدائي
   static const INITIAL = AppRoutes.splash;
 
   static final routes = [
-    GetPage(
-      name: AppRoutes.splash,
-      page: () => const SplashView(),
-      binding: SplashBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.onboarding,
-      page: () => const OnboardingView(),
-    ),
+   GetPage(
+  name: AppRoutes.splash,
+  page: () => const SplashView(),
+  //binding: SplashBinding(), 
+),
+GetPage(
+  name: AppRoutes.onboarding,
+  page: () => const OnboardingView(),
+  binding: OnboardingBinding(), 
+),
     GetPage(
       name: AppRoutes.goAuth,
       page: () => const GoAuthScreen(),
     ),
-    GetPage(
+   GetPage(
       name: AppRoutes.login,
       page: () => const SignInScreen(),
-      binding: AuthBinding(), // حقن الـ AuthController
+      binding: LoginBinding(),
     ),
     GetPage(
       name: AppRoutes.signUp,
       page: () => const RegesterScreen(),
-      binding: AuthBinding(),
+      binding: RegisterBinding(), 
     ),
     GetPage(
       name: AppRoutes.forgotPassword,
       page: () => const ForgetPaswordScreen(),
-      binding: AuthBinding(),
+      binding: ForgotPasswordBinding(), 
     ),
     GetPage(
       name: AppRoutes.verficationCode,
       page: () => const VerificationCodeScreen(),
-      binding: AuthBinding(),
+      binding: ForgotPasswordBinding(),
     ),
     GetPage(
       name: AppRoutes.resetPassword,
       page: () => const ResetPasswordScreen(),
-      binding: AuthBinding(),
+      binding: ForgotPasswordBinding(), 
     ),
     GetPage(
       name: AppRoutes.home,
       page: () => const MainNavigationScreen(),
-      binding: MainNavigationBinding(), // يحقن كافة كونترولرات النظام الأساسية بالتوازي
+    //  binding: MainNavigationBinding(), 
+     bindings: [
+    MainNavigationBinding(),
+    SettingsBinding(),
+    ProfileBinding(),
+  ],
     ),
     GetPage(
   name: AppRoutes.alldoctor, // أو الاسم المعرف في AppRoutes
   page: () => const AllDoctorSpecializeScreen(),
-  binding: MainNavigationBinding(), // 💡 لضمان إعادة تهيئة الكونترولر عند كل دخول
+  binding: MainNavigationBinding(), 
 ),
     GetPage(
       name: AppRoutes.profile,
@@ -205,12 +211,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.appoinment,
       page: () => const AppoinmentScreen(),
-      binding: MainNavigationBinding(), // 💡 تفعيل الحاقن لضمان وجود PatientAppointmentController
+      binding: MainNavigationBinding(), 
     ),
     GetPage(
       name: AppRoutes.settings,
       page: () => const SettingsScreen(),
-      binding: MainNavigationBinding(), // 💡 تفعيل الحاقن لضمان استقرارية النظام الملاحي
+      binding: SettingsBinding(), 
     ),
     GetPage(
       name: AppRoutes.medicalHistory,

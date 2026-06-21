@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
+import 'package:raghad_pro/features/profile/controller/profile_controller.dart';
 /*
 class UserInformation extends StatelessWidget {
   final ThemeData theme;
@@ -33,7 +34,7 @@ class UserInformation extends StatelessWidget {
     );
   }
 }*/
-class UserInformation extends GetView<AuthLogic> {
+class UserInformation extends GetView<ProfileController> {
   final ThemeData theme;
   final String name;
   final String email;
