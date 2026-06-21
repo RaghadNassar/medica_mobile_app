@@ -5,16 +5,16 @@ import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
-import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
+import 'package:raghad_pro/features/auth/controler/otp_controller.dart';
 import 'package:raghad_pro/features/auth/view/widget/text_click.dart';
-import 'package:raghad_pro/features/splash/model/splash_model.dart';
-import 'package:raghad_pro/features/splash/view/widget/onboarding_body.dart';
-class VerificationCodeScreen extends GetView<AuthLogic> {
+import 'package:raghad_pro/features/onboarding/model/onboarding_model.dart';
+import 'package:raghad_pro/features/onboarding/view/widget/onboarding_body.dart';
+class VerificationCodeScreen extends GetView<OtpController> {
   const VerificationCodeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    controller.currentPatientEmail = Get.arguments ?? "";
+  //  controller.patientEmail = Get.arguments ?? "";
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -33,8 +33,9 @@ class VerificationCodeScreen extends GetView<AuthLogic> {
               SizedBox(height: context.heightPct(0.05)),
               OnboardingBody(
                 model: OnboardingModel(
-                  title: StringManager.enterotp,
-                  description: "Enter code that we have sent to your email:\n${controller.currentPatientEmail}",
+                  title: StringManager.enterotp.tr,
+                  description: StringManager.otpEmailDesc.tr
+                      .replaceAll('%s', controller.patientEmail),
                 ),
               ),
               SizedBox(height: context.heightPct(0.05)),
@@ -48,16 +49,16 @@ class VerificationCodeScreen extends GetView<AuthLogic> {
                   focusedPinTheme: _getPinTheme(context, isSelected: true),
                   submittedPinTheme: _getPinTheme(context, isSubmitted: true),
                   onCompleted: (pin) {
-                    controller.verifyOtp(); // تنفيذ التحقق التلقائي فور اكتمال كتابة الأرقام الستة
+                    controller.verifyOtp(); 
                   },
                 ),
               ),
 
               SizedBox(height: context.heightPct(0.06)),
-              Obx(() => controller.isVerifyOtpLoading.value
+              Obx(() => controller.isLoading.value
                   ? const Center(child: CircularProgressIndicator())
                   : CustomBottomWidget(
-                      text: "Verify",
+                      text: StringManager.verfiey.tr,
                       backgroundColor: Theme.of(context).primaryColor,
                       colortext: Theme.of(context).colorScheme.onPrimary, 
                       onTap: () {
@@ -77,16 +78,15 @@ class VerificationCodeScreen extends GetView<AuthLogic> {
 
   Widget _buildResendSection(BuildContext context) {
     return CustomTextClickable(
-      text: StringManager.Didntreceivethecode,
-      linkText: StringManager.resend,
+      text: StringManager.Didntreceivethecode.tr,
+      linkText: StringManager.resend.tr,
       onTap: () {
        
-        controller.forgetPassword(); 
+        controller.resendOtp(); 
       },
     );
   }
 
-  // --- Logic-Based UI Styling (Clean Code) ---
   PinTheme _getPinTheme(BuildContext context,
       {bool isSelected = false, bool isSubmitted = false}) {
     final theme = Theme.of(context);
@@ -112,6 +112,40 @@ class VerificationCodeScreen extends GetView<AuthLogic> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 class VerificationCodeScreen extends StatelessWidget {
   const VerificationCodeScreen({super.key});

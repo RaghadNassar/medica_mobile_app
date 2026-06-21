@@ -12,8 +12,8 @@ class HomeScreen extends StatelessWidget {
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: [
-            HomeHeaderSection(), // الجزء العلوي (اللوغو والإشعارات)
-            HomeBodyContent(),   // باقي المحتوى (البحث، الاختصاصات، الأطباء)
+            HomeHeaderSection(), 
+            HomeBodyContent(),  
           ],
         ),
       ),

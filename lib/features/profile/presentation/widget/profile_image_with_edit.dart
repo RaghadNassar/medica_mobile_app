@@ -54,11 +54,11 @@ class ProfileImageWithEdit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final double imageSize = context.widthPct(0.22);
+    final double imageSize = context.widthPct(0.25);
 
     return SizedBox(
-      height: imageSize + 10,
-      width: imageSize + 10,
+      height: imageSize,
+      width: imageSize + 5,
       child: Stack(
         alignment: Alignment.topLeft,
         children: [
@@ -87,7 +87,7 @@ class ProfileImageWithEdit extends StatelessWidget {
                   ),
                 )
               : _buildDefaultUserIcon(
-                  imageSize, theme), // إذا كان الرابط نل أو فارغاً
+                  imageSize, theme), 
 
           Positioned(
             bottom: 0,

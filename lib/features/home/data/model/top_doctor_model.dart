@@ -60,6 +60,24 @@ class TopDoctorModel {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 class TopDoctorModel {
   final String uuid;

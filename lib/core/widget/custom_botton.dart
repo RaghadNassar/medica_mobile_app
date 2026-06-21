@@ -23,7 +23,7 @@ class CustomBottomWidget extends StatelessWidget {
     this.icon,
     this.backgroundColor,
     this.textColor = Colors.white,
-    this.fontSize = 18,
+    this.fontSize = 22,
     this.fontWeight = FontWeight.normal,
     this.width,
     this.hight = 50,

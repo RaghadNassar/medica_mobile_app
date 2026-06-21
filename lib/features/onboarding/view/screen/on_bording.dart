@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:raghad_pro/features/splash/controller/splash_logic.dart';
-import 'package:raghad_pro/features/splash/view/widget/onboarding_body.dart';
-import 'package:raghad_pro/features/splash/view/widget/onboarding_footer.dart';
-import 'package:raghad_pro/features/splash/view/widget/onboarding_header.dart';
-
-class OnboardingView extends GetView<SplashController> {
+import 'package:raghad_pro/features/onboarding/controller/onboarding_logic.dart';
+import 'package:raghad_pro/features/onboarding/view/widget/onboarding_body.dart';
+import 'package:raghad_pro/features/onboarding/view/widget/onboarding_footer.dart';
+import 'package:raghad_pro/features/onboarding/view/widget/onboarding_header.dart';
+class OnboardingView extends GetView<OnboardingController> {
   const OnboardingView({super.key});
 
   @override
@@ -16,27 +15,24 @@ class OnboardingView extends GetView<SplashController> {
         child: Obx(
           () => Column(
             children: [
-              /// HEADER
+            
               OnboardingHeader(
                 currentIndex: controller.currentIndex.value,
                 total: controller.pages.length,
+                onSkip: controller.skip,
               ),
 
-              /// PAGES
               Expanded(
                 child: PageView.builder(
                   controller: controller.pageController,
                   itemCount: controller.pages.length,
                   onPageChanged: controller.changePage,
                   itemBuilder: (context, index) {
-                    final item = controller.pages[index];
-
-                    return OnboardingBody(model: item);
+                    return OnboardingBody(model: controller.pages[index]);
                   },
                 ),
               ),
 
-              /// FOOTER
               OnboardingFooter(
                 currentIndex: controller.currentIndex.value,
                 total: controller.pages.length,

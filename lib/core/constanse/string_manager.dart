@@ -1,4 +1,32 @@
 class StringManager {
+  static const String medica = 'Medica';
+  static const String usernameeg = "e.g., raghad_nassar";
+  static const String nick = "e.g., raghad";
+  static const String emaile = "name@example.com";
+  static const String phoneex = "09xx xxx xxx";
+  static const String date = "YYYY-MM-DD";
+  static const String verfiey = "Verfiy";
+  static const String authFailed = "authFailed";
+  static const String registerFailed = "registerFailed";
+  static const String errorTitle = "errorTitle";
+  static const String successTitle = "successTitle";
+  static const String warningTitle = "warningTitle";
+  static const String otpSentSuccess = "otpSentSuccess";
+  static const String otpLengthWarning = "otpLengthWarning";
+  static const String otpVerificationFailed = "otpVerificationFailed";
+  static const String otpVerifiedSuccess = "otpVerifiedSuccess";
+  static const String resetPasswordFailed = "resetPasswordFailed";
+  static const String resetPasswordSuccess = "resetPasswordSuccess";
+  static const String stepOneWarning = "stepOneWarning";
+  static const String enterCodeSentTo = "enterCodeSentTo";
+  static const String otpSent = 'otp_sent';
+  static const String otpIncomplete = 'otp_incomplete';
+  static const String otpSuccess = 'otp_success';
+  static const String passwordUpdated = 'password_updated';
+  static const String otpEmailDesc = 'otp email desc';
+  static const String letGetStarted = 'lets get started';
+  static const String loginGetStartedDesc = 'login get started desc';
+
   static const String email = "Email";
   static const String enterEmail = "enter your email";
   static const String password = "Password";
@@ -24,10 +52,13 @@ class StringManager {
   static const String signin = "Sign In";
   static const String logIn = 'Log In!';
   static const String forgetPassword = 'Forget Password? ';
-   static const String enterotp = "Enter Your OTP";
+  static const String enterotp = "Enter Your OTP";
   static const String forgetPssword =
       '* We will send you a message  to set  or reset,\n  your new password';
+  //StringManager.Next= "Next";
+
   //home screen
+  
   static String total_specializations_count = "total_specializations_count";
   static String max_check_up_price = "max_check_up_price";
   static String min_check_up_price = "min_check_up_price";
@@ -52,7 +83,17 @@ class StringManager {
   static const String specializeDoctor = "Specialized Doctors";
   static const String home = "Home";
   static const String message = 'Messages';
-
+  static const String bannerCardHome       = 'banner card home';
+ 
+  static const String specializedDoctors   = 'specialized doctors';
+  static const String averagePrice         = 'average price';
+  static const String mostRequested        = 'most requested';
+  static const String leastRequested       = 'least requested';
+  static const String medicalDepartmentDesc = 'medical department desc';
+  static const String readyDesc            = 'ready desc';
+  static const String featuringDesc        = 'featuring desc';
+  static const String availableNetwork     = 'available network';
+  static const String comprehensiveClinics = 'comprehensive clinics';
   static const String appointment = 'Appointment';
 
   static const String profile = 'Profile';
@@ -62,6 +103,28 @@ class StringManager {
   static const String notification = 'Notification';
   static const String logout = 'Logout';
 
+  static const String selectAvailableTime  = 'select available time';
+  static const String newConsultation      = 'new consultation';
+  static const String whoIsBooking         = 'who is booking';
+  static const String anotherPerson        = 'another person';
+  static const String newPatientInfo       = 'new patient info';
+  static const String tabBooked                      = 'booked';
+  static const String tabWaiting                     = 'waiting';
+  static const String tabChanged                     = 'changed';
+  static const String tabCompleted                   = 'completed';
+  static const String noAppointments                 = 'appointments';
+  static const String cancelConfirmTitle             = 'cancel confirm title';
+  static const String cancelConfirmSubtitle          = 'cancel confirm subtitle';
+  static const String cancelConfirmHint              = 'cancel confirm hint';
+  static const String cancelConfirmBtn               = 'cancel confirm btn';
+  static const String reschedule                     = 'reschedule';
+  static const String statusConfirmed                = 'confirmed';
+  static const String statusWaiting                  = 'waiting';
+  static const String statusChanged                  = 'changed';
+  static const String statusVisited                  = 'visited';
+  static const String deleteAll          = 'delete_all';
+  static const String deleteConfirm      = 'delete_confirm';
+  static const String inboxEmpty         = 'inbox_empty';
   static const String changeLanguage = 'Language';
   static const String theme = 'Theme';
   static const String english = 'English';
@@ -121,13 +184,39 @@ class StringManager {
   static const String notificationCenter = "Notification Center";
   static const String noAppointmentsInThisSpecialization =
       'No appointments available in this specialization.';
+ static const String doctoravailable =
+      ' available doctors.';
   static const String updateProfile = 'Update Profile';
   static const String save = 'Save';
   static const String currentPassword = "Current Password";
-  static const String whothisbook='Who is this booking for?';
-  static const String myself='For myself';
-  static const String anathoreperson='Else person';
-  static const String newpatintinfo='New Patient Details';
+  static const String whothisbook = 'Who is this booking for?';
+  static const String myself = 'For myself';
+  static const String anathoreperson = 'Else person';
+  static const String newpatintinfo = 'New Patient Details';
+  static const String healtheconected= 'Your Health, Connected';
+  static const String onboardingTitle1 = "Welcome to Medica";
+  static const String onboardingDesc1 = "Your all-in-one medical center assistant. Connect with top doctors, manage appointments, and track your healthcare journey seamlessly.";
+  static const String onboardingTitle2 = "Easy Appointment Booking";
+  static const String onboardingDesc2 = "Book, reschedule, or cancel your medical appointments in seconds. Get instant confirmations and smart reminders so you never miss a visit.";
+  static const String onboardingTitle3 = "Your Health, Connected";
+  static const String onboardingDesc3 = "Access your medical records, prescriptions, and test results anytime. Stay securely connected with your healthcare providers in real-time.";
+  static const String stayConnectedWithClinics = 'Stay connected with clinics and specialists anytime.';
+  // static const String letGetStarted = "letGetStarted";
+  // static const String loginGetStartedDesc = "loginGetStartedDesc";
+  static const String next = "Next";
+  static const String skip = "Skip";
+  static const String getStarted = "getStarted";
+  static const String back = 'go to back';
+  static const String account = 'Account';
+  static const String personal = 'Personal';
+  static const String loading = "loading";
+static const String monday = "monday";
+  static const String tuesday = "tuesday";
+  static const String wednesday = "wednesday";
+  static const String thursday = "thursday";
+  static const String friday = "friday";
+  static const String saturday = "saturday";
+  static const String sunday = "sunday";
   //static const String lightMode = 'Light Mode';
 
   //static const String home = "Home";

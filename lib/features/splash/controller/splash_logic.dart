@@ -1,12 +1,66 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/api/end_point.dart';
 import 'package:raghad_pro/core/cache/cashe_helper_getStorage.dart';
-import 'package:raghad_pro/core/constanse/app_assets.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/features/chat/controller/notification_controller.dart';
-import 'package:raghad_pro/features/splash/model/splash_model.dart';
 
+class SplashController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+    checkAuthAndNavigate();
+  }
+
+  Future<void> checkAuthAndNavigate() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    final bool isLoggedIn =
+        CacheHelperGetStorage.getData(key: ApiKey.token) != null;
+
+    if (isLoggedIn) {
+    await   Get.find<NotificationLogic>().requestPermissionAndSync();
+      Get.offAllNamed(AppRoutes.home);
+    } else {
+      Get.offAllNamed(AppRoutes.onboarding);
+    }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 class SplashController extends GetxController {
   @override
   void onInit() {
@@ -77,4 +131,5 @@ class SplashController extends GetxController {
 
     super.onClose();
   }
-}
+}*/
+// features/splash/presentation/controllers/splash_controller.dart

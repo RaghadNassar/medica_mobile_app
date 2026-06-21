@@ -2,12 +2,74 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
-import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
+import 'package:raghad_pro/features/auth/controler/regester_controller.dart';
 import 'package:raghad_pro/features/auth/view/widget/auth_scaffold.dart';
 import 'package:raghad_pro/features/auth/view/widget/input_regester.dart';
 import 'package:raghad_pro/features/auth/view/widget/submit_sign_up.dart';
 import 'package:raghad_pro/features/auth/view/widget/text_head_line.dart';
+import 'package:raghad_pro/features/auth/view/widget/tracier_progress.dart';
 
+class RegesterScreen extends GetView<RegisterController> {
+  const RegesterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AuthScaffold(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: context.heightPct(0.02)),
+             CustomTextHeadLineWidget(title: StringManager.signup.tr),
+            SizedBox(height: context.heightPct(0.03)),
+            const SignUpProgressTracker(),
+            SizedBox(height: context.heightPct(0.04)),
+            const InputRegester(),
+            SizedBox(height: context.heightPct(0.02)),
+            const SubmitSignUp(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 class RegesterScreen extends GetView<AuthLogic> {
   const RegesterScreen({super.key});
 
@@ -31,26 +93,24 @@ class RegesterScreen extends GetView<AuthLogic> {
       ),
     );
   }
-}
-/*
-  // حقل البريد الإلكتروني
-          const CustomTextFiled(
-            hinttext: "Username or Email",
-            prefixIcon: Icons.person,
-            textInputType: TextInputType.emailAddress,
-          ),
+}*/
+  // // حقل البريد الإلكتروني
+  //         const CustomTextFiled(
+  //           hinttext: "Username or Email",
+  //           prefixIcon: Icons.person,
+  //           textInputType: TextInputType.emailAddress,
+  //         ),
 
-          // حقل كلمة المرور
-          const CustomTextFiled(
-            hinttext: "Password",
-            prefixIcon: Icons.lock,
-            suffixIcon: Icons.visibility,
-            obscureText: true,
-          ),
-          const CustomTextFiled(
-            hinttext: "Confirm Password",
-            prefixIcon: Icons.lock,
-            suffixIcon: Icons.visibility,
-            obscureText: true,
-          ),
-*/
+  //         // حقل كلمة المرور
+  //         const CustomTextFiled(
+  //           hinttext: "Password",
+  //           prefixIcon: Icons.lock,
+  //           suffixIcon: Icons.visibility,
+  //           obscureText: true,
+  //         ),
+  //         const CustomTextFiled(
+  //           hinttext: "Confirm Password",
+  //           prefixIcon: Icons.lock,
+  //           suffixIcon: Icons.visibility,
+  //           obscureText: true,
+  //  ),

@@ -15,51 +15,15 @@ import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
 
 import 'package:raghad_pro/features/profile/controller/profile_controller.dart';
 import 'package:raghad_pro/features/profile/data/repostry/user_repostry.dart';
-/*
-// binding
-class MainNavigationBinding extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
-    Get.lazyPut<HomeController>(() => HomeController(Get.find<RepostryHome>()));
-    // Register profile dependencies so Profile widgets can find their controller
-    Get.lazyPut<ProfileRepostry>(
-        () => ProfileRepostry(Get.find<ApiConsumer>()));
-    Get.lazyPut<ProfileController>(
-        () => ProfileController(Get.find<ProfileRepostry>()));
-    Get.lazyPut<PatientSearchController>(
-        () => PatientSearchController(Get.find<RepostryHome>()));
-  }
-}*/
-// class MainNavigationBinding extends Bindings {
-//   @override
-//   void dependencies() {
-//     // الأجزاء المشتركة والـ API
-//     Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
-    
-//     // حقن المتحكمات الثلاثة الجديدة المفصولة لحماية الذاكرة
-//     Get.lazyPut<HomeNavigationController>(() => HomeNavigationController());
-//     Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()));
-//     Get.lazyPut<PatientAppointmentController>(() => PatientAppointmentController(Get.find<RepostryHome>()));
-    
-//     // كود البروفايل والبحث بدون أي تغيير
-//     Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
-//     Get.lazyPut<ProfileController>(() => ProfileController(Get.find<ProfileRepostry>()));
-//     Get.lazyPut<PatientSearchController>(() => PatientSearchController(Get.find<RepostryHome>()));
-//   }
-// }
+
 
 class MainNavigationBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
-    
-    // حقن المتحكمات المفصولة
     Get.lazyPut<HomeNavigationController>(() => HomeNavigationController());
     Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()));
     Get.lazyPut<PatientAppointmentController>(() => PatientAppointmentController(Get.find<RepostryHome>()),fenix: true);
-    
-    // 💡 حقن كونترولر الحجز ليعمل بالتوازي مع الأنظمة الحالية
     Get.lazyPut<DoctorBookingController>(
     () => DoctorBookingController(Get.find<RepostryHome>()),
     fenix: true,
@@ -76,19 +40,17 @@ class HomeDashboardController extends GetxController {
   final RepostryHome repostryHome;
   HomeDashboardController(this.repostryHome);
 
-  // البانر الإعلاني المتنقل
   final PageController bannerPageController = PageController();
   final RxInt currentBannerPage = 0.obs;
   Timer? _bannerTimer;
 
-  // الاختصاصات والأطباء الأعلى تقييماً
+    
   var isTopDoctorsLoading = true.obs;
   var topDoctors = <TopDoctorModel>[].obs;
   var isSpecLoading = true.obs;
   var specializations = <SpecializationModel>[].obs;
   SpecializationStats? stats;
 
-  // بيانات البانر الثابتة
   final List<BannerImageData> medicalBanners = [
     BannerImageData(image: Appassets.pannar5),
     BannerImageData(image: Appassets.pannar6),
@@ -199,6 +161,156 @@ class HomeDashboardController extends GetxController {
     super.onClose();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+// binding
+class MainNavigationBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
+    Get.lazyPut<HomeController>(() => HomeController(Get.find<RepostryHome>()));
+    // Register profile dependencies so Profile widgets can find their controller
+    Get.lazyPut<ProfileRepostry>(
+        () => ProfileRepostry(Get.find<ApiConsumer>()));
+    Get.lazyPut<ProfileController>(
+        () => ProfileController(Get.find<ProfileRepostry>()));
+    Get.lazyPut<PatientSearchController>(
+        () => PatientSearchController(Get.find<RepostryHome>()));
+  }
+}*/
+// class MainNavigationBinding extends Bindings {
+//   @override
+//   void dependencies() {
+//     // الأجزاء المشتركة والـ API
+//     Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
+    
+//     // حقن المتحكمات الثلاثة الجديدة المفصولة لحماية الذاكرة
+//     Get.lazyPut<HomeNavigationController>(() => HomeNavigationController());
+//     Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()));
+//     Get.lazyPut<PatientAppointmentController>(() => PatientAppointmentController(Get.find<RepostryHome>()));
+    
+//     // كود البروفايل والبحث بدون أي تغيير
+//     Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
+//     Get.lazyPut<ProfileController>(() => ProfileController(Get.find<ProfileRepostry>()));
+//     Get.lazyPut<PatientSearchController>(() => PatientSearchController(Get.find<RepostryHome>()));
+//   }
+// }
 /*
 // controller
 class HomeController extends GetxController {

@@ -47,21 +47,19 @@ class DoctorCommonCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // قسم الصورة: يعرض الصورة القادمة من الباك، وإذا كانت null يعرض الأيقونة الافتراضية بنفس الألوان المحيطة
             Container(
               height: context.heightPct(0.146),
               width: context.widthPct(0.25),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer.withOpacity(0.08),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+                borderRadius: const BorderRadiusDirectional.only(
+                  bottomStart: Radius.circular(16),
                 ),
               ),
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+                borderRadius: const BorderRadiusDirectional.only(
+                  topStart: Radius.circular(16),
+                  bottomStart: Radius.circular(16),
                 ),
                 child: image != null && image!.isNotEmpty
                     ? Image.network(
@@ -84,6 +82,43 @@ class DoctorCommonCard extends StatelessWidget {
                       ),
               ),
             ),
+
+            // Container(
+            //   height: context.heightPct(0.146),
+            //   width: context.widthPct(0.25),
+            //   decoration: BoxDecoration(
+            //     color: theme.colorScheme.primaryContainer.withOpacity(0.08),
+            //     borderRadius: const BorderRadius.only(
+            //       topLeft: Radius.circular(15),
+            //       bottomLeft: Radius.circular(15),
+            //     ),
+            //   ),
+            //   child: ClipRRect(
+            //     borderRadius: const BorderRadius.only(
+            //       topLeft: Radius.circular(15),
+            //       bottomLeft: Radius.circular(15),
+            //     ),
+            //     child: image != null && image!.isNotEmpty
+            //         ? Image.network(
+            //             image!,
+            //             fit: BoxFit.cover,
+            //             errorBuilder: (context, error, stackTrace) => Center(
+            //               child: Icon(
+            //                 Icons.person_rounded,
+            //                 color: theme.colorScheme.primary,
+            //                 size: 38,
+            //               ),
+            //             ),
+            //           )
+            //         : Center(
+            //             child: Icon(
+            //               Icons.person_rounded,
+            //               color: theme.colorScheme.primary,
+            //               size: 38,
+            //             ),
+            //           ),
+            //   ),
+            // ),
             SizedBox(width: context.widthPct(0.05)),
             Expanded(
               child: Column(
@@ -91,8 +126,6 @@ class DoctorCommonCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: context.heightPct(0.018)),
-
-                  // اسم الطبيب
                   Text(
                     name.startsWith('Dr.') || name.startsWith('Prof.')
                         ? name
@@ -105,19 +138,13 @@ class DoctorCommonCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: context.heightPct(0.018)),
-
-                  // الاختصاص وجانبه اسم العيادة مباشرة
                   Text(
                     specialization,
                     style: theme.textTheme.bodyMedium,
                   ),
-
                   SizedBox(height: context.heightPct(0.005)),
-
-                  // التقييم والوقت معاً جنباً إلى جنب بشكل موحد ونظيف للجميع
                   Row(
                     children: [
-                      // كارد التقييم الأنيق
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 3),
@@ -143,9 +170,7 @@ class DoctorCommonCard extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       SizedBox(width: context.widthPct(0.3)),
-
                       Icon(
                         Icons.access_time_rounded,
                         color: theme.colorScheme.primary,

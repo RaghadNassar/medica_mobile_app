@@ -30,7 +30,7 @@ class HomeHeaderSection extends StatelessWidget {
             //const Spacer(),
             //CustomText(title: 'Hello Dear..', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 20,fontWeight: FontWeight.w600),),
             const Spacer(flex: 10),
-            const NotificationButton(), // ويدجت مستقلة للأيقونة
+            const NotificationButton(),
           ],
         ),
       ),
