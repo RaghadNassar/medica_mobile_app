@@ -2,11 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
-import 'package:raghad_pro/features/auth/view/widget/auth_scaffold.dart';
 import 'package:raghad_pro/features/home/view/widget/edit_icon_button.dart';
 import 'package:raghad_pro/features/profile/controller/profile_controller.dart';
 import 'package:raghad_pro/features/profile/presentation/widget/base_settings.dart';
@@ -23,7 +20,7 @@ class UpdateProfile extends GetView<ProfileController> {
 
     return BaseSubSettingsScreen(
       title: StringManager.updateProfile.tr,
-      content: AuthScaffold(
+      content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -32,8 +29,8 @@ class UpdateProfile extends GetView<ProfileController> {
               if (controller.pickedImage.value != null) {
                 double imageSize = context.widthPct(0.22);
                 return SizedBox(
-                  height: imageSize + 10,
-                  width: imageSize + 10,
+                  height: imageSize + 20,
+                  width: imageSize + 20,
                   child: Stack(
                     alignment: Alignment.topLeft,
                     children: [
@@ -41,8 +38,8 @@ class UpdateProfile extends GetView<ProfileController> {
                         borderRadius: BorderRadius.circular(imageSize / 2),
                         child: Image.file(
                          File(controller.pickedImage.value!.path),
-                          height: imageSize,
-                          width: imageSize,
+                          height: imageSize+30,
+                          width: imageSize+20,
                           fit: BoxFit.cover,
                         ),
                       ),

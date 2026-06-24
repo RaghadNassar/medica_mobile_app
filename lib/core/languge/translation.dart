@@ -200,8 +200,16 @@ StringManager.loginGetStartedDesc: 'سجّل دخولك واستمتع بخدم�
   StringManager.friday: "الجمعة",
   StringManager.saturday: "السبت",
   StringManager.sunday: "الأحد",
+  StringManager.changePassword : "تغيير كلمة المرور  ",
+   StringManager.ifYouDontRemember:"إذا لم تتذكر كلمة المرور الحالية، يمكنك إعادة تعيينها عبر البريد الإلكتروني أو رقم الهاتف.",
+  StringManager.pleasEnterYourCurrent:"أدخل كلمة المرور الحالية وكلمة المرور الجديدة", 
+   StringManager.theme:'الوضع',
+   StringManager.doctorAboutDesc:
+  'الدكتور %s متخصص في %s ويقدم رعاية متميزة في %s. مدة كل جلسة استشارية حوالي %s.',
 };
 final Map<String, String> en = {
+  StringManager.doctorAboutDesc:
+  'Dr. %s is a highly skilled specialist in %s, dedicated to providing state-of-the-art care at %s. Each consultation lasts approximately %s.',
   StringManager.Didntreceivethecode : " هل لم تتلق الكود ؟؟؟ ",
   StringManager.submit : "Submit",
   StringManager.medica:'Medica',
@@ -391,4 +399,8 @@ StringManager.doctoravailable :
   StringManager.friday: "Friday",
   StringManager.saturday: "Saturday",
   StringManager.sunday: "Sunday",
+  StringManager.changePassword : "change password",
+  StringManager.ifYouDontRemember:"If you don't remember your current password, you can reset it via email or phone number.",
+  StringManager.pleasEnterYourCurrent:    "Please enter your current password and a new password",
+  StringManager.theme:'Theme',
 };

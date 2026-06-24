@@ -143,7 +143,7 @@ class HomeDashboardController extends GetxController {
     if (name.contains("العينية")) return AppColors.success.withOpacity(0.1);
     return Colors.blueGrey.withOpacity(0.1);
   }
-
+/*
   Color getIconColorForSpecialty(String name) {
     if (name.contains("القلبية")) return AppColors.error;
     if (name.contains("الأطفال")) return AppColors.warning;
@@ -153,7 +153,10 @@ class HomeDashboardController extends GetxController {
     if (name.contains("العينية")) return AppColors.success;
     return Colors.blueGrey;
   }
-
+*/
+Color getIconColorForSpecialty(String name) {
+  return AppColors.primaryTeal; // يرجع لون التركواز لكل الأقسام تلقائياً
+}
   @override
   void onClose() {
     _bannerTimer?.cancel();

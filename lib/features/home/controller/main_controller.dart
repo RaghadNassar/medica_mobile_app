@@ -9,7 +9,7 @@ class HomeNavigationController extends GetxController {
 
   final List screens = [
     const HomeScreen(),
-    const ClinicalChatWidget(isDark: false),
+    const ClinicalChatWidget(),
     const AppoinmentScreen(),
     const ProfileScreen(),
   ];

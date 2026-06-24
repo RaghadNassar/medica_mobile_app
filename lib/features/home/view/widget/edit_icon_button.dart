@@ -14,7 +14,7 @@ class EditIconButton extends StatelessWidget {
       child: CircleAvatar(
         radius: 16,
         backgroundColor: theme.colorScheme.primary,
-        child: Icon(Icons.edit, color: theme.colorScheme.surface, size: 16),
+        child: Icon(Icons.photo_camera, color: theme.colorScheme.surface, size: 16),
       ),
     );
   }

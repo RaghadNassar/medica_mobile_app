@@ -1,5 +1,5 @@
 class ApiEndpoints {
-  static const String host = '10.34.127.205';
+  static const String host = '192.168.1.3';
   static const String baseUrl = "http://$host:8000/api";
   static const String socketUrl = r'http://[0-9.]+:8000';
   static const String socketPath = 'http://$host:8000'; 

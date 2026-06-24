@@ -243,17 +243,12 @@
 //   }
 // }
 import 'dart:io';
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:raghad_pro/core/api/apiEndpoints.dart';
-import 'package:raghad_pro/core/api/api_consumer.dart';
-import 'package:raghad_pro/core/api/apperrorhandler.dart';
-import 'package:raghad_pro/core/api/end_point.dart';
-import 'package:raghad_pro/core/api/networkclient.dart';
-import 'package:raghad_pro/core/errors/exceptions.dart';
-import 'package:raghad_pro/features/chat/data/model/chat_model.dart'; 
+import 'package:raghad_pro/features/chat/abd/apiEndpoints.dart';
+import 'package:raghad_pro/features/chat/abd/apperrorhandler.dart';
+import 'package:raghad_pro/features/chat/abd/networkclient.dart';
 /*
 class ChatRepository {
   final ApiConsumer api;

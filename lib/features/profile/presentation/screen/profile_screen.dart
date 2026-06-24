@@ -62,15 +62,15 @@ Widget _buildSignOutButton(BuildContext context, ThemeData theme) {
           icon: Icons.logout_rounded,
           iconColor: AppColors.error,
           iconBackgroundColor: AppColors.error.withOpacity(0.1),
-          title: StringManager.logoutTitle,
-          subtitle: StringManager.logoutConfirmation,
-          confirmButtonText: StringManager.confirm, 
+          title: StringManager.logoutTitle.tr,
+          subtitle: StringManager.logoutConfirmation.tr,
+          confirmButtonText: StringManager.confirm.tr, 
           onConfirm: () {
           
             controller.logoutUser(); 
           },
           isSecondaryButtonVisible: true,
-          secondaryButtonText: StringManager.cancel, 
+          secondaryButtonText: StringManager.cancel.tr, 
         );
       },
     );

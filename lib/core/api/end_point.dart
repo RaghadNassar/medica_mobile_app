@@ -1,49 +1,6 @@
-/*class EndPoint {
-  static String baseUrl = 'http://10.34.127.205:8000/api/patient';
-  static String signIn = '/login';
-  static String signUp = '/register';
-  static String profile = '/profile';
-  static String specializations = '/specializations';
- static String search = '/search';
-  static String getspecializationsId(id) {
-    return '/specializations/$id/doctors';
-  }
 
-  static String schedules = '/schedules';
-  static String myHistory = '/my-history';
-  static String appointmentsStore = '/appointments/store';
-  static String doctorRate = '/doctor/rate';
-  static String topDoctors = '/top-doctors';
-  static String doctorSlots = '/doctor-slots';
-  static String logout = '/logout';
-  static String updateProfile = '/profile/update';
-  // FCM token update and chat endpoints
- 
- // Chat
-  static const String getAllPotentialContacts = "/chat/potential-contacts"; // GET
-
- // notifications
-  static const String updateFcmToken = "/update-fcm-token"; // 👈 الرابط الجديد لتوكن الإشعارات
-
-  static const String myNotifications = "/notification/my-notifications"; // جلب الكل (أضف /doctor إذا كان محمي بنفس البريفكس)
-  static const String notificationCount = "/notification/my-notifications/count"; // عداد الإشعارات
-  static const String deleteAllNotifications = "/notification/my-notifications/delete-all"; // مسح الكل
-
-  // دوال ديناميكية لتوليد الروابط بناءً على الـ UUID الخاص بالإشعار
-  static String markAsReadUrl(String uuid) => "/notification/my-notifications/$uuid/seen"; // (أو حسب مسار التحديث لديك)
-  static String deleteNotificationUrl(String uuid) => "/notification/my-notifications/$uuid/delete";
-
- // --- Chat (المستخدمة في الكود ولكن غير موجودة - أضفها) ---
-  static const String getOrCreateRoom = "/chat/get-or-create-room";     // POST
-  static const String uploadFile = "/chat/upload";                       // POST
-  static const String uploadAttachment = "/chat/attachments/upload";     // POST
-  static const String storeMessage = "/chat/store-message";   
-  
-  //
-  static String getProfile = 'auth/me';
-}*/
 class EndPoint {
-  static const String host = '10.34.127.205';
+  static const String host = '192.168.1.3';
   static String baseUrl = 'http://$host:8000/api/';
   static const String socketUrl = r'http://[0-9.]+:8000';
   static const String socketPath = 'http://$host:8000';
@@ -198,3 +155,198 @@ class ApiKey {
   static String phoneNumber = 'phone Neumber';
   static String profilePicture = 'profiePicture';
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*class EndPoint {
+  static String baseUrl = 'http://10.34.127.205:8000/api/patient';
+  static String signIn = '/login';
+  static String signUp = '/register';
+  static String profile = '/profile';
+  static String specializations = '/specializations';
+ static String search = '/search';
+  static String getspecializationsId(id) {
+    return '/specializations/$id/doctors';
+  }
+
+  static String schedules = '/schedules';
+  static String myHistory = '/my-history';
+  static String appointmentsStore = '/appointments/store';
+  static String doctorRate = '/doctor/rate';
+  static String topDoctors = '/top-doctors';
+  static String doctorSlots = '/doctor-slots';
+  static String logout = '/logout';
+  static String updateProfile = '/profile/update';
+  // FCM token update and chat endpoints
+ 
+ // Chat
+  static const String getAllPotentialContacts = "/chat/potential-contacts"; // GET
+
+ // notifications
+  static const String updateFcmToken = "/update-fcm-token"; // 👈 الرابط الجديد لتوكن الإشعارات
+
+  static const String myNotifications = "/notification/my-notifications"; // جلب الكل (أضف /doctor إذا كان محمي بنفس البريفكس)
+  static const String notificationCount = "/notification/my-notifications/count"; // عداد الإشعارات
+  static const String deleteAllNotifications = "/notification/my-notifications/delete-all"; // مسح الكل
+
+  // دوال ديناميكية لتوليد الروابط بناءً على الـ UUID الخاص بالإشعار
+  static String markAsReadUrl(String uuid) => "/notification/my-notifications/$uuid/seen"; // (أو حسب مسار التحديث لديك)
+  static String deleteNotificationUrl(String uuid) => "/notification/my-notifications/$uuid/delete";
+
+ // --- Chat (المستخدمة في الكود ولكن غير موجودة - أضفها) ---
+  static const String getOrCreateRoom = "/chat/get-or-create-room";     // POST
+  static const String uploadFile = "/chat/upload";                       // POST
+  static const String uploadAttachment = "/chat/attachments/upload";     // POST
+  static const String storeMessage = "/chat/store-message";   
+  
+  //
+  static String getProfile = 'auth/me';
+}*/

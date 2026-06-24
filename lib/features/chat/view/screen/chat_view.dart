@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:raghad_pro/core/api/apiEndpoints.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
+import 'package:raghad_pro/features/chat/abd/apiEndpoints.dart';
 import 'package:raghad_pro/features/chat/controller/chat_controller.dart';
 import 'package:raghad_pro/features/chat/data/model/message_model.dart';
 

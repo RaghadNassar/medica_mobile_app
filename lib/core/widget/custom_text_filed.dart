@@ -139,7 +139,7 @@ class CustomTextFiled extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          //  فحص: إذا قمتِ بتمرير نص للـ labl سيظهر هنا فوق الحقل بشكل أنيق جداً
+          
          if (labl != null) ...[
             Padding(
               padding:AppSpacing.only,
@@ -194,6 +194,7 @@ class CustomTextFiled extends StatelessWidget {
                 borderSide: BorderSide(color: Theme.of(context).colorScheme.primaryContainer, width: 0.5),
               ),
               border: OutlineInputBorder(
+                borderSide:  BorderSide(color:Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1)),
                 borderRadius: BorderRadius.circular(16),
               ),
               errorBorder: OutlineInputBorder(

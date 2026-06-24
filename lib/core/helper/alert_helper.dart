@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:raghad_pro/core/theme/app_colors.dart'; // تأكدي من مسار الألوان الخاص بكِ
+import 'package:raghad_pro/core/theme/app_colors.dart'; 
 
 enum AlertType { success, error, warning, info }
 
@@ -11,26 +11,24 @@ class AlertHelper {
     AlertType type = AlertType.info,
     Duration duration = const Duration(seconds: 3),
   }) {
-    
     Color backgroundColor;
-    Color textColor = Colors.white; // اللون الافتراضي للنصوص
+    Color textColor = AppColors.white;
 
     switch (type) {
       case AlertType.success:
-        backgroundColor = AppColors.success; // 🟢 لون النجاح
+        backgroundColor = AppColors.success; 
         break;
       case AlertType.error:
-        backgroundColor = AppColors.error; // 🔴 لون الخطأ (أو Colors.redAccent)
+        backgroundColor = AppColors.error;
         break;
       case AlertType.warning:
-        backgroundColor = AppColors.warning; // 🟠 لون التحذير
+        backgroundColor = AppColors.warning; 
         break;
       case AlertType.info:
-        backgroundColor = AppColors.info; // ⚪ أو ابيض/رمادي حسب ثيم التطبيق
+        backgroundColor = AppColors.info; 
         break;
     }
 
-   
     Get.snackbar(
       title,
       message,
@@ -48,7 +46,7 @@ class AlertHelper {
     );
   }
 
-  // دالة مساعدة داخلية لتحديد الأيقونة المناسبة بشكل تلقائي لحجم وجمالية التنبيه
+  
   static IconData _getIconByType(AlertType type) {
     switch (type) {
       case AlertType.success:

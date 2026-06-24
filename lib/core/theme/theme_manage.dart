@@ -16,18 +16,14 @@ class ThemeManage {
     return isDarkModeActive() ? ThemeMode.dark : ThemeMode.light;
   }
 
-  // الدالة الأساسية للتبديل
   static void changeThemeMode() {
     bool currentStatus = isDarkModeActive();
     bool newStatus = !currentStatus;
 
-    // 1. حفظ القيمة الجديدة أولاً
     CacheHelperGetStorage.saveData(key: _themeKey, value: newStatus);
 
-    // 2. تغيير الثيم في التطبيق
     Get.changeThemeMode(newStatus ? ThemeMode.dark : ThemeMode.light);
     
-    // ملاحظة: GetX أحياناً يحتاج لتحديث الواجهة يدوياً في بعض الإصدارات
-    // Get.updateLocale(Get.locale!); // اختيارية فقط إذا واجهتِ مشاكل في الخطوط
+    // Get.updateLocale(Get.locale!); 
   }
 }

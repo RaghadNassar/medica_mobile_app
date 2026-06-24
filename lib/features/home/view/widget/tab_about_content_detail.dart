@@ -34,18 +34,23 @@ class TabAboutContent extends GetView<DoctorBookingController> {
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+       Text(
+        StringManager.aboutDoctor.tr, 
+        style: theme.textTheme.bodyLarge?.copyWith( fontWeight: FontWeight.bold),
+      ),
+       SizedBox(height: context.heightPct(0.01)),
       CustomText(
-        
-        title: 'Dr. $doctorName is a highly skilled specialist in ${doctor?.specialization ?? "medical field"} dedicated to providing state-of-the-art care at ${doctor?.clinic ?? "clinic"}. Each consultation session lasts approximately ${doctor?.visitTime ?? "20 minutes"}.',
+        title: _buildAboutText(doctor),
+       // title: 'Dr. $doctorName is a highly skilled specialist in ${doctor?.specialization ?? "medical field"} dedicated to providing state-of-the-art care at ${doctor?.clinic ?? "clinic"}. Each consultation session lasts approximately ${doctor?.visitTime ?? "20 minutes"}.',
         style: theme.textTheme.bodyMedium!.copyWith(
           color: theme.colorScheme.primaryContainer,
           height: 1.5,
         ),
       ),
-      SizedBox(height: context.heightPct(0.03)),
+      SizedBox(height: context.heightPct(0.003)),
       Text(
         StringManager.workingHour.tr, 
-        style: theme.textTheme.bodyMedium?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+         style: theme.textTheme.bodyLarge?.copyWith( fontWeight: FontWeight.bold),
       ),
       SizedBox(height: context.heightPct(0.01)),
       
@@ -57,6 +62,20 @@ class TabAboutContent extends GetView<DoctorBookingController> {
 );
     
     });
+  }
+
+
+
+
+
+
+   String _buildAboutText(doctor) {
+    final template = StringManager.doctorAboutDesc.tr;
+    return template
+        .replaceFirst('%s', doctor?.name          ?? 'Doctor')
+        .replaceFirst('%s', doctor?.specialization ?? 'medical field')
+        .replaceFirst('%s', doctor?.clinic         ?? 'clinic')
+        .replaceFirst('%s', doctor?.visitTime      ?? '20 min');
   }
 }
 

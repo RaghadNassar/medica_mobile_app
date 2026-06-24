@@ -16,8 +16,8 @@ class NotificationsScreen extends GetView<NotificationLogic> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-         StringManager.notificationCenter,
+        title:  Text(
+         StringManager.notificationCenter.tr,
          
         ),
         centerTitle: true,

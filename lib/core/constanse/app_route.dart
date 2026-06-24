@@ -84,4 +84,6 @@ class AppRoutes {
    static const chatList = '/chat-list';
     static const chatView = '/chat-view';
    static const alldoctor= '/AllDoctorSpecializeScreen';
+  static const changepassword = '/changePassword';
+
 }
