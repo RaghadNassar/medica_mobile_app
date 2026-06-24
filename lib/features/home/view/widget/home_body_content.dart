@@ -42,15 +42,15 @@ class HomeBodyContent extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headlineLarge!
-                .copyWith(fontSize: 20),
+                .copyWith(fontSize: 19),
           ),
           // SizedBox(height: context.heightPct(0.01)),
           const SpecialtySection(),
-          SizedBox(height: context.heightPct(0.029)),
+          SizedBox(height: context.heightPct(0.009)),
 
           CustomText(
             title: StringManager.topDoctor.tr,
-            style: Theme.of(context).textTheme.headlineLarge!,
+            style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 19),
           ),
           SizedBox(height: context.heightPct(0.01)),
 
