@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
+import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_skeletinizor.dart';
 import 'package:raghad_pro/core/widget/custom_state_card.dart';
@@ -23,7 +24,7 @@ class SpecialtySection extends GetView<HomeDashboardController> {
       return CustomSkeletonizer(
         isLoading: isLoading,
         child: SizedBox(
-          height: context.heightPct(0.25), 
+          height: context.heightPct(0.225), 
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -49,7 +50,7 @@ class SpecialtySection extends GetView<HomeDashboardController> {
                   : "0000 ل.س";
 
               final patientsText = specialty != null
-                  ? "+${specialty.appointmentsCount ?? (index * 12 + 35)} مريض" 
+                  ? "+${specialty.appointmentsCount ?? (index * 12 + 35)}${  StringManager.patients.tr}" 
                   : "00 مريض";
 
               return SizedBox(
