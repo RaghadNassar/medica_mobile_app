@@ -154,7 +154,162 @@ class ProfileController extends GetxController {
 
   // update profile
   updateProfileFinal() async {
-    if (!formKeyprofile.currentState!.validate()) return;
+  if (!formKeyprofile.currentState!.validate()) return;
+
+  isLoadingUP.value = true;
+  Map<String, dynamic> bodyData = {};
+
+  final currentInfo = patientProfile.value?.data.personalInfo;
+
+  if (passwordUPController.text.isNotEmpty) {
+    bodyData['current_password'] = currentPasswordController.text;
+    bodyData['password'] = passwordUPController.text;
+    bodyData['password_confirmation'] = confirmpasswordUPController.text;
+  } 
+  
+  else {
+    bodyData = {
+      ApiKey.name: nameController.text,
+      ApiKey.birthday: dateOfBridth.text,
+      ApiKey.gender: selectedGender.value.toLowerCase(),
+    };
+
+    if (currentInfo != null && emailUpController.text.trim() != currentInfo.email) {
+      bodyData[ApiKey.email] = emailUpController.text.trim();
+    }
+
+    if (currentInfo != null && phone.text.trim() != currentInfo.number) {
+      bodyData[ApiKey.number] = phone.text.trim();
+    }
+
+    if (pickedImage.value != null) {
+      bodyData[ApiKey.image] = await uploadImageToApi(pickedImage.value!);
+    }
+  }
+
+  final response = await repostry.updatePatientProfile(updateData: bodyData);
+
+  response.fold(
+    (errorMessage) {
+      isLoadingUP.value = false;
+      AlertHelper.showSnackbar(
+        title: "فشل التحديث",
+        message: errorMessage,
+        type: AlertType.error,
+      );
+    },
+    (updatedProfileModel) async {
+      isLoadingUP.value = false;
+      patientProfile.value = updatedProfileModel;
+
+      AlertHelper.showSnackbar(
+        title: "تم بنجاح",
+        message: "تم تحديث بيانات البروفايل بنجاح.",
+        type: AlertType.success,
+      );
+
+    //  Get.back();
+    },
+  );
+}
+ 
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    nickNameController.dispose();
+    emailUpController.dispose();
+    passwordUPController.dispose();
+    confirmpasswordUPController.dispose();
+    phone.dispose();
+    dateOfBridth.dispose();
+    super.onClose();
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* updateProfileFinal() async {
+   if (!formKeyprofile.currentState!.validate()) return;
+
+    isLoadingUP.value = true;
+    Map<String, dynamic> bodyData = {};
+
+    
+    if (passwordUPController.text.isNotEmpty) {
+      bodyData['current_password'] = currentPasswordController.text;
+      bodyData['password'] = passwordUPController.text;
+      bodyData['password_confirmation'] = confirmpasswordUPController.text;
+    } else {
+
+      bodyData = {
+        ApiKey.name: nameController.text,
+        ApiKey.email: emailUpController.text,
+        ApiKey.number: phone.text,
+        ApiKey.birthday: dateOfBridth.text,
+        ApiKey.gender: selectedGender.value.toLowerCase(),
+      };
+
+      if (pickedImage.value != null) {
+        bodyData[ApiKey.image] = await uploadImageToApi(pickedImage.value!);
+      }
+    }
+
+    final response = await repostry.updatePatientProfile(updateData: bodyData);
+  /*  if (!formKeyprofile.currentState!.validate()) return;
 
     isLoadingUP.value = true;
     Map<String, dynamic> bodyData = {
@@ -174,8 +329,8 @@ class ProfileController extends GetxController {
     if (pickedImage.value != null) {
       bodyData[ApiKey.image] = await uploadImageToApi(pickedImage.value!);
     }
-
-    final response = await repostry.updatePatientProfile(updateData: bodyData);
+*/
+  //  final response = await repostry.updatePatientProfile(updateData: bodyData);
 
     response.fold(
       (errorMessage) {
@@ -199,23 +354,7 @@ class ProfileController extends GetxController {
         Get.back();
       },
     );
-  }
-
-  @override
-  void onClose() {
-    nameController.dispose();
-    nickNameController.dispose();
-    emailUpController.dispose();
-    passwordUPController.dispose();
-    confirmpasswordUPController.dispose();
-    phone.dispose();
-    dateOfBridth.dispose();
-    super.onClose();
-  }
-}
-
-
-
+  }*/
 /*
 //primary
   var isDarkMode = ThemeManage.isDarkModeActive().obs;

@@ -20,6 +20,108 @@ class DoctorStatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardSpacing = SizedBox(width: context.widthPct(0.02)); 
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+      children: [
+        CustomStatCard(
+          icon: Icons.people_outline,
+          title: patients,
+          subtitle: StringManager.patients.tr,
+        ),
+        cardSpacing,
+
+        CustomStatCard(
+          icon: Icons.star_border_rounded,
+          title: rating,
+          subtitle: StringManager.ratings.tr,
+        ),
+        cardSpacing,
+
+        CustomStatCard(
+          icon: Icons.reviews_outlined,
+          title: experience,
+          subtitle: StringManager.reviews.tr,
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+class DoctorStatsRow extends StatelessWidget {
+  final String patients;
+  final String experience;
+  final String rating;
+  final VoidCallback onChatTap;
+
+  const DoctorStatsRow({
+    super.key,
+    required this.patients,
+    required this.experience,
+    required this.rating,
+    required this.onChatTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cardSpacing = SizedBox(width: context.widthPct(0.02)); 
 
@@ -57,4 +159,4 @@ class DoctorStatsRow extends StatelessWidget {
       ],
     );
   }
-}
+}*/

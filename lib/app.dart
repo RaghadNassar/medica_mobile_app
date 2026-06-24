@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title:       'Medica',
-      theme:       AppTheme.lightTheme,
-      darkTheme:   AppTheme.darkTheme,
+     theme:          AppTheme.lightTheme(),
+      darkTheme:      AppTheme.darkTheme(),
       themeMode:   ThemeManage.getThemeMode(),
       translations:    AppTranslations(),
       locale:          _getSavedLocale(),
@@ -36,6 +36,109 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  theme:       AppTheme.lightTheme,
+    //  darkTheme:   AppTheme.darkTheme,
 /*
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

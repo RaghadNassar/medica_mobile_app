@@ -19,7 +19,7 @@ class AppSpacing {
   static const edgeInsets16 = EdgeInsets.all(16);
   static const edgeInsets18 = EdgeInsets.all(18);
   static const edgeInsets8 = EdgeInsets.all(8);
-  static const screenPadding9 = EdgeInsets.all(4);
+  static const screenPadding9 = EdgeInsets.all(14);
   static const cardPadding = EdgeInsets.all(16);
   static const screenPadding24_16 =
       EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0);
@@ -30,12 +30,15 @@ class AppSpacing {
 
   static const screenPadding16_10 =
       EdgeInsets.symmetric(vertical: 16, horizontal: 10);
+  static const screenPadding16_7 =
+    EdgeInsets.symmetric(vertical: 14, horizontal: 6);
       static const screenPadding12_6 =
       EdgeInsets.symmetric(vertical: 8, horizontal: 4);
        static const screenPadding121_61 =
       EdgeInsets.symmetric(vertical: 12, horizontal: 6);
   static const screenPadding16_20 =
       EdgeInsets.symmetric(vertical: 16, horizontal: 20);
+      
   static const screenPadding8 = EdgeInsets.only(bottom: 10);
   static const bottom16 = EdgeInsets.only(bottom: 16);
   static const only = EdgeInsets.only(left: 6.0, bottom: 6.0, right: 6.0);

@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
-import 'package:raghad_pro/features/auth/controler/auth_logic.dart';
 import 'package:raghad_pro/features/auth/controler/forget_password.dart';
 import 'package:raghad_pro/features/auth/controler/login_controller.dart';
 import 'package:raghad_pro/features/auth/controler/regester_controller.dart';
@@ -27,11 +26,208 @@ import 'package:raghad_pro/features/profile/controller/medical_hestory.dart';
 import 'package:raghad_pro/features/profile/presentation/screen/notification_screen.dart';
 import 'package:raghad_pro/features/profile/presentation/screen/profile_screen.dart';
 import 'package:raghad_pro/features/home/view/widget/bottom_bar_widget.dart';
-import 'package:raghad_pro/features/profile/presentation/screen/setting_screen.dart';
 import 'package:raghad_pro/features/settings/controller/settings_logic.dart';
+import 'package:raghad_pro/features/settings/view/screen/changed_password.dart';
 import 'package:raghad_pro/features/settings/view/screen/setting_screen.dart';
-import 'package:raghad_pro/features/splash/controller/splash_logic.dart';
 import 'package:raghad_pro/features/splash/view/screen/splash_screen.dart';
+
+class AppPages {
+  static const INITIAL = AppRoutes.splash;
+
+  static final routes = [
+   GetPage(
+  name: AppRoutes.splash,
+  page: () => const SplashView(),
+  //binding: SplashBinding(), 
+),
+GetPage(
+  name: AppRoutes.onboarding,
+  page: () => const OnboardingView(),
+  binding: OnboardingBinding(), 
+),
+    GetPage(
+      name: AppRoutes.goAuth,
+      page: () => const GoAuthScreen(),
+    ),
+   GetPage(
+      name: AppRoutes.login,
+      page: () => const SignInScreen(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.signUp,
+      page: () => const RegesterScreen(),
+      binding: RegisterBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.forgotPassword,
+      page: () => const ForgetPaswordScreen(),
+      binding: ForgotPasswordBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.verficationCode,
+      page: () => const VerificationCodeScreen(),
+      binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.resetPassword,
+      page: () => const ResetPasswordScreen(),
+      binding: ForgotPasswordBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.home,
+      page: () => const MainNavigationScreen(),
+    //  binding: MainNavigationBinding(), 
+     bindings: [
+    MainNavigationBinding(),
+    SettingsBinding(),
+    ProfileBinding(),
+  ],
+    ),
+    GetPage(
+  name: AppRoutes.alldoctor, 
+  page: () => const AllDoctorSpecializeScreen(),
+  binding: MainNavigationBinding(), 
+),
+    GetPage(
+      name: AppRoutes.profile,
+      page: () => const ProfileScreen(),
+      binding: ProfileBinding(), 
+    ),
+     GetPage(
+      name: AppRoutes.editProfile,
+      page: () => const UpdateProfile(),
+      binding: ProfileBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.appoinment,
+      page: () => const AppoinmentScreen(),
+      binding: MainNavigationBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.settings,
+      page: () => const SettingsScreen(),
+      binding: SettingsBinding(), 
+    ),
+     GetPage(
+      name: AppRoutes.changepassword,
+      page: () => const ChangePasswordScreen(),
+      binding: ProfileBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.medicalHistory,
+      page: () => const MedicalHistoryScreen(),
+      binding: MedicalHistoryBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.detail,
+      page: () => const DoctorDetailsScreen(),
+      binding: MainNavigationBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.search, 
+      page: () => const PatientSearchScreen(), 
+      binding: MainNavigationBinding(), 
+    ),
+    GetPage(
+      name: AppRoutes.chatList,
+      page: () => const ClinicalChatWidget(), 
+      // binding: ChatBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.chatView,
+      page: () => const ChatView(),
+      // binding: ChatBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.notifications,
+      page: () => const NotificationsScreen(), 
+    ),
+  ];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // class AppPages {
 //   // المسار الابتدائي
@@ -140,113 +336,3 @@ import 'package:raghad_pro/features/splash/view/screen/splash_screen.dart';
 //     ),
 //   ];
 // }
-class AppPages {
-  static const INITIAL = AppRoutes.splash;
-
-  static final routes = [
-   GetPage(
-  name: AppRoutes.splash,
-  page: () => const SplashView(),
-  //binding: SplashBinding(), 
-),
-GetPage(
-  name: AppRoutes.onboarding,
-  page: () => const OnboardingView(),
-  binding: OnboardingBinding(), 
-),
-    GetPage(
-      name: AppRoutes.goAuth,
-      page: () => const GoAuthScreen(),
-    ),
-   GetPage(
-      name: AppRoutes.login,
-      page: () => const SignInScreen(),
-      binding: LoginBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.signUp,
-      page: () => const RegesterScreen(),
-      binding: RegisterBinding(), 
-    ),
-    GetPage(
-      name: AppRoutes.forgotPassword,
-      page: () => const ForgetPaswordScreen(),
-      binding: ForgotPasswordBinding(), 
-    ),
-    GetPage(
-      name: AppRoutes.verficationCode,
-      page: () => const VerificationCodeScreen(),
-      binding: ForgotPasswordBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.resetPassword,
-      page: () => const ResetPasswordScreen(),
-      binding: ForgotPasswordBinding(), 
-    ),
-    GetPage(
-      name: AppRoutes.home,
-      page: () => const MainNavigationScreen(),
-    //  binding: MainNavigationBinding(), 
-     bindings: [
-    MainNavigationBinding(),
-    SettingsBinding(),
-    ProfileBinding(),
-  ],
-    ),
-    GetPage(
-  name: AppRoutes.alldoctor, // أو الاسم المعرف في AppRoutes
-  page: () => const AllDoctorSpecializeScreen(),
-  binding: MainNavigationBinding(), 
-),
-    GetPage(
-      name: AppRoutes.profile,
-      page: () => const ProfileScreen(),
-      binding: ProfileBinding(), 
-    ),
-     GetPage(
-      name: AppRoutes.editProfile,
-      page: () => const UpdateProfile(),
-      binding: ProfileBinding(), 
-    ),
-    GetPage(
-      name: AppRoutes.appoinment,
-      page: () => const AppoinmentScreen(),
-      binding: MainNavigationBinding(), 
-    ),
-    GetPage(
-      name: AppRoutes.settings,
-      page: () => const SettingsScreen(),
-      binding: SettingsBinding(), 
-    ),
-    GetPage(
-      name: AppRoutes.medicalHistory,
-      page: () => const MedicalHistoryScreen(),
-      binding: MedicalHistoryBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.detail,
-      page: () => const DoctorDetailsScreen(),
-      binding: MainNavigationBinding(), // 💡 تفعيل الحاقن لضمان وجود DoctorBookingController عند الدخول للتفاصيل
-    ),
-    GetPage(
-      name: AppRoutes.search, 
-      page: () => const PatientSearchScreen(), // 💡 إضافة const إذا كانت الواجهة تستقبلها وتحويلها لـ عادية
-      binding: MainNavigationBinding(), // 💡 تنظيف وتغيير مصفوفة البيلدر اليدوية السابقة والاعتماد على البايندنج المركزي الأنظف
-    ),
-    GetPage(
-      name: AppRoutes.chatList,
-      page: () => const ClinicalChatWidget(isDark: false), // واجهة قائمة المحادثات
-      // binding: ChatBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.chatView,
-      page: () => const ChatView(), // واجهة غرفة المحادثة اللحظية
-      // binding: ChatBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.notifications,
-      page: () => const NotificationsScreen(), // واجهة إشعارات المستخدم
-      // binding: NotificationsBinding(),
-    ),
-  ];
-}

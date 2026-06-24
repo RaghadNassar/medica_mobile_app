@@ -2,8 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:raghad_pro/core/api/apiEndpoints.dart';
-import 'package:raghad_pro/core/api/storagetoken.dart';
+import 'package:raghad_pro/features/chat/abd/apiEndpoints.dart';
+import 'package:raghad_pro/features/chat/abd/storagetoken.dart';
 
 class NetworkClient {
   // 1. Singleton Pattern: ضمان نسخة واحدة فقط من Dio

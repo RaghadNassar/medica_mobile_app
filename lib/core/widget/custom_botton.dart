@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 
@@ -23,7 +22,7 @@ class CustomBottomWidget extends StatelessWidget {
     this.icon,
     this.backgroundColor,
     this.textColor = Colors.white,
-    this.fontSize = 22,
+    this.fontSize = 20,
     this.fontWeight = FontWeight.normal,
     this.width,
     this.hight = 50,

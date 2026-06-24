@@ -7,11 +7,11 @@ import 'dart:ui' as ui;
 import 'package:raghad_pro/features/chat/controller/chatList_controller.dart';
 
 class ClinicalChatWidget extends StatelessWidget {
-  final bool isDark;
+//  final bool isDark;
 
   const ClinicalChatWidget({
     super.key,
-    required this.isDark,
+  //  required this.isDark,
   });
 
   // دالة مساعدة داخل الـ Widget لاستخراج الحرف الأول من الاسم بشكل نظيف
@@ -30,11 +30,15 @@ class ClinicalChatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final ChatListController chatController = Get.put(ChatListController());
-
+      
+ 
     return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC),
       appBar:  AppBar(
         title:  Text(StringManager.message.tr),
+        backgroundColor: isDark ? AppColors.darkSurface : null,
         centerTitle: true,
       ),
       body: Directionality(

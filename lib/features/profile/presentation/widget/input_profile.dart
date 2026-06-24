@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
-import 'package:raghad_pro/core/helper/validation.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_text_filed.dart';
 import 'package:raghad_pro/core/widget/custom_toggle_switch.dart';
@@ -18,30 +15,14 @@ class InputEditProfile extends GetView<ProfileController> {
       key: controller.formKeyprofile,
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: CustomTextFiled(
+       
+            CustomTextFiled(
                   labl: StringManager.username.tr,
                   hinttext: StringManager.enterUsername.tr,
                   prefixIcon: Icons.person,
                   textcontroler: controller.nameController,
                  // validate: (value) => Validator.validateRequiredField(value??'' ,StringManager.username),
                 ),
-              ),
-              SizedBox(width: context.widthPct(0.01)),
-              Expanded(
-                child: CustomTextFiled(
-                  labl: StringManager.nickname.tr,
-                  hinttext: StringManager.enternickname.tr,
-                  prefixIcon: Icons.person,
-                  textcontroler: controller.nickNameController,
-               //   validate: (value) => Validator.validateRequiredField(value??'',StringManager.nickname ),
-                ),
-              ),
-            ],
-          ),
-
           CustomTextFiled(
             labl: StringManager.email.tr,
             hinttext: StringManager.enterEmail.tr,
@@ -50,73 +31,7 @@ class InputEditProfile extends GetView<ProfileController> {
             textcontroler: controller.emailUpController,
             //validate: (value) => Validator.validateEmail(value ?? ''),
           ),
-          
-          Obx(() => CustomTextFiled(
-                labl: StringManager.currentPassword.tr,
-                hinttext: StringManager.enterPassword.tr,
-                prefixIcon: Icons.lock,
-                suffixIcon: controller.isPasswordHiddenUp.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                textcontroler: controller.currentPasswordController,
-                obscureText: controller.isPasswordHiddenUp.value,
-                onTapSuffixIcon: () => controller.togglePasswordVisibilityUp(),
-                validate: (value) {
-                  if (controller.passwordUPController.text.isEmpty) {
-                    return null;
-                  }
-                  if (value == null || value.isEmpty) {
-                    return StringManager.enterPassword.tr; 
-                  }
-                  return Validator.validatePassword(value);
-                },
-              )),
-
-          Obx(() => CustomTextFiled(
-                labl: StringManager.password.tr,
-                hinttext: StringManager.enterPassword.tr,
-                prefixIcon: Icons.lock,
-                suffixIcon: controller.isPasswordHiddenUp.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                textcontroler: controller.passwordUPController,
-                obscureText: controller.isPasswordHiddenUp.value,
-                onTapSuffixIcon: () => controller.togglePasswordVisibilityUp(),
-                validate: (value) {
-                  if (controller.currentPasswordController.text.isEmpty && (value == null || value.isEmpty)) {
-                    return null;
-                  }
-                  if (value == null || value.isEmpty) {
-                    return StringManager.enterPassword.tr;
-                  }
-                  return Validator.validatePassword(value);
-                },
-              )),
-
-          Obx(() => CustomTextFiled(
-                labl: StringManager.confirm_password.tr,
-                hinttext: StringManager.enterconfirm_password.tr,
-                prefixIcon: Icons.lock,
-                suffixIcon: controller.isPasswordHiddenUp.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                textcontroler: controller.confirmpasswordUPController,
-                obscureText: controller.isPasswordHiddenUp.value,
-                onTapSuffixIcon: () => controller.togglePasswordVisibilityUp(),
-                validate: (value) {
-                  if (controller.passwordUPController.text.isEmpty) {
-                    return null;
-                  }
-                  if (value == null || value.isEmpty) {
-                    return StringManager.enterconfirm_password.tr;
-                  }
-                  return Validator.validateConfirmPassword(
-                    value, 
-                    controller.passwordUPController.text,
-                  );
-                },
-              )),
-
+         
           CustomTextFiled(
             labl: StringManager.phone_number.tr,
             hinttext: StringManager.enterphone_number.tr,
@@ -182,8 +97,97 @@ class InputEditProfile extends GetView<ProfileController> {
 
 
 
+ /*
+          Obx(() => CustomTextFiled(
+                labl: StringManager.currentPassword.tr,
+                hinttext: StringManager.enterPassword.tr,
+                prefixIcon: Icons.lock,
+                suffixIcon: controller.isPasswordHiddenUp.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                textcontroler: controller.currentPasswordController,
+                obscureText: controller.isPasswordHiddenUp.value,
+                onTapSuffixIcon: () => controller.togglePasswordVisibilityUp(),
+                validate: (value) {
+                  if (controller.passwordUPController.text.isEmpty) {
+                    return null;
+                  }
+                  if (value == null || value.isEmpty) {
+                    return StringManager.enterPassword.tr; 
+                  }
+                  return Validator.validatePassword(value);
+                },
+              )),
 
+          Obx(() => CustomTextFiled(
+                labl: StringManager.password.tr,
+                hinttext: StringManager.enterPassword.tr,
+                prefixIcon: Icons.lock,
+                suffixIcon: controller.isPasswordHiddenUp.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                textcontroler: controller.passwordUPController,
+                obscureText: controller.isPasswordHiddenUp.value,
+                onTapSuffixIcon: () => controller.togglePasswordVisibilityUp(),
+                validate: (value) {
+                  if (controller.currentPasswordController.text.isEmpty && (value == null || value.isEmpty)) {
+                    return null;
+                  }
+                  if (value == null || value.isEmpty) {
+                    return StringManager.enterPassword.tr;
+                  }
+                  return Validator.validatePassword(value);
+                },
+              )),
 
+          Obx(() => CustomTextFiled(
+                labl: StringManager.confirm_password.tr,
+                hinttext: StringManager.enterconfirm_password.tr,
+                prefixIcon: Icons.lock,
+                suffixIcon: controller.isPasswordHiddenUp.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                textcontroler: controller.confirmpasswordUPController,
+                obscureText: controller.isPasswordHiddenUp.value,
+                onTapSuffixIcon: () => controller.togglePasswordVisibilityUp(),
+                validate: (value) {
+                  if (controller.passwordUPController.text.isEmpty) {
+                    return null;
+                  }
+                  if (value == null || value.isEmpty) {
+                    return StringManager.enterconfirm_password.tr;
+                  }
+                  return Validator.validateConfirmPassword(
+                    value, 
+                    controller.passwordUPController.text,
+                  );
+                },
+              )),
+*/
+
+ /*  Row(
+            children: [
+              Expanded(
+                child: CustomTextFiled(
+                  labl: StringManager.username.tr,
+                  hinttext: StringManager.enterUsername.tr,
+                  prefixIcon: Icons.person,
+                  textcontroler: controller.nameController,
+                 // validate: (value) => Validator.validateRequiredField(value??'' ,StringManager.username),
+                ),
+              ),
+              SizedBox(width: context.widthPct(0.01)),
+              Expanded(
+                child: CustomTextFiled(
+                  labl: StringManager.nickname.tr,
+                  hinttext: StringManager.enternickname.tr,
+                  prefixIcon: Icons.person,
+                  textcontroler: controller.nickNameController,
+               //   validate: (value) => Validator.validateRequiredField(value??'',StringManager.nickname ),
+                ),
+              ),
+            ],
+          ),*/
 
 //    Obx(() => CustomTextFiled(
           //       labl: StringManager.currentPassword,
