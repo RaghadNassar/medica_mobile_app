@@ -23,43 +23,83 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          StringManager.bookingType.tr,
-          style: theme.textTheme.bodyMedium
-              ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: context.heightPct(0.015)),
-        Obx(() => Row(
+        // Text(
+        //   StringManager.bookingType.tr,
+        //   style: theme.textTheme.bodyMedium
+        //       ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+        // ),
+        // SizedBox(height: context.heightPct(0.015)),
+        // Obx(() => Row(
+        //       children: [
+        //         Expanded(
+        //           child: _buildCustomRadioTile(
+        //             context: context,
+        //             title: StringManager.typeCheckValue.tr,
+        //             value: 'check', 
+        //             groupValue: controller.selectedBookingType.value,
+        //             onChanged: (value) => controller.selectedBookingType.value = value!,
+        //           ),
+        //         ),
+        //         SizedBox(width: context.widthPct(0.025)),
+        //         Expanded(
+        //           child: _buildCustomRadioTile(
+        //             context: context,
+        //             title: StringManager.typeReviewValue.tr,
+        //             value: 'review',
+        //             groupValue: controller.selectedBookingType.value,
+        //             onChanged: (value) => controller.selectedBookingType.value = value!,
+        //           ),
+        //         ),
+        //       ],
+        //     )),
+        
+        // SizedBox(height: context.heightPct(0.03)),
+
+        // Text(
+        //   StringManager.selectAvailableDate.tr,
+        //   style: theme.textTheme.bodyMedium
+        //       ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+        // ),
+         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            
+            Text(
+              StringManager.selectAvailableDate.tr,
+              style: theme.textTheme.bodyMedium
+                  ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+           
+      Center(
+        child: GestureDetector(
+          onTap: () => controller.pickCustomDate(context),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            decoration: BoxDecoration(
+              color: AppColors.primaryTeal.withOpacity(0.07),
+              border: Border.all(
+                color: AppColors.primaryTeal.withOpacity(0.4),
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child:const Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: _buildCustomRadioTile(
-                    context: context,
-                    title: StringManager.typeCheckValue.tr,
-                    value: 'check', 
-                    groupValue: controller.selectedBookingType.value,
-                    onChanged: (value) => controller.selectedBookingType.value = value!,
-                  ),
+                const Icon(
+                  Icons.calendar_month_outlined,
+                  color: AppColors.primaryTeal,
+                  size: 18,
                 ),
-                SizedBox(width: context.widthPct(0.025)),
-                Expanded(
-                  child: _buildCustomRadioTile(
-                    context: context,
-                    title: StringManager.typeReviewValue.tr,
-                    value: 'review',
-                    groupValue: controller.selectedBookingType.value,
-                    onChanged: (value) => controller.selectedBookingType.value = value!,
+                const SizedBox(width: 8),
+                Text(
+                'pick other date',
+                  style: const TextStyle(
+                    color: AppColors.primaryTeal,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
-            )),
-        
-        SizedBox(height: context.heightPct(0.03)),
-
-        Text(
-          StringManager.selectAvailableDate.tr,
-          style: theme.textTheme.bodyMedium
-              ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
+            ),),),),],),
         SizedBox(height: context.heightPct(0.02)),
         Obx(() {
           final List<Map<String, dynamic>> formattedDates =
@@ -335,7 +375,7 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
       ),
     );
   }
-  String _getArabicDayName(DateTime date) {
+ /* String _getArabicDayName(DateTime date) {
   switch (date.weekday) {
     case DateTime.monday: return StringManager.monday.tr;
     case DateTime.tuesday: return StringManager.tuesday.tr;
@@ -346,19 +386,19 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
     case DateTime.sunday: return StringManager.sunday.tr;
     default: return "";
   }
-}
-  // String _getArabicDayName(DateTime date) {
-  //   switch (date.weekday) {
-  //     case DateTime.monday: return "الاثنين";
-  //     case DateTime.tuesday: return "الثلاثاء";
-  //     case DateTime.wednesday: return "الأربعاء";
-  //     case DateTime.thursday: return "الخميس";
-  //     case DateTime.friday: return "الجمعة";
-  //     case DateTime.saturday: return "السبت";
-  //     case DateTime.sunday: return "الأحد";
-  //     default: return "";
-  //   }
-  // }
+}*/
+  String _getArabicDayName(DateTime date) {
+    switch (date.weekday) {
+      case DateTime.monday: return "الاثنين";
+      case DateTime.tuesday: return "الثلاثاء";
+      case DateTime.wednesday: return "الأربعاء";
+      case DateTime.thursday: return "الخميس";
+      case DateTime.friday: return "الجمعة";
+      case DateTime.saturday: return "السبت";
+      case DateTime.sunday: return "الأحد";
+      default: return "";
+    }
+  }
 }
 
 
