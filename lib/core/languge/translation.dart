@@ -206,8 +206,10 @@ StringManager.loginGetStartedDesc: 'سجّل دخولك واستمتع بخدم�
    StringManager.theme:'الوضع',
    StringManager.doctorAboutDesc:
   'الدكتور %s متخصص في %s ويقدم رعاية متميزة في %s. مدة كل جلسة استشارية حوالي %s.',
+  StringManager.pickOtherDate: 'اختر تاريخاً آخر',
 };
 final Map<String, String> en = {
+  StringManager.pickOtherDate: 'Pick another date',
   StringManager.doctorAboutDesc:
   'Dr. %s is a highly skilled specialist in %s, dedicated to providing state-of-the-art care at %s. Each consultation lasts approximately %s.',
   StringManager.Didntreceivethecode : " هل لم تتلق الكود ؟؟؟ ",
