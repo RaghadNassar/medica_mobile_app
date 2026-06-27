@@ -7,7 +7,6 @@ import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/widget/custom_card_top_doctor.dart';
 import 'package:raghad_pro/core/widget/null_data_widget.dart';
 import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
-import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 /*
 class AllDoctorSpecializeScreen extends GetView<HomeController> {
@@ -90,7 +89,7 @@ class AllDoctorSpecializeScreen extends GetView<DoctorBookingController> {
 
   @override
   Widget build(BuildContext context) {
-    // 💡 هنا السحر الهندسي: جلب البيانات الممررة عبر الملاحة الاسمية (Arguments) بشكل آمن تماماً
+    
     final Map<String, dynamic> args = Get.arguments ?? {};
     final String specialtyName = args['specialtyName'] ?? '';
     final String specialtyUuid = args['specialtyUuid'] ?? '';

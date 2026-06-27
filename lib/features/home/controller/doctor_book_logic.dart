@@ -80,6 +80,56 @@ class DoctorBookingController extends GetxController {
       initFirebaseRealtime(currentDoctor.value!.uuid, selectedDateStr);
     }
   }
+
+//كلاود
+Future<void> pickCustomDate(BuildContext context) async {
+
+  final Set<int> workingWeekdays = doctorSchedules
+      .map((s) => _arabicDayToWeekday(s.day))
+      .toSet();
+
+  if (workingWeekdays.isEmpty) {
+    AlertHelper.showSnackbar(
+      message: StringManager.noAvailableSlots.tr,
+      type: AlertType.warning,
+    );
+    return;
+  }
+
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now(),
+    lastDate: DateTime.now().add(const Duration(days: 90)), 
+    
+    selectableDayPredicate: (DateTime day) {
+      return workingWeekdays.contains(day.weekday);
+    },
+  );
+
+  if (picked == null) return;
+  if (currentDoctor.value == null) return;
+
+  final String dateStr = picked.toString().split(' ')[0]; // YYYY-MM-DD
+
+  final bool alreadyExists = availableDatesList
+      .any((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (!alreadyExists) {
+    availableDatesList.add(picked);
+    availableDatesList.sort(); 
+  }
+
+  final int index = availableDatesList
+      .indexWhere((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (index != -1) {
+    selectedDateIndex.value = index;
+    getDoctorSlotsDynamic(currentDoctor.value!.uuid, dateStr);
+    initFirebaseRealtime(currentDoctor.value!.uuid, dateStr);
+  }
+}
+
 // هي لحتى اقدر مرر مودل  التفاصيل تبع الدكتور 
   void initDoctorDetails(TopDoctorModel doctor) {
     if (appointmentUuidToModify.isEmpty) {
@@ -134,14 +184,14 @@ class DoctorBookingController extends GetxController {
     required TopDoctorModel doctor,
     required String appointmentUuid,
     required DateTime oldAppointmentDateTime,
-  }) {
+  })async {
     isRescheduling.value = true;
     appointmentUuidToModify.value = appointmentUuid;
     currentDoctor.value = doctor;
     selectedTime.value = null;
 
-    getDoctorSchedules(doctor.uuid);
-    generateAvailableDates();
+   await getDoctorSchedules(doctor.uuid);
+     generateAvailableDates();
 
     String oldDateStr = oldAppointmentDateTime.toString().split(' ')[0];
     int targetIndex = availableDatesList.indexWhere(
@@ -192,7 +242,10 @@ class DoctorBookingController extends GetxController {
       },
       (schedulesData) {
         isSchedulesLoading.value = false;
-        doctorSchedules.assignAll(schedulesData.data);
+        doctorSchedules.assignAll(
+  schedulesData.data.where((schedule) => schedule.doctorUuid == doctorUuid),
+);
+       // doctorSchedules.assignAll(schedulesData.data);
       },
     );
   }
@@ -242,7 +295,8 @@ class DoctorBookingController extends GetxController {
     final response = await repostryHome.bookAppointment(
       doctorUuid: currentDoctor.value!.uuid,
       dateTime: selectedSlot.fullDate,
-      type: selectedBookingType.value,
+     // type: selectedBookingType.value,
+     type: "check",
     );
 
     response.fold(
@@ -497,6 +551,19 @@ class DoctorBookingController extends GetxController {
       getDoctorSlotsDynamic(doctorUuid, dateStr);
     }, onError: (e) => print(" [Firebase RealTime Error]: $e"));
   }
+  //claud
+  int _arabicDayToWeekday(String arabicDay) {
+  const Map<String, int> map = {
+    'الأحد':    DateTime.sunday,
+    'الاثنين':  DateTime.monday,
+    'الثلاثاء': DateTime.tuesday,
+    'الأربعاء': DateTime.wednesday,
+    'الخميس':   DateTime.thursday,
+    'الجمعة':   DateTime.friday,
+    'السبت':    DateTime.saturday,
+  };
+  return map[arabicDay] ?? DateTime.monday;
+}
 
   @override
   void onClose() {

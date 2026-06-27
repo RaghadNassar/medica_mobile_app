@@ -4,29 +4,14 @@ import 'package:raghad_pro/core/api/api_consumer.dart';
 import 'package:raghad_pro/core/helper/alert_helper.dart';
 import 'package:raghad_pro/features/profile/data/model/hestory_medical.dart';
 import 'package:raghad_pro/features/profile/data/repostry/user_repostry.dart';
-// features/medical_history/binding/medical_history_binding.dart
 
 class MedicalHistoryBinding extends Bindings {
   @override
   void dependencies() {
-    
-    if (!Get.isRegistered<ProfileRepostry>()) {
-      Get.lazyPut<ProfileRepostry>(
-        () => ProfileRepostry(Get.find<ApiConsumer>()),
-      );
-    }
-    Get.lazyPut<MedicalHistoryController>(
-      () => MedicalHistoryController(Get.find<ProfileRepostry>()),
-    );
+    Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
+    Get.lazyPut<MedicalHistoryController>(() => MedicalHistoryController(Get.find<ProfileRepostry>()));
   }
 }
-// class MedicalHistoryBinding extends Bindings {
-//   @override
-//   void dependencies() {
-//     Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
-//     Get.lazyPut<MedicalHistoryController>(() => MedicalHistoryController(Get.find<ProfileRepostry>()));
-//   }
-// }
 
 class MedicalHistoryController extends GetxController {
   final ProfileRepostry repostry;
