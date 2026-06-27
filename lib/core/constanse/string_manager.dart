@@ -225,7 +225,7 @@ class StringManager {
   static const String changePassword = "change password";
   static const String ifYouDontRemember="If you don't remember your current password, you can reset it via email or phone number.";
   static const String pleasEnterYourCurrent=     "Please enter your current password and a new password";
-  
+  static const String pickOtherDate = 'pick other date';
   //static const String lightMode = 'Light Mode';
 
   //static const String home = "Home";

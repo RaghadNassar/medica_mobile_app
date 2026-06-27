@@ -66,8 +66,8 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
             
             Text(
               StringManager.selectAvailableDate.tr,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+              style: theme.textTheme.bodyLarge
+                  ?.copyWith( fontWeight: FontWeight.bold),
             ),
            
       Center(
@@ -82,7 +82,7 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child:const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
@@ -92,7 +92,7 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                'pick other date',
+                StringManager.pickOtherDate.tr,
                   style: const TextStyle(
                     color: AppColors.primaryTeal,
                     fontWeight: FontWeight.w600,
