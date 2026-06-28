@@ -33,7 +33,7 @@ class NullDataWidget extends StatelessWidget {
            isSvg
                 ? SvgPicture.asset(
                     imagePath,
-                    height: imageHeight ?? context.heightPct(0.4),
+                    height: imageHeight ?? context.heightPct(0.35),
                     fit: BoxFit.contain,
                     colorFilter: ColorFilter.mode(
                       AppColors.primaryTeal.withOpacity(0.8),
@@ -42,7 +42,7 @@ class NullDataWidget extends StatelessWidget {
                   )
                 : Image.asset(
                     imagePath,
-                    height: imageHeight ?? context.heightPct(0.4),
+                    height: imageHeight ?? context.heightPct(0.35),
                     fit: BoxFit.contain,
                   ),
             SizedBox(height: context.heightPct(0.02)),

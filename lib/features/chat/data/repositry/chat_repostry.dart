@@ -246,6 +246,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:raghad_pro/core/api/end_point.dart';
 import 'package:raghad_pro/features/chat/abd/apiEndpoints.dart';
 import 'package:raghad_pro/features/chat/abd/apperrorhandler.dart';
 import 'package:raghad_pro/features/chat/abd/networkclient.dart';
@@ -486,7 +487,7 @@ class ChatRepository {
 
 class ChatRepository {
   final Dio _dio = NetworkClient().dio;
-  final String baseUrl = ApiEndpoints.baseUrl;
+  final String baseUrl = EndPoint.baseUrl;
 
 
   Future<Map<String, dynamic>> getOrCreateRoom({
@@ -495,7 +496,7 @@ class ChatRepository {
   }) async {
     try {
       final response = await _dio.post(
-        ApiEndpoints.getOrCreateRoom,
+        EndPoint.getOrCreateRoom,
         data: {
           "target_id": int.parse(targetId),
           "sender_id": senderId,
@@ -518,7 +519,7 @@ class ChatRepository {
 
   Future<Map<String, dynamic>> getPotentialContactsWithUser() async {
     try {
-      final response = await _dio.get(ApiEndpoints.getAllPotentialContacts);
+      final response = await _dio.get(EndPoint.getAllPotentialContacts);
       if (response.statusCode == 200 && response.data['success'] == true) {
         return response.data;
       }
@@ -549,7 +550,7 @@ class ChatRepository {
         "file_url": fileUrl,
       };
 
-      final response = await _dio.post(ApiEndpoints.storeMessage, data: dataMap);
+      final response = await _dio.post(EndPoint.storeMessage, data: dataMap);
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
       debugPrint("❌ [Laravel Sync Error]: ${AppErrorHandler.getErrorMessage(e)}");
@@ -573,7 +574,7 @@ class ChatRepository {
         "text": "أرسل صورة 🖼️",
       });
 
-      final response = await _dio.post(ApiEndpoints.uploadFile, data: formData);
+      final response = await _dio.post(EndPoint.uploadFile, data: formData);
       return response.data['url'].toString();
     } catch (e) {
       debugPrint("❌ [UploadImage Error]: ${AppErrorHandler.getErrorMessage(e)}");
@@ -597,7 +598,7 @@ class ChatRepository {
         "text": fileName,
       });
 
-      final response = await _dio.post(ApiEndpoints.uploadAttachment, data: formData);
+      final response = await _dio.post(EndPoint.uploadAttachment, data: formData);
       return response.data['url'].toString();
     } catch (e) {
       debugPrint("❌ [UploadFile Error]: ${AppErrorHandler.getErrorMessage(e)}");
@@ -607,7 +608,7 @@ class ChatRepository {
 
   Future<String?> downloadFile({required String url, required String fileName}) async {
     try {
-      String safeUrl = url.replaceAll(RegExp(ApiEndpoints.socketUrl), ApiEndpoints.socketPath);
+      String safeUrl = url.replaceAll(RegExp(EndPoint.socketUrl), EndPoint.socketPath);
       Directory tempDir = await getTemporaryDirectory();
       String savePath = "${tempDir.path}/${fileName.replaceAll(RegExp(r"[^A-Za-z0-9.]"), "_")}";
       await _dio.download(Uri.encodeFull(safeUrl), savePath);
@@ -633,7 +634,7 @@ class ChatRepository {
         "text": "تسجيل صوتي 🎤",
       });
 
-      final response = await _dio.post(ApiEndpoints.uploadFile, data: formData);
+      final response = await _dio.post(EndPoint.uploadFile, data: formData);
       return response.data['url'].toString();
     } catch (e) {
       debugPrint("❌ [UploadAudio Error]: ${AppErrorHandler.getErrorMessage(e)}");
@@ -643,7 +644,7 @@ class ChatRepository {
 
   Future<String?> getCachedAudioPath(String messageId, String url) async {
     try {
-      String safeUrl = url.replaceAll(RegExp(ApiEndpoints.socketUrl), ApiEndpoints.socketPath);
+      String safeUrl = url.replaceAll(RegExp(EndPoint.socketUrl), EndPoint.socketPath);
       final directory = await getTemporaryDirectory();
       String localPath = '${directory.path}/cache_$messageId.${safeUrl.endsWith('.mp3') ? 'mp3' : 'm4a'}';
       

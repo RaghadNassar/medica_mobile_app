@@ -82,7 +82,7 @@ class DoctorBookingController extends GetxController {
   }
 
 //كلاود
-Future<void> pickCustomDate(BuildContext context) async {
+/*Future<void> pickCustomDate(BuildContext context) async {
 
   final Set<int> workingWeekdays = doctorSchedules
       .map((s) => _arabicDayToWeekday(s.day))
@@ -118,6 +118,119 @@ Future<void> pickCustomDate(BuildContext context) async {
   if (!alreadyExists) {
     availableDatesList.add(picked);
     availableDatesList.sort(); 
+  }
+
+  final int index = availableDatesList
+      .indexWhere((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (index != -1) {
+    selectedDateIndex.value = index;
+    getDoctorSlotsDynamic(currentDoctor.value!.uuid, dateStr);
+    initFirebaseRealtime(currentDoctor.value!.uuid, dateStr);
+  }
+}*/
+/*
+Future<void> pickCustomDate(BuildContext context) async {
+  final Set<int> workingWeekdays = doctorSchedules
+      .map((s) => _arabicDayToWeekday(s.day))
+      .toSet();
+
+  if (workingWeekdays.isEmpty) {
+    AlertHelper.showSnackbar(
+      message: StringManager.noAvailableSlots.tr,
+      type: AlertType.warning,
+    );
+    return;
+  }
+
+  
+  DateTime initialDate = DateTime.now();
+  for (int i = 0; i < 90; i++) {
+    final candidate = DateTime.now().add(Duration(days: i));
+    if (workingWeekdays.contains(candidate.weekday)) {
+      initialDate = candidate;
+      break;
+    }
+  }
+
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: initialDate, 
+    firstDate: DateTime.now(),
+    lastDate: DateTime.now().add(const Duration(days: 90)),
+    selectableDayPredicate: (DateTime day) {
+      return workingWeekdays.contains(day.weekday);
+    },
+  );
+
+  if (picked == null || currentDoctor.value == null) return;
+
+  final String dateStr = picked.toString().split(' ')[0];
+
+  final bool alreadyExists = availableDatesList
+      .any((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (!alreadyExists) {
+    availableDatesList.add(picked);
+    availableDatesList.sort();
+  }
+
+  final int index = availableDatesList
+      .indexWhere((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (index != -1) {
+    selectedDateIndex.value = index;
+    getDoctorSlotsDynamic(currentDoctor.value!.uuid, dateStr);
+    initFirebaseRealtime(currentDoctor.value!.uuid, dateStr);
+  }
+}*/
+//deep
+Future<void> pickCustomDate(BuildContext context) async {
+  final Set<int> workingWeekdays = doctorSchedules
+      .map((s) => _arabicDayToWeekday(s.day))
+      .toSet();
+
+  if (workingWeekdays.isEmpty) {
+    AlertHelper.showSnackbar(
+      message: StringManager.noAvailableSlots.tr,
+      type: AlertType.warning,
+    );
+    return;
+  }
+
+  DateTime initialDate = DateTime.now();
+  
+  
+  if (!workingWeekdays.contains(initialDate.weekday)) {
+    for (int i = 1; i < 7; i++) {
+      final candidate = DateTime.now().add(Duration(days: i));
+      if (workingWeekdays.contains(candidate.weekday)) {
+        initialDate = candidate;
+        break;
+      }
+    }
+  }
+
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: initialDate,
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2100), 
+    selectableDayPredicate: (DateTime day) {
+      return workingWeekdays.contains(day.weekday);
+    },
+  );
+
+  if (picked == null || currentDoctor.value == null) return;
+
+  final String dateStr = picked.toString().split(' ')[0];
+
+  final bool alreadyExists = availableDatesList
+      .any((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (!alreadyExists) {
+    availableDatesList.add(picked);
+    availableDatesList.sort();
   }
 
   final int index = availableDatesList

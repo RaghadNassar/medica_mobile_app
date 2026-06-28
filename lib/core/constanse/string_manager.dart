@@ -137,10 +137,11 @@ class StringManager {
   static const String doctorAboutDesc = 'doctor about desc';
 
   static const String workingHour = 'Working Hours';
-  static const String selectAvailableDate = 'Select Available Date';
+  static const String selectAvailableDate = 'Select Date';
   static const String bookNow = 'Book Now';
   static const String rateDoctor = 'Rate Doctor';
   static const String send = 'Send';
+  static const String noPerscriotion = 'No prescriptions available';
   static const String noDoctorsAvailable =
       "There are currently no doctors available in this specialty.";
   static const String bookingType = "Booking Type";
@@ -223,8 +224,10 @@ class StringManager {
   static const String saturday = "saturday";
   static const String sunday = "sunday";
   static const String changePassword = "change password";
-  static const String ifYouDontRemember="If you don't remember your current password, you can reset it via email or phone number.";
-  static const String pleasEnterYourCurrent=     "Please enter your current password and a new password";
+  static const String ifYouDontRemember =
+      "If you don't remember your current password, you can reset it via email or phone number.";
+  static const String pleasEnterYourCurrent =
+      "Please enter your current password and a new password";
   static const String pickOtherDate = 'pick other date';
   //static const String lightMode = 'Light Mode';
 

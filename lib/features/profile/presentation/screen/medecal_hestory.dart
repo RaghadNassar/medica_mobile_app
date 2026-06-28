@@ -42,7 +42,7 @@ class MedicalHistoryScreen extends GetView<MedicalHistoryController> {
                 if (controller.medicalRecords.isEmpty) {
                   return Center(
                     child: NullDataWidget(
-                      text:StringManager.noDoctorsAvailable.tr, 
+                      text:StringManager.noPerscriotion.tr, 
                       imagePath: Appassets.nulldata,
                     ),
                   );

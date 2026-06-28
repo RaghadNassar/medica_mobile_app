@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:raghad_pro/core/api/end_point.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/features/chat/abd/apiEndpoints.dart';
 import 'package:raghad_pro/features/chat/controller/chat_controller.dart';
@@ -184,7 +185,7 @@ appBar: AppBar(
 
   Widget _buildMessageBubble(BuildContext context, ChatController controller, MessageModel message, bool isMe, bool isDark) {
     String originalUrl = message.fileUrl ?? "";
-    String safeUrl = originalUrl.replaceAll(RegExp(ApiEndpoints.socketUrl), ApiEndpoints.socketPath);
+    String safeUrl = originalUrl.replaceAll(RegExp(EndPoint.socketUrl), EndPoint.socketPath);
 
     // التعامل مع الرسائل المحذوفة بشكل فوري في الواجهة لراحة الطبيب والمريض
     if (message.type.toString().contains('deleted') || message.text == 'تم حذف هذه الرسالة') {
@@ -268,7 +269,7 @@ appBar: AppBar(
       if (finalUrl.isNotEmpty && !finalUrl.startsWith('http')) {
         // finalUrl = 'http://10.113.180.45:8000/storage/chat/$finalUrl';
 
-           finalUrl = '${ApiEndpoints.socketPath}/storage/chat/$finalUrl';
+           finalUrl = '${EndPoint.socketPath}/storage/chat/$finalUrl';
 
       }
 
@@ -299,7 +300,7 @@ appBar: AppBar(
           if (imageUrl.isNotEmpty && !imageUrl.startsWith('http')) {
             // imageUrl = 'http://10.113.180.45:8000/storage/chat/$imageUrl';
 
-              imageUrl = '${ApiEndpoints.socketPath}/storage/chat/$imageUrl';
+              imageUrl = '${EndPoint.socketPath}/storage/chat/$imageUrl';
           }
 
           print("🖼️ [UI Render Check] الرابط الذي تحاول الواجهة عرضه الآن هو: $imageUrl");
