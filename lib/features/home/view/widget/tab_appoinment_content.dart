@@ -131,18 +131,18 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
 
         Text(
           StringManager.selectAvailableTime.tr,
-          style: theme.textTheme.bodyMedium
-              ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+          style: theme.textTheme.bodyLarge
+              ?.copyWith( fontWeight: FontWeight.bold),
         ),
         SizedBox(height: context.heightPct(0.015)),
         Obx(() {
           return Skeletonizer(
             enabled: controller.isSlotsLoading.value,
             child: controller.doctorSlots.isEmpty && !controller.isSlotsLoading.value
-                ? const Center(
+                ?  Center(
                     child: Padding(
-                      padding: EdgeInsets.all(15.0),
-                      child: Text(StringManager.noAvailableSlots),
+                      padding:const EdgeInsets.all(15.0),
+                      child: Text(StringManager.noAvailableSlots.tr),
                     ),
                   )
                 : BookingTimeGrid(
@@ -161,7 +161,7 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
         
         Text(
           StringManager.whothisbook .tr,
-          style: theme.textTheme.bodyMedium?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+          style: theme.textTheme.bodyLarge?.copyWith( fontWeight: FontWeight.bold),
         ),
         SizedBox(height: context.heightPct(0.015)),
         

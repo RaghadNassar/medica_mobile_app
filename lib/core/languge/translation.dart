@@ -153,7 +153,7 @@ StringManager.loginGetStartedDesc: 'سجّل دخولك واستمتع بخدم�
   StringManager.reviews: "المراجعات",
   StringManager.aboutDoctor: "حول الطبيب",
   StringManager.workingHour: "أوقات العمل",
-  StringManager.selectAvailableDate: "اختر التاريخ المتاح",
+  StringManager.selectAvailableDate: "اختر التاريخ ",
   StringManager.bookNow: "احجز الآن",
   StringManager.rateDoctor: "تقييم الطبيب",
   StringManager.send: "إرسال",
@@ -207,8 +207,10 @@ StringManager.loginGetStartedDesc: 'سجّل دخولك واستمتع بخدم�
    StringManager.doctorAboutDesc:
   'الدكتور %s متخصص في %s ويقدم رعاية متميزة في %s. مدة كل جلسة استشارية حوالي %s.',
   StringManager.pickOtherDate: 'اختر تاريخاً آخر',
+  StringManager.noPerscriotion : 'لايوجد وصفات طبية متاحة الان ',
 };
 final Map<String, String> en = {
+  StringManager.noPerscriotion : 'No prescriptions available',
   StringManager.pickOtherDate: 'Pick another date',
   StringManager.doctorAboutDesc:
   'Dr. %s is a highly skilled specialist in %s, dedicated to providing state-of-the-art care at %s. Each consultation lasts approximately %s.',
@@ -354,7 +356,7 @@ StringManager.doctoravailable :
   StringManager.reviews: "Reviews",
   StringManager.aboutDoctor: "About Doctor",
   StringManager.workingHour: "Working Hours",
-  StringManager.selectAvailableDate: "Select Available Date",
+  StringManager.selectAvailableDate: "Select  Date",
   StringManager.bookNow: "Book Now",
   StringManager.rateDoctor: "Rate Doctor",
   StringManager.send: "Send",

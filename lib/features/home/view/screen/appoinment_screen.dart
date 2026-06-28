@@ -48,7 +48,7 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
 
               if (!isLoading && currentList.isEmpty) {
                 return NullDataWidget(
-                  text: StringManager.noAppointmentsInThisSpecialization,
+                  text: StringManager.noAppointmentsInThisSpecialization.tr,
                   imagePath: Appassets.nulldata2,
                 );
               }

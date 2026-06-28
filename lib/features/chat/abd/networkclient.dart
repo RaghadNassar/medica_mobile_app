@@ -2,7 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:raghad_pro/features/chat/abd/apiEndpoints.dart';
+import 'package:raghad_pro/core/api/end_point.dart';
 import 'package:raghad_pro/features/chat/abd/storagetoken.dart';
 
 class NetworkClient {
@@ -17,7 +17,8 @@ class NetworkClient {
     // 2. إعدادات الـ Dio الأساسية
     dio = Dio(
       BaseOptions(
-        baseUrl: ApiEndpoints.baseUrl,
+       // baseUrl: ApiEndpoints.baseUrl,
+       baseUrl: EndPoint.baseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
         headers: {

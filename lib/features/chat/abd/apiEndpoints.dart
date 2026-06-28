@@ -1,3 +1,4 @@
+/*
 class ApiEndpoints {
   static const String host = '192.168.1.3';
   static const String baseUrl = "http://$host:8000/api";
@@ -69,4 +70,4 @@ class ApiEndpoints {
   static const String storeMessage = "/chat/store-message";   
   
 
-}
+}*/

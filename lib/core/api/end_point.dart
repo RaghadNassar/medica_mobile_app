@@ -31,7 +31,26 @@ class EndPoint {
   //static String getProfile = 'patient/auth/me';
 
 // firebase and notifications
+// Chat
+  static const String getAllPotentialContacts =
+      "chat/potential-contacts"; // GET
+  // notifications
   static const String updateFcmToken = "update-fcm-token";
+  static const String myNotifications = "notification/my-notifications";
+  static const String notificationCount = "notification/my-notifications/count";
+  static const String deleteAllNotifications =
+      "notification/my-notifications/delete-all";
+  // دوال ديناميكية لتوليد الروابط بناءً على الـ UUID الخاص بالإشعار
+  static String markAsReadUrl(String uuid) =>
+      "notification/my-notifications/$uuid/seen";
+  static String deleteNotificationUrl(String uuid) =>
+      "notification/my-notifications/$uuid/delete";
+  // --- Chat (المستخدمة في الكود ولكن غير موجودة - أضفها) ---
+  static const String getOrCreateRoom = "chat/get-or-create-room"; // POST
+  static const String uploadFile = "chat/upload"; // POST
+  static const String uploadAttachment = "chat/attachments/upload"; // POST
+  static const String storeMessage = "chat/store-message";
+  /* static const String updateFcmToken = "update-fcm-token";
   static const String myNotifications = "notification/my-notifications";
   static const String notificationCount = "notification/my-notifications/count";
   static const String deleteAllNotifications =
@@ -46,7 +65,7 @@ class EndPoint {
   static const String getOrCreateRoom = "chat/get-or-create-room";
   static const String uploadFile = "chat/upload";
   static const String uploadAttachment = "chat/attachments/upload";
-  static const String storeMessage = "chat/store-message";
+  static const String storeMessage = "chat/store-message";*/
 }
 
 class ApiKey {
