@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:raghad_pro/core/api/end_point.dart';
+import 'package:raghad_pro/core/cache/cashe_helper_getStorage.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/helper/alert_helper.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
@@ -426,10 +428,13 @@ Future<void> pickCustomDate(BuildContext context) async {
           if(Get.isRegistered<PatientAppointmentController>()){
            await Get.find<PatientAppointmentController>().syncAppointmentsSilently();
         }
+        //deep 
+        final String patientUuid = CacheHelperGetStorage.getString(key: ApiKey.uuid) ?? '';
 // هون المزامنة مع الفيربيز
         try {
           await FirebaseFirestore.instance.collection('appointments').add({
             'user_uuid': currentDoctor.value!.uuid,
+            'patient_uuid': patientUuid, 
             'status': "has booked",
             'appointment_uuid': appointmentData.appointment!.uuid, 
             'date_time': selectedSlot.fullDate,
@@ -504,11 +509,12 @@ Future<void> pickCustomDate(BuildContext context) async {
           confirmButtonText: StringManager.ok,
           onConfirm: () => Get.back(),
         );
-
+ final String patientUuid = CacheHelperGetStorage.getString(key: ApiKey.uuid) ?? '';
         try {
           await FirebaseFirestore.instance.collection('appointments').add({
             'user_uuid': doctorUuid, 
-            'status': "rescheduled",
+            'status': "has changed",
+            'patient_uuid': patientUuid, 
             'appointment_uuid': appointmentUuid,
             'date_time': newDateTime, 
           });
@@ -577,11 +583,12 @@ Future<void> pickCustomDate(BuildContext context) async {
         if(Get.isRegistered<PatientAppointmentController>()){
            await Get.find<PatientAppointmentController>().syncAppointmentsSilently();
         }
-
+ final String patientUuid = CacheHelperGetStorage.getString(key: ApiKey.uuid) ?? '';
         try {
           await FirebaseFirestore.instance.collection('appointments').add({
             'user_uuid': currentDoctor.value!.uuid,
             'status': "has booked",
+            'patient_uuid': patientUuid, 
             'appointment_uuid': appointmentResponse.patientData?.uuid ?? '', 
             'date_time': selectedSlot.fullDate,
           });
