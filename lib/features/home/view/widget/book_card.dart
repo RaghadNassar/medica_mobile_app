@@ -247,6 +247,10 @@ class AppointmentCard extends StatelessWidget {
         statusColor = AppColors.info;
         statusText = StringManager.statusChanged.tr;
         break;
+      case 'canceled':
+        statusColor = AppColors.error;
+        statusText = StringManager.statusCancelled.tr;
+        break;  
       default:
         statusColor = AppColors.success;
         statusText = StringManager.statusVisited.tr;
@@ -254,7 +258,7 @@ class AppointmentCard extends StatelessWidget {
 
     return Card(
       color: theme.colorScheme.surface,
-      margin: EdgeInsets.only(bottom: context.heightPct(0.02)),
+      margin: EdgeInsets.only(bottom: context.heightPct(0.02),top: context.heightPct(0.02) ),
       elevation: 0.6,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

@@ -27,14 +27,16 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
       title: StringManager.appointmentScreen.tr,
       content: Column(
         children: [
+          
           Obx(() => Padding(
-                padding: AppSpacing.screenPadding121_61,
+                padding: AppSpacing.vertical10,
                 child: CustomGenericTabs(
                   tabLabels: [
                     StringManager.tabBooked.tr,
                     StringManager.tabWaiting.tr,
                     StringManager.tabChanged.tr,
                     StringManager.tabCompleted.tr,
+                    StringManager.tabCancelled.tr,
                   ],
                   selectedIndex: controller.appointmentTabControllerIndex.value,
                   onTabSelected: (index) =>
@@ -69,7 +71,10 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
                         showActions: isLoading
                             ? false
                             : controller.appointmentTabControllerIndex.value !=
-                                3,
+                                    3 &&
+                                controller
+                                        .appointmentTabControllerIndex.value !=
+                                    4,
                         onCancel: isLoading || appointment == null
                             ? null
                             : () => _showCancelDialog(context, appointment),
@@ -138,6 +143,7 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
         return controller.changedAppointments;
       case 3:
         return controller.visitedAppointments;
+      case 4: return controller.cancelledAppointments;
       default:
         return controller.bookedAppointments;
     }

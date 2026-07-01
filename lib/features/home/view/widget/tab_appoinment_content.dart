@@ -142,7 +142,14 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
                 ?  Center(
                     child: Padding(
                       padding:const EdgeInsets.all(15.0),
-                      child: Text(StringManager.noAvailableSlots.tr),
+                      child: Column(
+                        children: [
+                        const  Icon(Icons.error,color: AppColors.error,size: 65,),
+                        SizedBox(height: context.height*0.01,),
+                          Text(StringManager.noAvailableSlots.tr,style: theme.textTheme.bodyLarge
+              ?.copyWith(color: AppColors.error, fontWeight: FontWeight.bold),),
+                        ],
+                      ),
                     ),
                   )
                 : BookingTimeGrid(

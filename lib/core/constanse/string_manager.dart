@@ -148,7 +148,8 @@ class StringManager {
   static const String selectAvailablTime = "Select Available Time";
   static const String consultationNew = "New Consultation";
   static const String followUpReview = "Follow-up";
-  static const String noAvailableSlots = "No available time slots for this day";
+  static const String noAvailableSlots = "Doctor is not available on this day";
+  // "No available time slots for this day";
   static const String typeCheckValue = "check";
   static const String typeReviewValue = "review";
   static const String bookingSuccess = "Booking Successful!";
@@ -229,6 +230,8 @@ class StringManager {
   static const String pleasEnterYourCurrent =
       "Please enter your current password and a new password";
   static const String pickOtherDate = 'pick other date';
+  static const String tabCancelled = 'tab cancelled';
+  static const String statusCancelled = 'status cancelled';
   //static const String lightMode = 'Light Mode';
 
   //static const String home = "Home";

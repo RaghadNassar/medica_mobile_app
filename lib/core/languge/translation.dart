@@ -162,7 +162,7 @@ StringManager.loginGetStartedDesc: 'سجّل دخولك واستمتع بخدم�
   StringManager.selectAvailablTime: "اختر الوقت المتاح",
   StringManager.consultationNew: "استشارة جديدة",
   StringManager.followUpReview: "متابعة / مراجعة",
-  StringManager.noAvailableSlots: "لا توجد فترات زمنية متاحة في هذا اليوم",
+  StringManager.noAvailableSlots: "  الطبيب لا يعمل بهذا اليوم ",
   StringManager.typeCheckValue: "معاينة",
   StringManager.typeReviewValue: "مراجعة",
   StringManager.bookingSuccess: "تم الحجز بنجاح!",
@@ -208,8 +208,12 @@ StringManager.loginGetStartedDesc: 'سجّل دخولك واستمتع بخدم�
   'الدكتور %s متخصص في %s ويقدم رعاية متميزة في %s. مدة كل جلسة استشارية حوالي %s.',
   StringManager.pickOtherDate: 'اختر تاريخاً آخر',
   StringManager.noPerscriotion : 'لايوجد وصفات طبية متاحة الان ',
+  StringManager.tabCancelled:    'ملغية',
+StringManager.statusCancelled: 'ملغي',
 };
 final Map<String, String> en = {
+  StringManager.tabCancelled:    'Cancelled',
+StringManager.statusCancelled: 'Cancelled',
   StringManager.noPerscriotion : 'No prescriptions available',
   StringManager.pickOtherDate: 'Pick another date',
   StringManager.doctorAboutDesc:
@@ -365,7 +369,7 @@ StringManager.doctoravailable :
   StringManager.selectAvailablTime: "Select Available Time",
   StringManager.consultationNew: "New Consultation",
   StringManager.followUpReview: "Follow-up",
-  StringManager.noAvailableSlots: "No available time slots for this day",
+  StringManager.noAvailableSlots: "Doctor is not available on this day",
   StringManager.typeCheckValue: "Check",
   StringManager.typeReviewValue: "Review",
   StringManager.bookingSuccess: "Booking Successful!",
