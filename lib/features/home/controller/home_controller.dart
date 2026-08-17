@@ -12,7 +12,6 @@ import 'package:raghad_pro/features/home/data/model/banar_image_static.dart';
 import 'package:raghad_pro/features/home/data/model/spizialize_model.dart';
 import 'package:raghad_pro/features/home/data/model/top_doctor_model.dart';
 import 'package:raghad_pro/features/home/data/repositry/repostry_home.dart';
-
 import 'package:raghad_pro/features/profile/controller/profile_controller.dart';
 import 'package:raghad_pro/features/profile/data/repostry/user_repostry.dart';
 
@@ -22,12 +21,15 @@ class MainNavigationBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<RepostryHome>(() => RepostryHome(Get.find<ApiConsumer>()));
     Get.lazyPut<HomeNavigationController>(() => HomeNavigationController());
-    Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()));
+    Get.lazyPut<HomeDashboardController>(() => HomeDashboardController(Get.find<RepostryHome>()),);
     Get.lazyPut<PatientAppointmentController>(() => PatientAppointmentController(Get.find<RepostryHome>()),fenix: true);
     Get.lazyPut<DoctorBookingController>(
     () => DoctorBookingController(Get.find<RepostryHome>()),
     fenix: true,
   );
+  // Get.lazyPut<DoctorBookingController>(
+  //     () => DoctorBookingController(Get.find<RepostryHome>()),
+  //   );
     
     Get.lazyPut<ProfileRepostry>(() => ProfileRepostry(Get.find<ApiConsumer>()));
     Get.lazyPut<ProfileController>(() => ProfileController(Get.find<ProfileRepostry>()),fenix: true);
@@ -50,6 +52,7 @@ class HomeDashboardController extends GetxController {
   var isSpecLoading = true.obs;
   var specializations = <SpecializationModel>[].obs;
   SpecializationStats? stats;
+  
 
   final List<BannerImageData> medicalBanners = [
     BannerImageData(image: Appassets.pannar5),
@@ -155,7 +158,7 @@ class HomeDashboardController extends GetxController {
   }
 */
 Color getIconColorForSpecialty(String name) {
-  return AppColors.primaryTeal; // يرجع لون التركواز لكل الأقسام تلقائياً
+  return AppColors.primaryTeal; 
 }
   @override
   void onClose() {
@@ -167,6 +170,348 @@ Color getIconColorForSpecialty(String name) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+class HomeDashboardController extends GetxController {
+  final RepostryHome repostryHome;
+  HomeDashboardController(this.repostryHome);
+
+  final PageController bannerPageController = PageController();
+  final RxInt currentBannerPage = 0.obs;
+  Timer? _bannerTimer;
+
+  var isTopDoctorsLoading = true.obs;
+  var topDoctors = <TopDoctorModel>[].obs;
+  
+  var isSpecLoading = true.obs;
+  var specializations = <SpecializationModel>[].obs;
+  SpecializationStats? stats;
+
+  // 🛡️ Flag لمنع إرسال طلبات مكررة في حال إعادة الاستدعاء المتزامنة
+  bool _isFetchingData = false;
+
+  final List<BannerImageData> medicalBanners = [
+    BannerImageData(image: Appassets.pannar5),
+    BannerImageData(image: Appassets.pannar6),
+    BannerImageData(image: Appassets.pannar2),
+    BannerImageData(image: Appassets.pannar3),
+    BannerImageData(image: Appassets.pannar4),
+  ];
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchHomeData();
+    _startBannerAutoSlider();
+  }
+
+  /// دالة موحدة لطلب بيانات الصفحة الرئيسية بشكل توازي آمن
+  Future<void> fetchHomeData() async {
+    if (_isFetchingData) return; // منع التكرار إذا كان الطلب جارياً
+    _isFetchingData = true;
+
+    await Future.wait([
+      getSpecializations(),
+      getTopDoctors(),
+    ]);
+
+    _isFetchingData = false;
+  }
+
+  Future<void> getSpecializations() async {
+    isSpecLoading.value = true;
+    final response = await repostryHome.getSpecializations();
+
+    response.fold(
+      (errorMessage) {
+        isSpecLoading.value = false;
+        // ⚠️ يجب استخدام Failure Model أو Logger بدلاً من print العادي
+      },
+      (specializationData) {
+        isSpecLoading.value = false;
+        specializations.assignAll(specializationData.data);
+        stats = specializationData.stats;
+      },
+    );
+  }
+
+  Future<void> getTopDoctors() async {
+    isTopDoctorsLoading.value = true;
+    final response = await repostryHome.getTopDoctors();
+
+    response.fold(
+      (errorMessage) {
+        isTopDoctorsLoading.value = false;
+      },
+      (topDoctorsData) {
+        isTopDoctorsLoading.value = false;
+        topDoctors.assignAll(topDoctorsData.data);
+      },
+    );
+  }
+
+  void _startBannerAutoSlider() {
+    _bannerTimer?.cancel();
+    _bannerTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (medicalBanners.isNotEmpty) {
+        if (currentBannerPage.value < medicalBanners.length - 1) {
+          currentBannerPage.value++;
+        } else {
+          currentBannerPage.value = 0;
+        }
+
+        if (bannerPageController.hasClients) {
+          bannerPageController.animateToPage(
+            currentBannerPage.value,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+          );
+        }
+      }
+    });
+  }
+
+  void updateBannerPage(int page) {
+    currentBannerPage.value = page;
+  }
+
+  IconData getIconForSpecialty(String name) {
+    if (name.contains("القلبية")) return Icons.favorite_rounded;
+    if (name.contains("الأطفال")) return Icons.child_care_rounded;
+    if (name.contains("العصبية")) return Icons.psychology_rounded;
+    if (name.contains("العظمية")) return Icons.accessibility_new_rounded;
+    if (name.contains("الأسنان")) return Icons.attribution_rounded;
+    if (name.contains("العينية")) return Icons.visibility_rounded;
+    return Icons.medical_services_rounded;
+  }
+
+  Color getColorForSpecialty(String name) {
+    if (name.contains("القلبية")) return Get.theme.colorScheme.error.withOpacity(0.1);
+    if (name.contains("الأطفال")) return Colors.orange.withOpacity(0.1);
+    if (name.contains("العصبية")) return Colors.purple.withOpacity(0.1);
+    if (name.contains("العظمية")) return Get.theme.colorScheme.tertiary.withOpacity(0.1);
+    if (name.contains("الأسنان")) return Get.theme.primaryColor.withOpacity(0.1);
+    if (name.contains("العينية")) return Colors.green.withOpacity(0.1);
+    return Colors.blueGrey.withOpacity(0.1);
+  }
+
+  Color getIconColorForSpecialty(String name) {
+    return Get.theme.primaryColor; // 🎨 تم فرض استخدام Get.theme بدلاً من AppColors المباشر
+  }
+
+  @override
+  void onClose() {
+    _bannerTimer?.cancel();
+    bannerPageController.dispose();
+    super.onClose();
+  }
+}
+
+*/
 
 
 

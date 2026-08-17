@@ -7,6 +7,7 @@ import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/widget/custom_card_top_doctor.dart';
 import 'package:raghad_pro/core/widget/null_data_widget.dart';
 import 'package:raghad_pro/features/home/controller/doctor_book_logic.dart';
+import 'package:raghad_pro/features/home/controller/home_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 /*
 class AllDoctorSpecializeScreen extends GetView<HomeController> {
@@ -83,18 +84,16 @@ class AllDoctorSpecializeScreen extends GetView<HomeController> {
     );
   }
 }*/
+
 class AllDoctorSpecializeScreen extends GetView<DoctorBookingController> {
-  // 💡 لاحظي: قمنا بحذف المتغيرات الـ final والكونسرتكتور القديم ليكون متوافقاً مع المعمارية الصحيحة
   const AllDoctorSpecializeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     final Map<String, dynamic> args = Get.arguments ?? {};
     final String specialtyName = args['specialtyName'] ?? '';
     final String specialtyUuid = args['specialtyUuid'] ?? '';
 
-    // جلب أطباء الاختصاص عند فتح الشاشة مباشرة بعد رسم الإطار الأول
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (specialtyUuid.isNotEmpty) {
         controller.getDoctorsBySpecialty(specialtyUuid);

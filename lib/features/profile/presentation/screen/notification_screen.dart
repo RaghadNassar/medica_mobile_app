@@ -273,13 +273,13 @@ class NotificationsScreen extends GetView<NotificationLogic> {
           ),
           const SizedBox(height: 24),
           Text(
-            StringManager.inbox,
+            StringManager.inbox.tr,
             style: theme.textTheme.titleLarge
                 ?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 8),
           Text(
-            StringManager.noNotifications,
+            StringManager.noNotifications.tr,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium
                 ?.copyWith(color: theme.hintColor, fontSize: 13, height: 1.4),

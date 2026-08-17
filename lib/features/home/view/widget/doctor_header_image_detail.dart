@@ -13,7 +13,7 @@ class DoctorHeaderImage extends StatelessWidget {
 
   const DoctorHeaderImage({
     super.key,
-    this.imagePath, 
+    this.imagePath,
     required this.doctorName,
     required this.specialty,
     required this.onBackTap,
@@ -24,24 +24,23 @@ class DoctorHeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final double headerHeight = context.heightPct(0.3); 
+    final double headerHeight = context.heightPct(0.34);
 
     return Stack(
       children: [
-       
         ClipRRect(
-          borderRadius: const BorderRadius.vertical(bottom: Radius.circular(28)),
+          // borderRadius:
+          //     const BorderRadius.vertical(bottom: Radius.circular(28)),
           child: Container(
             width: double.infinity,
             height: headerHeight,
-            
             color: theme.colorScheme.primaryContainer.withOpacity(0.08),
             child: imagePath != null && imagePath!.isNotEmpty
                 ? Image.network(
                     imagePath!,
                     width: double.infinity,
                     height: headerHeight,
-                    fit: BoxFit.cover, 
+                    fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
                     errorBuilder: (context, error, stackTrace) => Center(
                       child: Icon(
@@ -60,27 +59,24 @@ class DoctorHeaderImage extends StatelessWidget {
                   ),
           ),
         ),
-
-        
         Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(28)),
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(28)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.black.withOpacity(0.05),
                   Colors.transparent,
-                  Colors.black.withOpacity(0.02), 
+                  Colors.black.withOpacity(0.02),
                 ],
                 stops: const [0.0, 0.5, 1.0],
               ),
             ),
           ),
         ),
-
-       
         Positioned(
           top: MediaQuery.of(context).padding.top + 10,
           left: 16,
@@ -88,24 +84,23 @@ class DoctorHeaderImage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              
               _buildCircularButton(
                 icon: Icons.arrow_back_ios_new_rounded,
                 onTap: onBackTap,
               ),
-              Row(
-                children: [
-                  _buildCircularButton(
-                    icon: Icons.share_outlined,
-                    onTap: onShareTap,
-                  ),
-                  SizedBox(width: context.widthPct(0.02)), // مسافة بين زر المشاركة والمفضلة
-                  _buildCircularButton(
-                    icon: Icons.favorite_border_rounded,
-                    onTap: onFavoriteTap,
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     _buildCircularButton(
+              //       icon: Icons.share_outlined,
+              //       onTap: onShareTap,
+              //     ),
+              //     SizedBox(width: context.widthPct(0.02)), // مسافة بين زر المشاركة والمفضلة
+              //     _buildCircularButton(
+              //       icon: Icons.favorite_border_rounded,
+              //       onTap: onFavoriteTap,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -122,11 +117,11 @@ class DoctorHeaderImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(100),
       child: Container(
         padding: AppSpacing.screenPadding5,
-        decoration: BoxDecoration(
-          color: AppColors.darkBackground.withOpacity(0.35),
+        decoration:const BoxDecoration(
+          color: AppColors.lightSurface,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: AppColors.lightSurface, size: 22),
+        child: Icon(icon, color: AppColors.darkBackground, size: 22),
       ),
     );
   }

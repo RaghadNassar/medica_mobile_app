@@ -49,7 +49,7 @@ class SubmitSignUp extends GetView<RegisterController> {
               ],
             ),
 
-          SizedBox(height: context.heightPct(0.03)),
+          SizedBox(height: context.heightPct(0.017)),
           
           CustomTextClickable(
             text: StringManager.alreadyhaveaccount.tr,

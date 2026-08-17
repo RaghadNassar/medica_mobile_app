@@ -71,102 +71,6 @@ Future<void> main() async {
 
   runApp(const MyApp());
 }
-/*
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Firebase.apps before init: ${Firebase.apps.map((a) => a.name).toList()}');
-  try {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-} on FirebaseException catch (e) {
-  if (e.code != 'duplicate-app') rethrow;
-}
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("🔥 إشعار في الخلفية: ${message.messageId}");
-}
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelperGetStorage.init();
-
-  // 💡 الفحص الذكي: لو الفايربيس مهيأ مسبقاً لا تقم بتهيئته مجدداً وتفادى الانهيار
-  try {
-    if (Firebase.apps.isEmpty) {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-    } else {
-      Firebase.app(); // استخدام النسخة الموجودة في الذاكرة
-    }
-  } on FirebaseException catch (e) {
-    if (e.code != 'duplicate-app') rethrow;
-  }
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // سجّل الاعتمادات الأساسية إذا لم تكن مسجّلة (لتفادي تضارب مع InitialBinding)
-  if (!Get.isRegistered<Dio>()) {
-    Get.put<Dio>(Dio(), permanent: true);
-  }
-  if (!Get.isRegistered<ApiConsumer>()) {
-    Get.put<ApiConsumer>(DioConsumer(dio: Get.find<Dio>()), permanent: true);
-  }
-
-  // جهّز NotificationRepository و NotificationLogic ثم نفّذ تهيئة الإشعارات
-  final notificationRepo = NotificationRepository(Get.find<ApiConsumer>());
-  final notificationLogic = NotificationLogic(notificationRepo);
-  await notificationLogic.initNotificationSettings();
-  
-  // سجّلهما في DI لتكون متاحة طوال عمر التطبيق
-  if (!Get.isRegistered<NotificationRepository>()) {
-    Get.put<NotificationRepository>(notificationRepo, permanent: true);
-  }
-  if (!Get.isRegistered<NotificationLogic>()) {
-    Get.put<NotificationLogic>(notificationLogic, permanent: true);
-  }
-
-  await Get.putAsync(() => RealTimeService().init());
-  runApp(const MyApp());
-}*/
-
-
-
-
-
-
-
-/*
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelperGetStorage.init();
- // await CacheHelperGetStorage.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-    // سجّل الاعتمادات الأساسية إذا لم تكن مسجّلة (لتفادي تضارب مع InitialBinding)
-    if (!Get.isRegistered<Dio>()) {
-      Get.put<Dio>(Dio(), permanent: true);
-    }
-    if (!Get.isRegistered<ApiConsumer>()) {
-      Get.put<ApiConsumer>(DioConsumer(dio: Get.find<Dio>()), permanent: true);
-    }
-
-    // جهّز NotificationRepository و NotificationLogic ثم نفّذ تهيئة الإشعارات
-    final notificationRepo = NotificationRepository(Get.find<ApiConsumer>());
-    final notificationLogic = NotificationLogic(notificationRepo);
-    await notificationLogic.initNotificationSettings();
-    // سجّلهما في DI لتكون متاحة طوال عمر التطبيق
-    if (!Get.isRegistered<NotificationRepository>()) {
-      Get.put<NotificationRepository>(notificationRepo, permanent: true);
-    }
-    if (!Get.isRegistered<NotificationLogic>()) {
-      Get.put<NotificationLogic>(notificationLogic, permanent: true);
-    }
-
-    await Get.putAsync(() => RealTimeService().init());
-  runApp(const MyApp());
-}*/
 
 
 
@@ -185,29 +89,73 @@ Future<void> main() async {
 
 
 
-/*class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => SplashCubit(),
-        ),
-        BlocProvider(
-          create: (context) => SubjectBloc(),
-        ),
-      ],
-      child: Container(),
-    )(
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-      //  theme: lightTheme,
-       // darkTheme: darkTheme,
-       // themeMode: ThemeMode.light,
-       // routerConfig: router,
-      ),
-    );
-  }
-}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

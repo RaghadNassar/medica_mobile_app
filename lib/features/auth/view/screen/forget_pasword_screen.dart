@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/helper/validation.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 import 'package:raghad_pro/core/widget/custom_botton.dart';
 import 'package:raghad_pro/core/widget/custom_text_filed.dart';
 import 'package:raghad_pro/features/auth/controler/forget_password.dart';
-import 'package:raghad_pro/features/auth/view/widget/auth_logo_color.dart';
 import 'package:raghad_pro/features/auth/view/widget/auth_scaffold.dart';
 import 'package:raghad_pro/features/auth/view/widget/text_head_line.dart';
+
 class ForgetPaswordScreen extends GetView<ForgetPasswordController> {
   const ForgetPaswordScreen({super.key});
 
@@ -18,13 +19,18 @@ class ForgetPaswordScreen extends GetView<ForgetPasswordController> {
       child: Form(
         key: controller.formKey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: context.heightPct(0.05)),
-            const AuthLogoColorWidget(),
+            //  SizedBox(height: context.heightPct(0.05)),
+            // const AuthLogoColorWidget(),
             SizedBox(height: context.heightPct(0.1)),
-             CustomTextHeadLineWidget(title: StringManager.forgetPassword.tr),
-            SizedBox(height: context.heightPct(0.055)),
+            CustomTextHeadLineWidget(title: StringManager.forgetPassword.tr),
+            SizedBox(height: context.heightPct(0.042)),
+            Text(
+              StringManager.forgetPssword.tr,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            SizedBox(height: context.heightPct(0.005)),
             CustomTextFiled(
               hinttext: StringManager.enterEmail.tr,
               prefixIcon: Icons.email_outlined,
@@ -33,12 +39,12 @@ class ForgetPaswordScreen extends GetView<ForgetPasswordController> {
               validate: (value) => Validator.validateEmail(value ?? ''),
             ),
             SizedBox(height: context.heightPct(0.04)),
-            Text(
-              StringManager.forgetPssword.tr,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            SizedBox(height: context.heightPct(0.05)),
-            Obx(() => controller.isLoading.value
+            // Text(
+            //   StringManager.forgetPssword.tr,
+            //   style: Theme.of(context).textTheme.bodyMedium,
+            // ),
+            //  SizedBox(height: context.heightPct(0.05)),
+             Obx(() => controller.isLoading.value
                 ? const Center(child: CircularProgressIndicator())
                 : CustomBottomWidget(
                     text: StringManager.submit.tr,
@@ -48,6 +54,14 @@ class ForgetPaswordScreen extends GetView<ForgetPasswordController> {
                       controller.forgetPassword();
                     },
                   )),
+            // CustomBottomWidget(
+            //   text: StringManager.submit.tr,
+            //   backgroundColor: Theme.of(context).primaryColor,
+            //   colortext: Theme.of(context).colorScheme.surface,
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.verficationCode);
+            //   },
+            // ),
             SizedBox(height: context.heightPct(0.05)),
           ],
         ),

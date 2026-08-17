@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
+import 'package:raghad_pro/core/utilis/size_config.dart';
 
 class ImageBannerSlideItem extends StatelessWidget {
   final String imagePath;
@@ -12,36 +12,35 @@ class ImageBannerSlideItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppSpacing.horizontal12,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: ClipRRect(
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+          height: context.heightPct(0.4),
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
-              child: Image.asset(
-                imagePath,
-                fit: BoxFit.cover,
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors:
+                 [
+                  AppColors.black.withOpacity(0.2),
+                  AppColors.black.withOpacity(0.07),
+                ],
               ),
             ),
           ),
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    AppColors.black.withOpacity(0.2),
-                    AppColors.black.withOpacity(0.07),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

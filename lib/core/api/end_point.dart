@@ -1,7 +1,9 @@
 
 class EndPoint {
-  static const String host = '192.168.1.3';
+  //https://mistyrose-albatross-114828.hostingersite.com/public/api/
+  static const String host = '10.27.251.205';
   static String baseUrl = 'http://$host:8000/api/';
+ //static String baseUrl = 'https://mistyrose-albatross-114828.hostingersite.com/public/api/';
   static const String socketUrl = r'http://[0-9.]+:8000';
   static const String socketPath = 'http://$host:8000';
   static String signIn = 'patient/login';

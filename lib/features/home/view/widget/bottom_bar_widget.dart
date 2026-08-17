@@ -18,6 +18,7 @@ class MainNavigationScreen extends GetView<HomeNavigationController> {
       
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
+          backgroundColor:Theme.of(context).colorScheme.surface ,
           currentIndex: controller.currentIndex.value,
           onTap: controller.changeIndex,
           type: BottomNavigationBarType.fixed,

@@ -41,9 +41,9 @@ class SubmitWidget extends GetView<LoginController> {
                 );
         }),
 
-        SizedBox(height: context.heightPct(0.05)),
+       // SizedBox(height: context.heightPct(0.05)),
 
-        const SochialIconWidget(),
+      //  const SochialIconWidget(),
 
         SizedBox(height: context.heightPct(0.05)),
 

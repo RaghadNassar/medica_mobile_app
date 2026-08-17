@@ -102,7 +102,7 @@ class CustomGenericTabs extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SizedBox(
-      height: context.heightPct(0.068),
+      height: context.heightPct(0.058),
       child: Scrollbar(
         thumbVisibility: false, 
         child: ListView.separated(
@@ -111,7 +111,7 @@ class CustomGenericTabs extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: context.widthPct(0.01)),
           itemCount: tabLabels.length,
           separatorBuilder: (context, index) =>
-              SizedBox(width: context.widthPct(0.015)),
+              SizedBox(width: context.widthPct(0.019)),
           itemBuilder: (context, index) {
             final bool isSelected = selectedIndex == index;
 
@@ -128,7 +128,7 @@ class CustomGenericTabs extends StatelessWidget {
                     isSelected ? theme.primaryColor : Colors.transparent,
                 border: Border.all(color: theme.primaryColor, width: 1.1),
                 borderradius: 24,
-                hight: context.heightPct(0.05),
+                hight: context.heightPct(0.047),
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
                 onTap: () => onTabSelected(index),
