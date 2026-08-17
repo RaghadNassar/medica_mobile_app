@@ -5,7 +5,7 @@ class CustomImagePositioned extends StatelessWidget {
   final double height;
   final double width;
   final double? right, bottom, left, top;
-  final bool isCircle; // خاصية جديدة للبروفايل
+  final bool isCircle; 
 
   const CustomImagePositioned({
     super.key,

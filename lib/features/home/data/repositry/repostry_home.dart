@@ -53,8 +53,8 @@ Future<Either<String, SpecializationResponse>> getSpecializations() async {
     return left("حدث خطأ أثناء تحميل أطباء هذا الاختصاص");
   }
 }
-//get schedual
-Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorUuid) async {
+//get doctor schedual
+/*Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorUuid) async {
   try {
 
     final response = await api.get(
@@ -71,7 +71,23 @@ Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorU
   } catch (e) {
     return left("حدث خطأ أثناء تحميل جدول دوام الطبيب");
   }
+}*/
+// في الـ Repository: إلغاء إرسال Query Parameters
+Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorUuid) async {
+  try {
+    final response = await api.get(
+      EndPoint.schedules, // بدون queryParameters
+    ); 
+    
+    final Map<String, dynamic> rawData = response is Map<String, dynamic> ? response : {};
+    return right(DoctorScheduleResponse.fromJson(rawData));
+  } on ServerException catch (e) {
+    return left(e.errorModel.message);
+  } catch (e) {
+    return left("حدث خطأ أثناء تحميل جدول دوام الطبيب");
+  }
 }
+
 //booking 
 Future<Either<String, AppointmentResponse>> bookAppointment({
   required String doctorUuid,
@@ -260,3 +276,106 @@ Future<Either<String, AppointmentResponse>> bookForSomeone({
   }
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//get schedual
+/*
+Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorUuid) async {
+  try {
+    final response = await api.get(
+      EndPoint.schedules, 
+      queryParameters: {
+        ApiKey.doctor_uuid: doctorUuid,
+      },
+    ); 
+    
+    final Map<String, dynamic> rawData = response is Map<String, dynamic> ? response : {};
+    var fullResponse = DoctorScheduleResponse.fromJson(rawData);
+    
+    final filteredData = fullResponse.data
+        .where((schedule) => schedule.doctorUuid == doctorUuid)
+        .toList();
+    
+    final modifiedSchedules = filteredData.where((s) => s.isModified).toList();
+    final regularSchedules = filteredData.where((s) => !s.isModified).toList();
+    
+    List<DoctorScheduleModel> finalSchedule = [];
+    finalSchedule.addAll(regularSchedules);
+    
+    for (var modified in modifiedSchedules) {
+      final index = finalSchedule.indexWhere(
+        (regular) => regular.day == modified.day
+      );
+      
+      if (index != -1) {
+       
+        finalSchedule[index] = modified;
+      } else {
+        
+        finalSchedule.add(modified);
+      }
+    }
+    finalSchedule.sort((a, b) => 
+      _dayOrder(a.day).compareTo(_dayOrder(b.day))
+    );
+    
+    return right(DoctorScheduleResponse(
+      success: fullResponse.success,
+      data: finalSchedule,
+    ));
+    
+  } on ServerException catch (e) {
+    return left(e.errorModel.message);
+  } catch (e) {
+    return left("حدث خطأ أثناء تحميل جدول دوام الطبيب");
+  }
+}
+int _dayOrder(String arabicDay) {
+  const order = {
+    'الأحد': 0,
+    'الاثنين': 1,
+    'الثلاثاء': 2,
+    'الأربعاء': 3,
+    'الخميس': 4,
+    'الجمعة': 5,
+    'السبت': 6,
+  };
+  return order[arabicDay] ?? 7;
+}
+
+*/

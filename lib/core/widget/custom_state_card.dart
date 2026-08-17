@@ -34,7 +34,7 @@ class CustomStatCard extends StatelessWidget {
     final isSpecialty = patientsCount != null;
 
     Widget cardContent = Container(
-      width: isSpecialty ? context.widthPct(0.1) : null,
+      width: isSpecialty ? context.widthPct(0.06) : null,
       decoration: BoxDecoration(
         color: effectiveBgColor,
         borderRadius: BorderRadius.circular(20),
@@ -44,14 +44,14 @@ class CustomStatCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(20),
         child: Padding(
-          padding: AppSpacing.screenPadding5,
+          padding: AppSpacing.edgeInsets8,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, color: effectiveContentColor, size: 26),
               
-              SizedBox(height: context.heightPct(0.005)), 
+              SizedBox(height: context.heightPct(0.003)), 
   
               Text(
                 title,

@@ -66,6 +66,7 @@ class StringManager {
   static String most_requested_specialization = "most specialization";
   static String least_requested_specialization = "least specialization";
   static String check_up_price = "check_up_price";
+  
   static String medicaldepartment =
       "The medical department currently receiving the highest patient demand";
   static String ready =
@@ -176,6 +177,7 @@ class StringManager {
   static const String resend = "Resend";
   static const String reset = "Reset";
   static const String resetPassword = "Reset Password";
+  static const String resetPasswordSubTitle = 'Enter your new password to access your account.';
   static const String medicalHistoryRecord = "Medical Record & Past Visits";
   static const String check = 'Check';
   static const String review = 'Review';
@@ -232,6 +234,24 @@ class StringManager {
   static const String pickOtherDate = 'pick other date';
   static const String tabCancelled = 'tab cancelled';
   static const String statusCancelled = 'status cancelled';
+  static const String bookingDetails = 'Appointment Details';
+  static const String confirmBooking = 'Confirm Booking';
+  static const String notes = 'Notes';
+  static const String cancellationPolicyNoteTitle = 'Cancellation Policy Note';
+  static const String cancellationPolicyNoteBody =
+      'Cancellations are allowed only up to 24 hours before the scheduled time. Late cancellations may be subject to fees or restrictions.';
+  static const String missedAppointmentNoteTitle = 'Missed Appointment Note';
+  static const String missedAppointmentNoteBody =
+      'Patients who do not show up without prior notice may face fees or limits on future bookings. Please cancel at least 48 hours in advance if you cannot attend.';
+  static const String prepNote1 =
+      'Prepare your previous medical records (if available).';
+  static const String prepNote2 =
+      'Ensure insurance or payment method readiness if needed.';
+  static const String prepNote3= 'You will always have full control here to reschedule or add new appointments easily.';
+  static const String appointmentDetails = 'appointmentDetails';
+static const String patientInfo = 'patientInfo';
+static const String currentPatientName = 'currentPatientName';
+static const String preparationNotes = 'preparationNotes';
   //static const String lightMode = 'Light Mode';
 
   //static const String home = "Home";

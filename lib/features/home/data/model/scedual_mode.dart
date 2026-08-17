@@ -1,5 +1,5 @@
 import 'package:raghad_pro/core/api/end_point.dart';
-
+/*
 class DoctorScheduleModel {
   final String doctorUuid;
   final String day;
@@ -36,7 +36,7 @@ class DoctorScheduleModel {
       statusNote: json[ApiKey.status_note] ?? '',
     );
   }
-}
+}*/
 
 class DoctorScheduleResponse {
   final bool success;
@@ -50,6 +50,65 @@ class DoctorScheduleResponse {
       data: (json[ApiKey.data] as List?)
               ?.map((e) => DoctorScheduleModel.fromJson(e))
               .toList() ?? [],
+    );
+  }
+}
+class ModificationDetailsModel {
+  final String? startDate;
+  final String? endDate;
+  final bool? isPermanent;
+
+  ModificationDetailsModel({this.startDate, this.endDate, this.isPermanent});
+
+  factory ModificationDetailsModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return ModificationDetailsModel();
+    return ModificationDetailsModel(
+      startDate: json['start_date'],
+      endDate: json['end_date'],
+      isPermanent: json['is_permanent'],
+    );
+  }
+}
+
+class DoctorScheduleModel {
+  final String doctorUuid;
+  final String day;
+  final String startTime;
+  final String endTime;
+  final String doctorName;
+  final String specialization;
+  final String clinic;
+  final bool isModified;
+  final String statusNote;
+  final ModificationDetailsModel? modificationDetails; // الحقل الجديد
+
+  DoctorScheduleModel({
+    required this.doctorUuid,
+    required this.day,
+    required this.startTime,
+    required this.endTime,
+    required this.doctorName,
+    required this.specialization,
+    required this.clinic,
+    required this.isModified,
+    required this.statusNote,
+    this.modificationDetails,
+  });
+
+  factory DoctorScheduleModel.fromJson(Map<String, dynamic> json) {
+    return DoctorScheduleModel(
+      doctorUuid: json[ApiKey.doctor_uuid] ?? '',
+      day: json[ApiKey.day] ?? '',
+      startTime: json[ApiKey.start_time] ?? '',
+      endTime: json[ApiKey.end_time] ?? '',
+      doctorName: json[ApiKey.doctor_name] ?? '',
+      specialization: json[ApiKey.specialization] ?? '',
+      clinic: json[ApiKey.clinic] ?? '',
+      isModified: json[ApiKey.is_modified] ?? false,
+      statusNote: json[ApiKey.status_note] ?? '',
+      modificationDetails: json['modification_details'] != null 
+          ? ModificationDetailsModel.fromJson(json['modification_details'])
+          : null,
     );
   }
 }

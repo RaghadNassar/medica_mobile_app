@@ -61,7 +61,7 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
                   onRefresh: () => controller.getPatientAppointments(),
                   child: ListView.builder(
                     itemCount: isLoading ? 3 : currentList.length,
-                    padding: AppSpacing.screenPadding4,
+                   // padding: AppSpacing.screenPadding4,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       final appointment = isLoading ? null : currentList[index];

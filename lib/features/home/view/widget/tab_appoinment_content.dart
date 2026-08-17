@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:raghad_pro/core/constanse/app_spacing.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/helper/validation.dart';
@@ -23,43 +22,7 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Text(
-        //   StringManager.bookingType.tr,
-        //   style: theme.textTheme.bodyMedium
-        //       ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-        // ),
-        // SizedBox(height: context.heightPct(0.015)),
-        // Obx(() => Row(
-        //       children: [
-        //         Expanded(
-        //           child: _buildCustomRadioTile(
-        //             context: context,
-        //             title: StringManager.typeCheckValue.tr,
-        //             value: 'check', 
-        //             groupValue: controller.selectedBookingType.value,
-        //             onChanged: (value) => controller.selectedBookingType.value = value!,
-        //           ),
-        //         ),
-        //         SizedBox(width: context.widthPct(0.025)),
-        //         Expanded(
-        //           child: _buildCustomRadioTile(
-        //             context: context,
-        //             title: StringManager.typeReviewValue.tr,
-        //             value: 'review',
-        //             groupValue: controller.selectedBookingType.value,
-        //             onChanged: (value) => controller.selectedBookingType.value = value!,
-        //           ),
-        //         ),
-        //       ],
-        //     )),
-        
-        // SizedBox(height: context.heightPct(0.03)),
-
-        // Text(
-        //   StringManager.selectAvailableDate.tr,
-        //   style: theme.textTheme.bodyMedium
-        //       ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-        // ),
+     
          Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -101,31 +64,18 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
               ],
             ),),),),],),
         SizedBox(height: context.heightPct(0.02)),
-        Obx(() {
-          final List<Map<String, dynamic>> formattedDates =
-              controller.availableDatesList.map((dateTime) {
-            final String currentArabicDay = _getArabicDayName(dateTime);
-
-            final bool isDoctorWorking = controller.doctorSchedules
-                .any((schedule) => schedule.day == currentArabicDay);
-
-            return {
-              'day': DateFormat('E').format(dateTime).toUpperCase(),
-              'date': DateFormat('d').format(dateTime),
-              'isActive': isDoctorWorking,
-            };
-          }).toList();
-
-          return BookingDateSelector(
-            dates: formattedDates,
-            selectedIndex: controller.selectedDateIndex.value,
-            onDateSelected: (index) {
-              if (formattedDates[index]['isActive'] == true) {
-                controller.updateSelectedDate(index);
-              }
-            },
-          );
-        }),
+Obx(() {
+  final dates = controller.formattedBookingDates;
+  return BookingDateSelector(
+    dates: dates,
+    selectedIndex: controller.selectedDateIndex.value,
+    onDateSelected: (index) {
+      if (dates[index]['isActive'] == true) {
+        controller.updateSelectedDate(index);
+      }
+    },
+  );
+}),
 
         SizedBox(height: context.heightPct(0.03)),
 
@@ -415,6 +365,142 @@ class TabAppointmentContent extends GetView<DoctorBookingController> {
 
 
 
+      /*عم يصير ريبيلد 
+        Obx(() {
+          final List<Map<String, dynamic>> formattedDates =
+              controller.availableDatesList.map((dateTime) {
+            final String currentArabicDay = _getArabicDayName(dateTime);
+
+            final bool isDoctorWorking = controller.doctorSchedules
+                .any((schedule) => schedule.day == currentArabicDay);
+
+            return {
+              'day': DateFormat('E').format(dateTime).toUpperCase(),
+              'date': DateFormat('d').format(dateTime),
+              'isActive': isDoctorWorking,
+            };
+          }).toList();
+
+          return BookingDateSelector(
+            dates: formattedDates,
+            selectedIndex: controller.selectedDateIndex.value,
+            onDateSelected: (index) {
+              if (formattedDates[index]['isActive'] == true) {
+                controller.updateSelectedDate(index);
+              }
+            },
+          );
+        }),*/
+          //
+        //   Obx(() {
+        //   if (controller.availableDatesList.isEmpty) return const SizedBox.shrink();
+          
+        //   // جلب التاريخ المختار حالياً من السلايدر بصيغة YYYY-MM-DD
+        //   String selectedDateStr = controller.availableDatesList[controller.selectedDateIndex.value].toString().split(' ')[0];
+          
+        //   // فحص إن كان هذا التاريخ يقع ضمن جدول معدل للطبيب
+        //   final modifiedDay = controller.getModifiedScheduleForDate(selectedDateStr);
+
+        //   // إذا كان اليوم روتيني وطبيعي لا نعرض شيئاً
+        //   if (modifiedDay == null) return const SizedBox.shrink();
+
+        //   // إذا كان يوماً معدلاً (بديل)، نعرض كارد التنبيه الذكي قبل اختيار الأوقات
+        //   return AnimatedContainer(
+        //     duration: const Duration(milliseconds: 300),
+        //     margin: const EdgeInsets.symmetric(vertical: 12),
+        //     padding: const EdgeInsets.all(12),
+        //     decoration: BoxDecoration(
+        //       color: Colors.orange.withOpacity(0.08),
+        //       borderRadius: BorderRadius.circular(12),
+        //       border: Border.all(color: Colors.orange.withOpacity(0.25)),
+        //     ),
+        //     child: Row(
+        //       children: [
+        //         const Icon(Icons.info_outline_rounded, color: Colors.orange, size: 22),
+        //         const SizedBox(width: 10),
+        //         Expanded(
+        //           child: Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Text(
+        //                 "تنبيه: أوقات هذا اليوم تتبع للجدول البديل للطبيب",
+        //                 style: TextStyle(
+        //                   fontSize: 13,
+        //                   fontWeight: FontWeight.bold,
+        //                   color: Colors.orange.shade900,
+        //                 ),
+        //               ),
+        //               if (modifiedDay.statusNote.isNotEmpty) ...[
+        //                 const SizedBox(height: 2),
+        //                 Text(
+        //                   modifiedDay.statusNote, // الملاحظة (مثال: بسبب السفر أو العطلة)
+        //                   style: TextStyle(
+        //                     fontSize: 12,
+        //                     color: Colors.orange.shade800,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ],
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   );
+        // }),
+          //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // Text(
+        //   StringManager.bookingType.tr,
+        //   style: theme.textTheme.bodyMedium
+        //       ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+        // ),
+        // SizedBox(height: context.heightPct(0.015)),
+        // Obx(() => Row(
+        //       children: [
+        //         Expanded(
+        //           child: _buildCustomRadioTile(
+        //             context: context,
+        //             title: StringManager.typeCheckValue.tr,
+        //             value: 'check', 
+        //             groupValue: controller.selectedBookingType.value,
+        //             onChanged: (value) => controller.selectedBookingType.value = value!,
+        //           ),
+        //         ),
+        //         SizedBox(width: context.widthPct(0.025)),
+        //         Expanded(
+        //           child: _buildCustomRadioTile(
+        //             context: context,
+        //             title: StringManager.typeReviewValue.tr,
+        //             value: 'review',
+        //             groupValue: controller.selectedBookingType.value,
+        //             onChanged: (value) => controller.selectedBookingType.value = value!,
+        //           ),
+        //         ),
+        //       ],
+        //     )),
+        
+        // SizedBox(height: context.heightPct(0.03)),
+
+        // Text(
+        //   StringManager.selectAvailableDate.tr,
+        //   style: theme.textTheme.bodyMedium
+        //       ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+        // ),
 
 
 

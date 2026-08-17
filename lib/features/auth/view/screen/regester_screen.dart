@@ -15,20 +15,19 @@ class RegesterScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return AuthScaffold(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: context.heightPct(0.02)),
-             CustomTextHeadLineWidget(title: StringManager.signup.tr),
-            SizedBox(height: context.heightPct(0.03)),
-            const SignUpProgressTracker(),
-            SizedBox(height: context.heightPct(0.04)),
-            const InputRegester(),
-            SizedBox(height: context.heightPct(0.02)),
-            const SubmitSignUp(),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          //SizedBox(height: context.heightPct(0.02)),
+           CustomTextHeadLineWidget(title: StringManager.signup.tr),
+          SizedBox(height: context.heightPct(0.03)),
+          const SignUpProgressTracker(),
+          SizedBox(height: context.heightPct(0.04)),
+          const InputRegester(),
+          SizedBox(height: context.heightPct(0.02)),
+          const SubmitSignUp(),
+           SizedBox(height: context.heightPct(0.1)),
+        ],
       ),
     );
   }

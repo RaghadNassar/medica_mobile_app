@@ -18,7 +18,7 @@ class AppSpacing {
   static const screenPadding5 = EdgeInsets.all(12);
   static const edgeInsets16 = EdgeInsets.all(16);
   static const edgeInsets18 = EdgeInsets.all(18);
-  static const edgeInsets8 = EdgeInsets.all(8);
+  static const edgeInsets8 = EdgeInsets.all(7);
   static const screenPadding9 = EdgeInsets.all(14);
   static const cardPadding = EdgeInsets.all(16);
   static const screenPadding24_16 =

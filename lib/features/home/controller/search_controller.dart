@@ -114,6 +114,65 @@ class PatientSearchController extends GetxController {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 class PatientSearchController extends GetxController {
   final RepostryHome repostryHome;

@@ -48,13 +48,15 @@ class DoctorCommonCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: context.heightPct(0.146),
-              width: context.widthPct(0.25),
+              height: context.heightPct(0.1569),
+              width: context.widthPct(0.27),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer.withOpacity(0.08),
-                borderRadius: const BorderRadiusDirectional.only(
+               borderRadius: const BorderRadiusDirectional.only(
+                  topStart: Radius.circular(16),
                   bottomStart: Radius.circular(16),
                 ),
+              
               ),
               child: ClipRRect(
                 borderRadius: const BorderRadiusDirectional.only(
@@ -127,9 +129,9 @@ class DoctorCommonCard extends StatelessWidget {
                 children: [
                   SizedBox(height: context.heightPct(0.018)),
                   Text(
-                    name.startsWith('Dr.') || name.startsWith('Prof.')
+                    name.startsWith('د.') 
                         ? name
-                        : "Dr. $name",
+                        : "د. $name",
                     style: theme.textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: 16,

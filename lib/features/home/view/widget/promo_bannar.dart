@@ -27,7 +27,7 @@ class HomeBannerCard extends GetView<HomeDashboardController> {
           children: [
             Container(
               width: double.infinity,
-              height: context.heightPct(0.212),
+              height: context.heightPct(0.239),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
               ),
@@ -39,7 +39,7 @@ class HomeBannerCard extends GetView<HomeDashboardController> {
                         : const BouncingScrollPhysics(),
                     controller: controller.bannerPageController,
                     onPageChanged: controller.updateBannerPage,
-                    children:controller. medicalBanners.map((banner) {
+                    children: controller.medicalBanners.map((banner) {
                       return ImageBannerSlideItem(
                         imagePath: banner.image,
                       );
@@ -48,12 +48,11 @@ class HomeBannerCard extends GetView<HomeDashboardController> {
                 ],
               ),
             ),
-            SizedBox(height: context.heightPct(0.023)),
-
+            SizedBox(height: context.heightPct(0.017)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-               controller. medicalBanners.length,
+                controller.medicalBanners.length,
                 (index) => BannerDotIndicator(
                   index: index,
                   currentPage: controller.currentBannerPage.value,

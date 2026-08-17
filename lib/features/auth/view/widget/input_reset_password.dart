@@ -37,7 +37,7 @@ class InputResetPassword extends GetView<ResetPasswordController> {
                 },
                 validate: (value) => Validator.validatePassword(value ?? ''),
               )),
-          const SizedBox(height: 16),
+         // const SizedBox(height: 16),
           Obx(() => CustomTextFiled(
                 labl: StringManager.confirm_password.tr,
                 hinttext: StringManager.enterconfirm_password.tr,

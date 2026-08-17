@@ -1,3 +1,131 @@
+
+
+class AppRoutes {
+  static const splash = '/';
+  static const onboarding = '/onboarding';
+  static const goAuth = '/go_auth';
+  static const login = '/login';
+  static const signUp = '/signup';
+  static const forgotPassword = '/forgot-password';
+  static const verficationCode = '/verfiey-code';
+  static const resetPassword = '/reset_password';
+  static const profile = '/profile';
+  static const editProfile = '/edit-profile';
+  static const appoinment = '/appoinment';
+  static const medicalRecord = '/medical-record';
+  static const settings = '/settings';
+  static const medicalHistory = '/medical_history';
+  static const notifications = '/notifications';
+
+  static const detail = '/detail';
+
+  static const home = '/home';
+  static const search = '/search';
+   static const chatList = '/chat-list';
+    static const chatView = '/chat-view';
+   static const alldoctor= '/AllDoctorSpecializeScreen';
+  static const changepassword = '/changePassword';
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:go_router/go_router.dart';
 // import 'package:raghad_pro/features/auth/cubit/auth_cubit.dart';
@@ -59,31 +187,3 @@
 //     ],
 //   );
 // }
-
-class AppRoutes {
-  static const splash = '/';
-  static const onboarding = '/onboarding';
-  static const goAuth = '/go_auth';
-  static const login = '/login';
-  static const signUp = '/signup';
-  static const forgotPassword = '/forgot-password';
-  static const verficationCode = '/verfiey-code';
-  static const resetPassword = '/reset_password';
-  static const profile = '/profile';
-  static const editProfile = '/edit-profile';
-  static const appoinment = '/appoinment';
-  static const medicalRecord = '/medical-record';
-  static const settings = '/settings';
-  static const medicalHistory = '/medical_history';
-  static const notifications = '/notifications';
-
-  static const detail = '/detail';
-
-  static const home = '/home';
-  static const search = '/search';
-   static const chatList = '/chat-list';
-    static const chatView = '/chat-view';
-   static const alldoctor= '/AllDoctorSpecializeScreen';
-  static const changepassword = '/changePassword';
-
-}

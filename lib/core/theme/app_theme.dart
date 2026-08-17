@@ -18,7 +18,7 @@ class AppTheme {
       surface:          AppColors.lightSurface,
     ),
     appBarTheme: AppBarTheme(
-      toolbarHeight: 66,
+      toolbarHeight: 59,
       backgroundColor: AppColors.lightSurface,
       elevation: 0,
       titleTextStyle: TextStyle(
@@ -49,7 +49,7 @@ class AppTheme {
       surface:          AppColors.darkSurface,
     ),
     appBarTheme: AppBarTheme(
-      toolbarHeight: 76,
+      toolbarHeight: 59,
       backgroundColor: AppColors.darkSurface,
       elevation: 0,
       titleTextStyle: TextStyle(
