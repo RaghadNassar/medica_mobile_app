@@ -2,8 +2,8 @@
 class EndPoint {
   //https://mistyrose-albatross-114828.hostingersite.com/public/api/
   static const String host = '10.27.251.205';
-  static String baseUrl = 'http://$host:8000/api/';
- //static String baseUrl = 'https://mistyrose-albatross-114828.hostingersite.com/public/api/';
+ //static String baseUrl = 'http://$host:8000/api/';
+ static String baseUrl = 'https://tweak-recant-gout.ngrok-free.dev/api/';
   static const String socketUrl = r'http://[0-9.]+:8000';
   static const String socketPath = 'http://$host:8000';
   static String signIn = 'patient/login';

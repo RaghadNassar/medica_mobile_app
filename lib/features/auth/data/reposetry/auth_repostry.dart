@@ -117,35 +117,63 @@ class AuthRepostry {
     }
   }
 
-  // Verify OTP
-  Future<Either<String, Map<String, dynamic>>> verifyOtp({
-    required String email,
-    required String code,
-  }) async {
-    try {
+  // // Verify OTP
+  // Future<Either<String, Map<String, dynamic>>> verifyOtp({
+  //   required String email,
+  //   required String code,
+  // }) async {
+  //   try {
     
-      final response = await api.post(
-        EndPoint.verifyOtp,
-        data: {
-          ApiKey.contact: email,
-          ApiKey.code: code,
-        },
-      );
+  //     final response = await api.post(
+  //       EndPoint.verifyOtp,
+  //       data: {
+  //         ApiKey.contact: email,
+  //         ApiKey.code: code,
+  //       },
+  //     );
 
-      final Map<String, dynamic> rawData =
-          response is Map<String, dynamic> ? response : {};
+  //     final Map<String, dynamic> rawData =
+  //         response is Map<String, dynamic> ? response : {};
 
-      if (rawData[ApiKey.success] == true) {
-        return right(rawData);
-      } else {
-        return left(rawData[ApiKey.message] ?? "الكود المدخل غير صحيح");
-      }
-    } on ServerException catch (e) {
-      return left(e.errorModel.message);
-    } catch (e) {
-      return left("فشل التحقق من الكود، يرجى المحاولة لاحقاً");
+  //     if (rawData[ApiKey.success] == true) {
+  //       return right(rawData);
+  //     } else {
+  //       return left(rawData[ApiKey.message] ?? "الكود المدخل غير صحيح");
+  //     }
+  //   } on ServerException catch (e) {
+  //     return left(e.errorModel.message);
+  //   } catch (e) {
+  //     return left("فشل التحقق من الكود، يرجى المحاولة لاحقاً");
+  //   }
+  // }
+  // Verify OTP
+Future<Either<String, Map<String, dynamic>>> verifyOtp({
+  required String email,
+  required String code,
+}) async {
+  try {
+    final response = await api.post(
+      EndPoint.verifyOtp,
+      data: {
+        ApiKey.contact: email,
+        ApiKey.code: code,
+      },
+    );
+
+    final Map<String, dynamic> rawData =
+        response is Map<String, dynamic> ? response : {};
+
+    if (rawData[ApiKey.success] == true || rawData.containsKey('message')) {
+      return right(rawData);
+    } else {
+      return left(rawData[ApiKey.message] ?? "الكود المدخل غير صحيح");
     }
+  } on ServerException catch (e) {
+    return left(e.errorModel.message);
+  } catch (e) {
+    return left("فشل التحقق من الكود، يرجى المحاولة لاحقاً");
   }
+}
 
   // Reset Password
   Future<Either<String, Map<String, dynamic>>> resetPassword({

@@ -14,7 +14,7 @@ class ProfileBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProfileRepostry>(
-      () => ProfileRepostry(Get.find<ApiConsumer>()),
+      () => ProfileRepostry(Get.find<ApiConsumer>(),),
     );
     Get.lazyPut<ProfileController>(
       () => ProfileController(Get.find<ProfileRepostry>()),

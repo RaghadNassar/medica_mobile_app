@@ -44,7 +44,7 @@ class VerificationCodeScreen extends GetView<OtpController> {
               submittedPinTheme: _getPinTheme(context, isSubmitted: true),
               onCompleted: (pin) {
                  controller.verifyOtp();
-              //  Get.toNamed(AppRoutes.resetPassword);
+             //  Get.toNamed(AppRoutes.resetPassword);
               },
             ),
           ),

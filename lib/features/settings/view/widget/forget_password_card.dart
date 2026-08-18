@@ -49,7 +49,7 @@ class ForgotPasswordCard extends StatelessWidget {
           SizedBox(height: context.heightPct(0.01)),
           CustomBottomWidget(
             text: StringManager.forgetPassword.tr,
-            onTap: () => Get.toNamed(AppRoutes.signUp),
+            onTap: () => Get.toNamed(AppRoutes.login),
             backgroundColor: Theme.of(context).colorScheme.surface,
             textColor: AppColors.primaryTeal,
             border: Border.all(color: AppColors.primaryTeal, width: 1.5),

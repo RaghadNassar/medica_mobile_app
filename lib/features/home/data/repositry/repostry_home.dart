@@ -72,17 +72,40 @@ Future<Either<String, SpecializationResponse>> getSpecializations() async {
     return left("حدث خطأ أثناء تحميل جدول دوام الطبيب");
   }
 }*/
-// في الـ Repository: إلغاء إرسال Query Parameters
-Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorUuid) async {
-  try {
-    final response = await api.get(
-      EndPoint.schedules, // بدون queryParameters
-    ); 
+// // في الـ Repository: إلغاء إرسال Query Parameters
+// Future<Either<String, DoctorScheduleResponse>> getDoctorSchedules(String doctorUuid) async {
+//   try {
+//     final response = await api.get(
+//       EndPoint.schedules, // بدون queryParameters
+//     ); 
     
+//     final Map<String, dynamic> rawData = response is Map<String, dynamic> ? response : {};
+//     return right(DoctorScheduleResponse.fromJson(rawData));
+//   } on ServerException catch (e) {
+//     return left(e.errorModel.message);
+//   } catch (e) {
+//     return left("حدث خطأ أثناء تحميل جدول دوام الطبيب");
+//   }
+// }
+Future<Either<String, List<DoctorScheduleModel>>> getDoctorSchedules(String doctorUuid) async {
+  try {
+    final response = await api.get(EndPoint.schedules);
+
     final Map<String, dynamic> rawData = response is Map<String, dynamic> ? response : {};
-    return right(DoctorScheduleResponse.fromJson(rawData));
-  } on ServerException catch (e) {
-    return left(e.errorModel.message);
+
+    if (rawData['success'] == true && rawData['data'] != null) {
+      final List<dynamic> listData = rawData['data'];
+
+      // تحويل JSON إلى قائمة موديلات ثم الفلترة
+      final filteredSchedules = listData
+          .map((item) => DoctorScheduleModel.fromJson(item))
+          .where((schedule) => schedule.doctorUuid == doctorUuid)
+          .toList();
+
+      return right(filteredSchedules);
+    } else {
+      return left(rawData['message'] ?? "فشل في جلب جدول الدوام");
+    }
   } catch (e) {
     return left("حدث خطأ أثناء تحميل جدول دوام الطبيب");
   }
