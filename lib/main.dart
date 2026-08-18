@@ -10,6 +10,7 @@ import 'package:raghad_pro/core/api/api_consumer.dart';
 import 'package:raghad_pro/core/api/dio_consumer.dart';
 import 'package:raghad_pro/features/chat/data/repositry/notification_repostry.dart';
 import 'package:raghad_pro/firebase_options.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 
 @pragma('vm:entry-point')
@@ -20,11 +21,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   } on FirebaseException catch (e) {
     if (e.code != 'duplicate-app') rethrow;
   }
-  print("🔥 إشعار في الخلفية: ${message.messageId}");
+  print(" إشعار في الخلفية: ${message.messageId}");
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('ar', null);
   await CacheHelperGetStorage.init();
 
 
@@ -71,91 +73,3 @@ Future<void> main() async {
 
   runApp(const MyApp());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

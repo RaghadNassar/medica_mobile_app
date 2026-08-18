@@ -6,7 +6,13 @@ import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/helper/alert_helper.dart';
 import 'package:raghad_pro/features/auth/data/reposetry/auth_repostry.dart';
-
+// OtpBinding.dart
+class OtpBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<OtpController>(() => OtpController(Get.find()));
+  }
+}
 class OtpController extends GetxController {
   final AuthRepostry _repository;
   OtpController(this._repository);
@@ -21,7 +27,7 @@ class OtpController extends GetxController {
     super.onInit();
     patientEmail = Get.arguments as String? ?? '';
   }
-
+/*
   Future<void> verifyOtp() async {
     if (otpController.text.trim().length < 6) {
       AlertHelper.showSnackbar(
@@ -53,6 +59,43 @@ class OtpController extends GetxController {
       },
     );
   }
+ */
+Future<void> verifyOtp() async {
+  if (otpController.text.trim().length < 6) {
+    AlertHelper.showSnackbar(
+      message: StringManager.otpIncomplete.tr,
+      type: AlertType.warning,
+    );
+    return;
+  }
+
+  FocusManager.instance.primaryFocus?.unfocus();
+  isLoading.value = true;
+
+  final response = await _repository.verifyOtp(
+    email: patientEmail,
+    code:  otpController.text.trim(),
+  );
+
+  response.fold(
+    (error) {
+      isLoading.value = false;
+      AlertHelper.showSnackbar(message: error, type: AlertType.error);
+    },
+    (data) {
+      isLoading.value = false;
+      AlertHelper.showSnackbar(
+        message: data[ApiKey.message] ?? StringManager.otpSuccess.tr,
+        type: AlertType.success,
+      );
+
+      Future.delayed(const Duration(milliseconds: 100), () {
+        Get.toNamed(AppRoutes.resetPassword, arguments: patientEmail);
+      });
+    },
+  );
+}
+ 
  Future<void> resendOtp() async {
     if (isResending.value) return;
     
@@ -73,10 +116,10 @@ class OtpController extends GetxController {
       },
     );
   }
-
+/*
   @override
   void onClose() {
     otpController.dispose();
     super.onClose();
-  }
+  }*/
 }

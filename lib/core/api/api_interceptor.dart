@@ -7,6 +7,8 @@ class ApiInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.headers['Content-Type'] = 'application/json';
+
+    options.headers['ngrok-skip-browser-warning'] = 'true';
     final token = CacheHelperGetStorage.getData(key: ApiKey.token);
     if(token!=null){
       options.headers['Authorization'] = 'Bearer $token';

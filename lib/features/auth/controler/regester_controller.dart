@@ -66,8 +66,8 @@ class RegisterController extends GetxController {
   }
 
   Future<void> register() async {
-    if (!formKeyStepTwo.currentState!.validate()) return;
-
+   // if (!formKeyStepTwo.currentState!.validate()) return;
+if (!(formKeyStepTwo.currentState?.validate() ?? false)) return;
     isLoading.value = true;
 
     final response = await _repository.register(

@@ -14,20 +14,18 @@ import 'package:raghad_pro/features/home/data/model/get_booking.dart';
 import 'package:raghad_pro/features/home/data/model/top_doctor_model.dart';
 import 'package:raghad_pro/features/home/view/screen/detail_screen.dart';
 import 'package:raghad_pro/features/home/view/widget/book_card.dart';
-import 'package:raghad_pro/features/profile/presentation/widget/base_settings.dart'; // تأكدي من مسار ملف الـ CustomBottomWidget
+import 'package:raghad_pro/features/profile/presentation/widget/base_settings.dart';
+
 
 class AppoinmentScreen extends GetView<PatientAppointmentController> {
   const AppoinmentScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BaseSubSettingsScreen(
       title: StringManager.appointmentScreen.tr,
       content: Column(
         children: [
-          
           Obx(() => Padding(
                 padding: AppSpacing.vertical10,
                 child: CustomGenericTabs(
@@ -48,47 +46,53 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
               final bool isLoading = controller.isAppointmentsLoading.value;
               final List<BookingModel> currentList = _getFilteredAppointments();
 
-              if (!isLoading && currentList.isEmpty) {
-                return NullDataWidget(
-                  text: StringManager.noAppointmentsInThisSpecialization.tr,
-                  imagePath: Appassets.nulldata2,
-                );
-              }
+             
+              return RefreshIndicator(
+                onRefresh: () => controller.syncAppointmentsSilently(),
+                child: CustomSkeletonizer(
+                  isLoading: isLoading,  
+                  child: !isLoading && currentList.isEmpty
+                      ? ListView(
+                          physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics(),
+                          ),
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: NullDataWidget(
+                                text: StringManager.noAppointmentsInThisSpecialization.tr,
+                                imagePath: Appassets.nulldata2,
+                              ),
+                            ),
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: isLoading ? 3 : currentList.length,
+                          physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics(),
+                          ),
+                          itemBuilder: (context, index) {
+                            final appointment = isLoading ? null : currentList[index];
 
-              return CustomSkeletonizer(
-                isLoading: isLoading,
-                child: RefreshIndicator(
-                  onRefresh: () => controller.getPatientAppointments(),
-                  child: ListView.builder(
-                    itemCount: isLoading ? 3 : currentList.length,
-                   // padding: AppSpacing.screenPadding4,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final appointment = isLoading ? null : currentList[index];
-
-                      return AppointmentCard(
-                        appointment: appointment,
-                        showActions: isLoading
-                            ? false
-                            : controller.appointmentTabControllerIndex.value !=
-                                    3 &&
-                                controller
-                                        .appointmentTabControllerIndex.value !=
-                                    4,
-                        onCancel: isLoading || appointment == null
-                            ? null
-                            : () => _showCancelDialog(context, appointment),
-                        onReschedule: isLoading || appointment == null
-                            ? null
-                            : () => _handleReschedule(appointment),
-                      );
-                    },
-                  ),
+                            return AppointmentCard(
+                              appointment: appointment,
+                              showActions: isLoading
+                                  ? false
+                                  : controller.appointmentTabControllerIndex.value != 3 &&
+                                    controller.appointmentTabControllerIndex.value != 4,
+                              onCancel: isLoading || appointment == null
+                                  ? null
+                                  : () => _showCancelDialog(context, appointment),
+                              onReschedule: isLoading || appointment == null
+                                  ? null
+                                  : () => _handleReschedule(appointment),
+                            );
+                          },
+                        ),
                 ),
               );
             }),
           )
-         
         ],
       ),
     );
@@ -143,7 +147,8 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
         return controller.changedAppointments;
       case 3:
         return controller.visitedAppointments;
-      case 4: return controller.cancelledAppointments;
+      case 4:
+        return controller.cancelledAppointments;
       default:
         return controller.bookedAppointments;
     }
@@ -155,6 +160,278 @@ class AppoinmentScreen extends GetView<PatientAppointmentController> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class AppoinmentScreen extends GetView<PatientAppointmentController> {
+//   const AppoinmentScreen({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+
+//     return BaseSubSettingsScreen(
+//       title: StringManager.appointmentScreen.tr,
+//       content: Column(
+//         children: [
+          
+//           Obx(() => Padding(
+//                 padding: AppSpacing.vertical10,
+//                 child: CustomGenericTabs(
+//                   tabLabels: [
+//                     StringManager.tabBooked.tr,
+//                     StringManager.tabWaiting.tr,
+//                     StringManager.tabChanged.tr,
+//                     StringManager.tabCompleted.tr,
+//                     StringManager.tabCancelled.tr,
+//                   ],
+//                   selectedIndex: controller.appointmentTabControllerIndex.value,
+//                   onTabSelected: (index) =>
+//                       controller.changeAppointmentTab(index),
+//                 ),
+//               )),
+//           Expanded(
+//             child: Obx(() {
+//               final bool isLoading = controller.isAppointmentsLoading.value;
+//               final List<BookingModel> currentList = _getFilteredAppointments();
+
+//               if (!isLoading && currentList.isEmpty) {
+//                 return NullDataWidget(
+//                   text: StringManager.noAppointmentsInThisSpecialization.tr,
+//                   imagePath: Appassets.nulldata2,
+//                 );
+//               }
+
+//               return CustomSkeletonizer(
+//                 isLoading: isLoading,
+//                 child: RefreshIndicator(
+//                   onRefresh: () => controller.getPatientAppointments(),
+//                   child: ListView.builder(
+//                     itemCount: isLoading ? 3 : currentList.length,
+//                    // padding: AppSpacing.screenPadding4,
+//                     physics: const BouncingScrollPhysics(),
+//                     itemBuilder: (context, index) {
+//                       final appointment = isLoading ? null : currentList[index];
+
+//                       return AppointmentCard(
+//                         appointment: appointment,
+//                         showActions: isLoading
+//                             ? false
+//                             : controller.appointmentTabControllerIndex.value !=
+//                                     3 &&
+//                                 controller
+//                                         .appointmentTabControllerIndex.value !=
+//                                     4,
+//                         onCancel: isLoading || appointment == null
+//                             ? null
+//                             : () => _showCancelDialog(context, appointment),
+//                         onReschedule: isLoading || appointment == null
+//                             ? null
+//                             : () => _handleReschedule(appointment),
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               );
+//             }),
+//           )
+         
+//         ],
+//       ),
+//     );
+//   }
+
+//   void _showCancelDialog(BuildContext context, BookingModel appt) {
+//     CustomActionDialog.show(
+//       context: context,
+//       icon: Icons.warning_amber_rounded,
+//       iconColor: AppColors.warning,
+//       iconBackgroundColor: AppColors.warning.withOpacity(0.1),
+//       title: StringManager.cancelConfirmTitle.tr,
+//       subtitle: StringManager.cancelConfirmSubtitle.tr,
+//       hintText: StringManager.cancelConfirmHint.tr,
+//       confirmButtonText: StringManager.cancelConfirmBtn.tr,
+//       onConfirm: () {
+//         Get.back();
+//         controller.cancelAppointment(appt.appointmentUuid);
+//       },
+//     );
+//   }
+
+//   void _handleReschedule(BookingModel appt) {
+//     final doctor = TopDoctorModel(
+//       uuid: appt.doctor.uuid,
+//       name: appt.doctor.name,
+//       specialization: appt.doctor.specialization,
+//       clinic: appt.doctor.clinic,
+//       image: appt.doctor.image ?? '',
+//       visitTime: appt.doctor.visitTime,
+//       patientsCount: appt.doctor.patientsCount,
+//       averageRating: appt.doctor.rating,
+//       reviewersCount: appt.doctor.reviewersCount,
+//     );
+
+//     Get.find<DoctorBookingController>().initDoctorDetailsForReschedule(
+//       doctor: doctor,
+//       appointmentUuid: appt.appointmentUuid,
+//       oldAppointmentDateTime: appt.dateTime,
+//     );
+
+//     Get.to(() => const DoctorDetailsScreen());
+//   }
+
+//   List<BookingModel> _getFilteredAppointments() {
+//     switch (controller.appointmentTabControllerIndex.value) {
+//       case 0:
+//         return controller.bookedAppointments;
+//       case 1:
+//         return controller.waitingAppointments;
+//       case 2:
+//         return controller.changedAppointments;
+//       case 3:
+//         return controller.visitedAppointments;
+//       case 4: return controller.cancelledAppointments;
+//       default:
+//         return controller.bookedAppointments;
+//     }
+//   }
+// }
 
 
 

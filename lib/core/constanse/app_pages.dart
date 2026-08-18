@@ -3,7 +3,9 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:raghad_pro/core/constanse/app_route.dart';
 import 'package:raghad_pro/features/auth/controler/forget_password.dart';
 import 'package:raghad_pro/features/auth/controler/login_controller.dart';
+import 'package:raghad_pro/features/auth/controler/otp_controller.dart';
 import 'package:raghad_pro/features/auth/controler/regester_controller.dart';
+import 'package:raghad_pro/features/auth/controler/reset_password.dart';
 import 'package:raghad_pro/features/auth/view/screen/forget_pasword_screen.dart';
 import 'package:raghad_pro/features/auth/view/screen/go_auth_screen.dart';
 import 'package:raghad_pro/features/auth/view/screen/log_in_screen.dart';
@@ -67,12 +69,14 @@ GetPage(
     GetPage(
       name: AppRoutes.verficationCode,
       page: () => const VerificationCodeScreen(),
-      binding: ForgotPasswordBinding(),
+      binding:OtpBinding(),
+      // ForgotPasswordBinding(),
     ),
     GetPage(
       name: AppRoutes.resetPassword,
       page: () => const ResetPasswordScreen(),
-      binding: ForgotPasswordBinding(), 
+      binding: ResetPasswordBinding(),
+      //ForgotPasswordBinding(), 
     ),
     GetPage(
       name: AppRoutes.home,

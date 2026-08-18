@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raghad_pro/core/constanse/app_assets.dart';
+import 'package:raghad_pro/core/constanse/string_manager.dart';
 import 'package:raghad_pro/core/theme/app_colors.dart';
 import 'package:raghad_pro/core/utilis/size_config.dart';
 
@@ -33,7 +34,6 @@ class _SplashViewState extends State<SplashView>
       duration: const Duration(milliseconds: 1800),
     );
 
-    // حركة الشعار من اليمين
     _logoAnimation = Tween<Offset>(
       begin: const Offset(1.2, 0),
       end: Offset.zero,
@@ -44,7 +44,6 @@ class _SplashViewState extends State<SplashView>
       ),
     );
 
-    // حركة النص من اليسار
     _textAnimation = Tween<Offset>(
       begin: const Offset(-1.2, 0),
       end: Offset.zero,
@@ -129,7 +128,7 @@ class _SplashViewState extends State<SplashView>
                   SizedBox(height: context.heightPct(0.01)),
 
                   Text(
-                    'Your Health, Connected',
+                    StringManager.healtheconected,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.white70,
                           letterSpacing: 1.2,

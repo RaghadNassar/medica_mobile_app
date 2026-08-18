@@ -25,7 +25,7 @@ class DoctorBookingController extends GetxController with WidgetsBindingObserver
   StreamSubscription? _firebaseSubscription;
  
    Timer? _pollingTimer; 
-  // shift request
+ /* // shift request
  bool get hasAlternativeSchedule {
   return doctorSchedules.any((s) => s.isModified && s.modificationDetails != null);
 }
@@ -55,6 +55,37 @@ String get alternativeSchedulePeriod {
   
   return modifiedSchedule.statusNote.isNotEmpty 
       ? modifiedSchedule.statusNote 
+      : "هذا الدوام استثنائي ومؤقت";
+}*/
+bool get hasAlternativeSchedule {
+  return doctorSchedules.any((s) => s.isModified && s.modifiedSchedule != null);
+}
+
+String get alternativeSchedulePeriod {
+  if (!hasAlternativeSchedule) return '';
+  
+  final modifiedScheduleModel = doctorSchedules.firstWhere(
+    (s) => s.isModified && s.modifiedSchedule != null,
+    orElse: () => doctorSchedules.first,
+  );
+  
+  final details = modifiedScheduleModel.modifiedSchedule;
+  
+  if (details?.isPermanent == true) {
+    return "هذا التعديل على الدوام أصبح دائماً.";
+  }
+
+  final start = details?.startDate ?? '';
+  final end = details?.endDate ?? '';
+  
+  if (start.isNotEmpty && end.isNotEmpty) {
+    return "هذا الدوام استثنائي وساري من $start حتى $end";
+  } else if (start.isNotEmpty) {
+    return "هذا الدوام استثنائي وساري ابتداءً من $start";
+  }
+  
+  return modifiedScheduleModel.statusNote.isNotEmpty 
+      ? modifiedScheduleModel.statusNote 
       : "هذا الدوام استثنائي ومؤقت";
 }
   //
@@ -231,66 +262,7 @@ Future<void> syncDoctorSlotsSilently({required String doctorUuid, required Strin
     }
   }
 
-/*
-//deep
-Future<void> pickCustomDate(BuildContext context) async {
-  final Set<int> workingWeekdays = doctorSchedules
-      .map((s) => _arabicDayToWeekday(s.day))
-      .toSet();
 
-  if (workingWeekdays.isEmpty) {
-    AlertHelper.showSnackbar(
-      message: StringManager.noAvailableSlots.tr,
-      type: AlertType.warning,
-    );
-    return;
-  }
-
-  DateTime initialDate = DateTime.now();
-  
-  
-  if (!workingWeekdays.contains(initialDate.weekday)) {
-    for (int i = 1; i < 7; i++) {
-      final candidate = DateTime.now().add(Duration(days: i));
-      if (workingWeekdays.contains(candidate.weekday)) {
-        initialDate = candidate;
-        break;
-      }
-    }
-  }
-
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: initialDate,
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2100), 
-    selectableDayPredicate: (DateTime day) {
-      return workingWeekdays.contains(day.weekday);
-    },
-  );
-
-  if (picked == null || currentDoctor.value == null) return;
-
-  final String dateStr = picked.toString().split(' ')[0];
-
-  final bool alreadyExists = availableDatesList
-      .any((d) => d.toString().split(' ')[0] == dateStr);
-
-  if (!alreadyExists) {
-    availableDatesList.add(picked);
-    availableDatesList.sort();
-  }
-
-  final int index = availableDatesList
-      .indexWhere((d) => d.toString().split(' ')[0] == dateStr);
-
-  if (index != -1) {
-    selectedDateIndex.value = index;
-    getDoctorSlotsDynamic(currentDoctor.value!.uuid, dateStr);
-    initFirebaseRealtime(currentDoctor.value!.uuid, dateStr);
-  }
-}
-*/
 Future<void> pickCustomDate(BuildContext context) async {
   final DateTime initialDate = DateTime.now();
 
@@ -442,6 +414,7 @@ Future<void> pickCustomDate(BuildContext context) async {
 //       },
 //     );
 //   }
+/*
 Future<void> getDoctorSchedules(String doctorUuid) async {
   isSchedulesLoading.value = true;
   doctorSchedules.clear();
@@ -466,7 +439,24 @@ Future<void> getDoctorSchedules(String doctorUuid) async {
     },
   );
 }
- 
+ */
+Future<void> getDoctorSchedules(String doctorUuid) async {
+  isSchedulesLoading.value = true;
+  doctorSchedules.clear();
+
+  final response = await repostryHome.getDoctorSchedules(doctorUuid);
+
+  response.fold(
+    (errorMessage) {
+      isSchedulesLoading.value = false;
+      print("Schedules Error: $errorMessage");
+    },
+    (schedulesList) {
+      isSchedulesLoading.value = false;
+      doctorSchedules.assignAll(schedulesList);
+    },
+  );
+}
 //هي لتنسيق البرنامج
   Map<String, String> get formattedWorkingHours {
     Map<String, String> hoursMap = {};
@@ -839,7 +829,66 @@ String _getArabicDayName(DateTime date) {
 
 
 
+/*
+//deep
+Future<void> pickCustomDate(BuildContext context) async {
+  final Set<int> workingWeekdays = doctorSchedules
+      .map((s) => _arabicDayToWeekday(s.day))
+      .toSet();
 
+  if (workingWeekdays.isEmpty) {
+    AlertHelper.showSnackbar(
+      message: StringManager.noAvailableSlots.tr,
+      type: AlertType.warning,
+    );
+    return;
+  }
+
+  DateTime initialDate = DateTime.now();
+  
+  
+  if (!workingWeekdays.contains(initialDate.weekday)) {
+    for (int i = 1; i < 7; i++) {
+      final candidate = DateTime.now().add(Duration(days: i));
+      if (workingWeekdays.contains(candidate.weekday)) {
+        initialDate = candidate;
+        break;
+      }
+    }
+  }
+
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: initialDate,
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2100), 
+    selectableDayPredicate: (DateTime day) {
+      return workingWeekdays.contains(day.weekday);
+    },
+  );
+
+  if (picked == null || currentDoctor.value == null) return;
+
+  final String dateStr = picked.toString().split(' ')[0];
+
+  final bool alreadyExists = availableDatesList
+      .any((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (!alreadyExists) {
+    availableDatesList.add(picked);
+    availableDatesList.sort();
+  }
+
+  final int index = availableDatesList
+      .indexWhere((d) => d.toString().split(' ')[0] == dateStr);
+
+  if (index != -1) {
+    selectedDateIndex.value = index;
+    getDoctorSlotsDynamic(currentDoctor.value!.uuid, dateStr);
+    initFirebaseRealtime(currentDoctor.value!.uuid, dateStr);
+  }
+}
+*/
 
 
 

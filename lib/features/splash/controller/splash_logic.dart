@@ -6,6 +6,7 @@ import 'package:raghad_pro/features/chat/controller/notification_controller.dart
 
 class SplashController extends GetxController {
   @override
+
   void onInit() {
     super.onInit();
     checkAuthAndNavigate();
@@ -31,8 +32,39 @@ class SplashController extends GetxController {
   }
 }
 
+/*
+class SplashController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+    checkAuthAndNavigate();
+  }
 
+  Future<void> checkAuthAndNavigate() async {
+    await Future.delayed(const Duration(seconds: 3));
 
+    // تم التعليق على التحقق والتوجيه للـ Home مؤقتاً
+    /*
+    final bool isLoggedIn =
+        CacheHelperGetStorage.getData(key: ApiKey.token) != null;
+
+    if (isLoggedIn) {
+      await Get.find<NotificationLogic>().requestPermissionAndSync();
+      Get.offAllNamed(AppRoutes.home);
+    } else {
+      Get.offAllNamed(AppRoutes.onboarding); // أو AppRoutes.login حسب مسار الدخول لديك
+    }
+    */
+
+    // التوجيه المباشر لصفحة تسجيل الدخول (أو الـ onboarding)
+    Get.offAllNamed(AppRoutes.onboarding); // استبدليها بـ AppRoutes.login إذا أردتِ الشاشة مباشرة
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+}*/
 
 
 

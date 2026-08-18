@@ -88,21 +88,7 @@ StreamSubscription? _appointmentsFirebaseSubscription;
       },
       (successMessage) async {
         isCancelBookingLoading.value = false;
-        // allAppointments.removeWhere((app) => app.appointmentUuid == appointmentUuid);
-        // allAppointments.refresh();
-        
-        // try {
-        //   await FirebaseFirestore.instance.collection('appointments').add({
-        //     'user_uuid': '', // يتم معالجتها ديناميكياً بحسب الطبيب
-        //     'status': "cancelled",
-        //     'appointment_uuid': appointmentUuid,
-        //     'date_time': DateTime.now().toString(), 
-        //   });
-        //   print(" [Firebase Sync] تم إرسال إشارة إلغاء الموعد للفايربيس بنجاح!");
-        // } catch (e) {
-        //   print(" [Firebase Cancel Sync Error]: $e");
-        // }
-        // await syncAppointmentsSilently();
+       
         final String patientUuid =
       CacheHelperGetStorage.getString(key: ApiKey.uuid) ?? '';
 
@@ -122,25 +108,7 @@ StreamSubscription? _appointmentsFirebaseSubscription;
       },
     );
   }
-  // void _initAppointmentsListener() {
-  //   final String? patientUuid =
-  //       CacheHelperGetStorage.getString(key: ApiKey.uuid);
-
-  //   if (patientUuid == null) return;
-
-  //   _appointmentsFirebaseSubscription = FirebaseFirestore.instance
-  //       .collection('appointments')
-  //       //  patient_uuid موجود بالـ Firestore عندك
-  //       .where('patient_uuid', isEqualTo: patientUuid)
-  //       .snapshots()
-  //       .listen(
-  //         (snapshot) {
-            
-  //           syncAppointmentsSilently();
-  //         },
-  //         onError: (e) => print('[Firebase Appointments Listener Error]: $e'),
-  //       );
-  // }
+ 
   void _initAppointmentsListener() {
   final String? patientUuid = CacheHelperGetStorage.getString(key: ApiKey.uuid);
   
